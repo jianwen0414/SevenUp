@@ -1,0 +1,36 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 28 Apr 2024, 5:04:20 pm
+    Author     : Jian Wen Lee
+*/
+
+.vbox_background_center{
+    -fx-background-image:url("bgcenter.jpg")
+}
+.vbox_background_right{
+    -fx-background-image:url("bgright.jpg")
+}
+.profile_button{
+    -fx-background-color:#000000
+}
+.profile_button:hover{
+    -fx-background-color:#70dbff
+}
+.cursor_hand{
+    -fx-cursor:hand
+}
+.login_button{
+    -fx-background-color:#b5c8c6
+}
+.login_button:hover{
+    -fx-background-color:#70dbff
+}
+.signup_button{
+    -fx-background-color:transparent
+}
+.signup_button:hover{
+    -fx-background-color:#70dbff
+}
