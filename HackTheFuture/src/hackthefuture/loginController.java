@@ -117,7 +117,7 @@ public class loginController {
                         educatorStage.show();
                         break;
 
-                    case 2: // Educator
+                    case 2: // Parent
                         FXMLLoader parentLoader = new FXMLLoader(getClass().getResource("ParentHomePage.fxml"));
                         Parent parentRoot = parentLoader.load();
                         ParentHomePageController parentController = parentLoader.getController();

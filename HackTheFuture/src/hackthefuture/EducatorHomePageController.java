@@ -1,6 +1,6 @@
 package hackthefuture;
 
-
+import hackthefuture.CreateQuizController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,6 +10,11 @@ import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class EducatorHomePageController {
 
@@ -27,6 +32,12 @@ public class EducatorHomePageController {
     private Label locationLabel;
 
     @FXML
+    private Label quizCountLabel; // Label to display the number of quizzes created
+
+    @FXML
+    private Label eventCountLabel; // Label to display the number of events created
+
+    @FXML
     private Button viewEventsButton;
 
     @FXML
@@ -41,6 +52,8 @@ public class EducatorHomePageController {
 
     public void setUserId(int userId) {
         this.userId = userId;
+        loadQuizCount(); // Load the quiz count when the user ID is set
+        loadEventCount(); // Load the event count when the user ID is set
     }
 
     public void setUserInformation(String username, String email, String location) {
@@ -59,10 +72,8 @@ public class EducatorHomePageController {
 
             // Get the controller associated with the Create Quiz page
             CreateQuizController controller = loader.getController();
-            controller.setCurrentUserId(userId);// Set the current user's ID
-            // Pass any necessary data to the Create Quiz controller if needed
-            // For example, you can pass the user's information
-            // controller.setUserInfo(usernameLabel.getText(), emailLabel.getText(), locationLabel.getText());
+            controller.setCurrentUserId(userId); // Set the current user's ID
+
             // Replace the current scene with the Create Quiz page
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -84,10 +95,8 @@ public class EducatorHomePageController {
 
             // Get the controller associated with the Create Quiz page
             CreateQuizController controller = loader.getController();
-            controller.setCurrentUserId(userId);// Set the current user's ID
-            // Pass any necessary data to the Create Quiz controller if needed
-            // For example, you can pass the user's information
-            // controller.setUserInfo(usernameLabel.getText(), emailLabel.getText(), locationLabel.getText());
+            controller.setCurrentUserId(userId); // Set the current user's ID
+
             // Replace the current scene with the Create Quiz page
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -100,5 +109,35 @@ public class EducatorHomePageController {
         }
     }
 
-    // Add any additional methods or event handlers as needed
+    private void loadQuizCount() {
+        String query = "SELECT COUNT(*) AS quiz_count FROM QuizCreationRecord WHERE creator_id = ?";
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hackingthefuture", "root", "jianwen0414");
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int quizCount = resultSet.getInt("quiz_count");
+                    quizCountLabel.setText(String.valueOf(quizCount));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadEventCount() {
+        String query = "SELECT COUNT(*) AS event_count FROM EventCreationRecord WHERE creator_id = ?";
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hackingthefuture", "root", "jianwen0414");
+             PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, userId);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int eventCount = resultSet.getInt("event_count");
+                    eventCountLabel.setText(String.valueOf(eventCount));
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
