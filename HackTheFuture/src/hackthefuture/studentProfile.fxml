@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: b5c8c6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="StudentProfileController">
+    <children>
+      <AnchorPane layoutX="-6.0" layoutY="-7.0" prefHeight="823.0" prefWidth="477.0" style="-fx-background-color: #203e48;">
+         <children>
+            <ImageView fitHeight="230.0" fitWidth="277.0" layoutX="93.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@/student.jpg" />
+               </image>
+            </ImageView>
+            <Label fx:id="getUsername" alignment="CENTER" layoutX="80.0" layoutY="350.0" text="User Name show here" textAlignment="JUSTIFY" textFill="#d4d5cf">
+               <font>
+                  <Font name="Calibri Bold" size="36.0" />
+               </font>
+            </Label>
+            <VBox layoutX="-1.0" layoutY="446.0" prefHeight="260.0" prefWidth="466.0">
+               <children>
+                  <Button fx:id="quizPage" text="Quiz" onAction="#handleQuizPageButtonClick" mnemonicParsing="false" prefHeight="52.0" prefWidth="460.0" style="-fx-background-color: transparent;" textFill="#d4d5cf">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="eventPage" mnemonicParsing="false" prefHeight="66.0" prefWidth="485.0" style="-fx-background-color: transparent;" text="Event" textFill="#d4d5cf">
+                     <font>
+                        <Font size="25.0" />
+                     </font>
+                  </Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+      <Label layoutX="538.0" layoutY="27.0" prefHeight="74.0" prefWidth="254.0" text="Student Profile" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="40.0" />
+         </font>
+      </Label>
+      <Label layoutX="541.0" layoutY="83.0" prefHeight="56.0" prefWidth="179.0" text="Personal Details" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="542.0" layoutY="119.0" prefHeight="56.0" prefWidth="110.0" text="User Name">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="839.0" layoutY="132.0" text="Email">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="541.0" layoutY="217.0" text="Location">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="540.0" layoutY="292.0" text="Parents" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="540.0" layoutY="336.0" text="Parent 1">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="846.0" layoutY="335.0" text="Parent 2">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="543.0" layoutY="423.0" text="Point" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="542.0" layoutY="484.0" text="Friends" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="25.0" />
+         </font>
+      </Label>
+      <Button fx:id="addFriend" layoutX="778.0" layoutY="684.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="133.0" style="-fx-background-color: #203e48;" text="Add Friend" textFill="#d4d5cf">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font></Button>
+      <ComboBox fx:id="getFriend" layoutX="641.0" layoutY="485.0" prefHeight="26.0" prefWidth="442.0" style="-fx-background-color: #d4d5cf;" />
+      <Label fx:id="getUserName" layoutX="543.0" layoutY="162.0" text="username show at here " textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="getEmail" layoutX="839.0" layoutY="163.0" text="email at here ya" textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="getLocationX" layoutX="577.0" layoutY="246.0" text="location x at here yaa " textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="getPoint" layoutX="644.0" layoutY="426.0" text="1234" textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="getParent1" layoutX="541.0" layoutY="372.0" text=" " textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="getParent2" layoutX="847.0" layoutY="371.0" text=" " textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="247.0" fitWidth="191.0" layoutX="293.0" layoutY="667.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/circle 2.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="364.0" fitWidth="367.0" layoutX="-109.0" layoutY="515.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@/blue stripes circle.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="542.0" layoutY="247.0" text=" X : ">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="833.0" layoutY="246.0" text="Y : ">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="getLocationY" layoutX="866.0" layoutY="247.0" text="location y at here " textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Button fx:id="noti" layoutX="1089.0" layoutY="50.0" mnemonicParsing="false" style="-fx-background-color: #203e48;" text="Notification" textFill="WHITE" />
+   </children>
+</AnchorPane>
