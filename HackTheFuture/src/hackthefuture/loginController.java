@@ -130,6 +130,23 @@ public class loginController {
                         parentStage.show();
                         break;
                     // Add cases for other roles (e.g., Student, Parent) similarly
+                    
+                    /*
+                        case 3: // Student
+                        FXMLLoader studentLoader = new FXMLLoader(getClass().getResource("studentProfile.fxml"));
+                        Parent studentRoot = studentLoader.load();
+                        StudentProfileController studentController = studentLoader.getController();
+                        studentController.setUserInformation(username, userEmail, locationX + ", " + locationY);
+                        parentController.setPrimaryStage((Stage) usernameField.getScene().getWindow());
+
+                        // Show the educator homepage
+                        Stage parentStage = (Stage) usernameField.getScene().getWindow();
+                        parentStage.setScene(new Scene(parentRoot));
+                        parentStage.show();
+                        break;
+                    // Add cases for other roles (e.g., Student, Parent) similarly
+                        */
+                    
                 }
             } else {
                 // Display error message for invalid username or password
