@@ -86,12 +86,12 @@
             <Font name="Calibri Bold" size="25.0" />
          </font>
       </Label>
-      <Label fx:id="child1Label" layoutX="481.0" layoutY="357.0" text="Child 1">
+      <Label fx:id="child1Label" layoutX="481.0" layoutY="357.0">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="child2Label" layoutX="699.0" layoutY="357.0" text="Child 2">
+      <Label fx:id="child2Label" layoutX="699.0" layoutY="357.0">
          <font>
             <Font size="20.0" />
          </font>
@@ -106,7 +106,7 @@
             <Image url="@circle%202.png" />
          </image>
       </ImageView>
-      <Label fx:id="child3Label" layoutX="899.0" layoutY="357.0" text="Child 3">
+      <Label fx:id="child3Label" layoutX="899.0" layoutY="357.0">
          <font>
             <Font size="20.0" />
          </font>

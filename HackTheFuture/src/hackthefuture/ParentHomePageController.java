@@ -1,7 +1,11 @@
 package hackthefuture;
 
-
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -48,56 +52,57 @@ public class ParentHomePageController {
         usernameLabel.setText(username);
         emailLabel.setText(email);
         locationLabel.setText(location);
+
+        // Retrieve and display parent's children
+        displayChildren(username);
+    }
+
+    private void displayChildren(String username) {
+        // Connect to the database
+        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hackingthefuture", "root", "jianwen0414") ){
+            // Prepare SQL statement to retrieve children's usernames
+            String sql = "SELECT U.username FROM User U JOIN ParentChildRelationship PCR ON U.user_id = PCR.child_id " +
+                         "JOIN User P ON P.user_id = PCR.parent_id WHERE P.username = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+
+            // Execute the query
+            ResultSet resultSet = statement.executeQuery();
+
+            // Display children's usernames on labels
+            int childCount = 0;
+            while (resultSet.next() && childCount < 3) {
+                String childUsername = resultSet.getString("username");
+                switch (childCount) {
+                    case 0:
+                        child1Label.setText(childUsername);
+                        break;
+                    case 1:
+                        child2Label.setText(childUsername);
+                        break;
+                    case 2:
+                        child3Label.setText(childUsername);
+                        break;
+                }
+                childCount++;
+            }
+
+            // Close the result set and statement
+            resultSet.close();
+            statement.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
     private void handleViewEventsAction(ActionEvent event) {
-        try {
-            // Load the Create Quiz page FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuiz.fxml"));
-            Parent root = loader.load();
-
-            // Get the controller associated with the Create Quiz page
-            CreateQuizController controller = loader.getController();
-
-            // Pass any necessary data to the Create Quiz controller if needed
-            // For example, you can pass the user's information
-            // controller.setUserInfo(usernameLabel.getText(), emailLabel.getText(), locationLabel.getText());
-            // Replace the current scene with the Create Quiz page
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("Create Quiz");
-
-            // Show the new scene
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Your implementation to handle view events action
     }
 
     @FXML
     private void handleBookingAction(ActionEvent event) {
-        try {
-            // Load the Create Quiz page FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuiz.fxml"));
-            Parent root = loader.load();
-
-            // Get the controller associated with the Create Quiz page
-            CreateQuizController controller = loader.getController();
-
-            // Pass any necessary data to the Create Quiz controller if needed
-            // For example, you can pass the user's information
-            // controller.setUserInfo(usernameLabel.getText(), emailLabel.getText(), locationLabel.getText());
-            // Replace the current scene with the Create Quiz page
-            Scene scene = new Scene(root);
-            primaryStage.setScene(scene);
-            primaryStage.setTitle("Create Quiz");
-
-            // Show the new scene
-            primaryStage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        // Your implementation to handle booking action
     }
 
     // Add any additional methods or event handlers as needed
