@@ -1,6 +1,6 @@
 package hackthefuture;
 
-import hackthefuture.CreateQuizController;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,17 +10,12 @@ import javafx.stage.Stage;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class EducatorHomePageController {
 
     private Stage primaryStage; // Reference to the primary stage
 
-    private int userId;
+//    private int userId;
 
     @FXML
     private Label usernameLabel;
@@ -32,30 +27,39 @@ public class EducatorHomePageController {
     private Label locationLabel;
 
     @FXML
-    private Label quizCountLabel; // Label to display the number of quizzes created
-
+    private Label eventCountLabel;
+    
     @FXML
-    private Label eventCountLabel; // Label to display the number of events created
+    private Label quizCountLabel;
 
-    @FXML
-    private Button viewEventsButton;
-
-    @FXML
-    private Button createEventButton;
+    
 
     @FXML
     private Button createQuizButton;
+    
+    private Educator currentUser;
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
-        loadQuizCount(); // Load the quiz count when the user ID is set
-        loadEventCount(); // Load the event count when the user ID is set
+//    public void setUserId(int userId) {
+//        this.userId = userId;
+//    }
+    
+    public void setup(Educator currentUser){
+        this.currentUser = currentUser;
+        usernameLabel.setText(currentUser.getUsername());
+        emailLabel.setText(currentUser.getEmail());
+        locationLabel.setText(String.format("%.2f, %.2f", currentUser.getLocationCoordinateX(), currentUser.getLocationCoordinateY()));
+//        viewEventsButton.setOnAction(eh->handleViewEventsButtonAction(eh));
+        eventCountLabel.setText(String.valueOf(currentUser.getCreatedEvents().size()));
+        quizCountLabel.setText(String.valueOf(currentUser.getCreatedQuizzes().size()));
+        
+
     }
 
+    
     public void setUserInformation(String username, String email, String location) {
         // Display user information on the GUI
         usernameLabel.setText(username);
@@ -67,14 +71,12 @@ public class EducatorHomePageController {
     private void handleViewEventsButtonAction(ActionEvent event) {
         try {
             // Load the Create Quiz page FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuiz.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewEvent_1.fxml"));
             Parent root = loader.load();
 
             // Get the controller associated with the Create Quiz page
-            CreateQuizController controller = loader.getController();
-            controller.setCurrentUserId(userId); // Set the current user's ID
-
-            // Replace the current scene with the Create Quiz page
+            ViewEventController controller = loader.getController();
+            controller.setup(currentUser);// Set the current user's ID
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Create Quiz");
@@ -95,9 +97,7 @@ public class EducatorHomePageController {
 
             // Get the controller associated with the Create Quiz page
             CreateQuizController controller = loader.getController();
-            controller.setCurrentUserId(userId); // Set the current user's ID
-
-            // Replace the current scene with the Create Quiz page
+            controller.setup(currentUser);// Set the current user's ID
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Create Quiz");
@@ -108,35 +108,34 @@ public class EducatorHomePageController {
             e.printStackTrace();
         }
     }
-
-    private void loadQuizCount() {
-        String query = "SELECT COUNT(*) AS quiz_count FROM QuizCreationRecord WHERE creator_id = ?";
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hackingthefuture", "root", "jianwen0414");
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, userId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    int quizCount = resultSet.getInt("quiz_count");
-                    quizCountLabel.setText(String.valueOf(quizCount));
-                }
-            }
-        } catch (SQLException e) {
+    @FXML
+    void handleCreateEventButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateEvent_1.fxml"));
+            Parent root = loader.load();
+            CreateEvent_1Controller controller = loader.getController();
+            controller.setup(currentUser);// Set the current user's ID
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Create Event");
+            primaryStage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-    private void loadEventCount() {
-        String query = "SELECT COUNT(*) AS event_count FROM EventCreationRecord WHERE creator_id = ?";
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hackingthefuture", "root", "jianwen0414");
-             PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setInt(1, userId);
-            try (ResultSet resultSet = statement.executeQuery()) {
-                if (resultSet.next()) {
-                    int eventCount = resultSet.getInt("event_count");
-                    eventCountLabel.setText(String.valueOf(eventCount));
-                }
-            }
-        } catch (SQLException e) {
+    // Add any additional methods or event handlers as needed
+    @FXML
+    void handleLeaderboardAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Leaderboard.fxml"));
+            Parent root = loader.load();
+            LeaderboardController controller = loader.getController();
+//            controller.setup(currentUser);// Set the current user's ID
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Leaderboard");
+            primaryStage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

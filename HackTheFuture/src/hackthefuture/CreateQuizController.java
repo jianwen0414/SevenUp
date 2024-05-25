@@ -166,6 +166,7 @@ public class CreateQuizController {
 }
 */
 
+import java.net.URL;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -176,8 +177,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ResourceBundle;
+import javafx.fxml.Initializable;
 
-public class CreateQuizController {
+public class CreateQuizController implements Initializable {
 
     // JDBC URL, username, and password of MySQL server
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/hackingthefuture";
@@ -205,23 +208,25 @@ public class CreateQuizController {
 
     @FXML
     private Button createQuizButton;
+    
+    private Educator currentUser;
 
-    @FXML
-    private void initialize() {
-        // Initialize choice box options
-        themeChoiceBox.getItems().addAll("Science", "Technology", "Engineering", "Mathematics");
+//    @FXML
+//    private void initialize() {
+//        // Initialize choice box options
+//        themeChoiceBox.getItems().addAll("Science", "Technology", "Engineering", "Mathematics");
+//
+//        // Connect to the database
+//        connectToDatabase();
+//    }
 
-        // Connect to the database
-        connectToDatabase();
-    }
-
-    public void setCurrentUserId(int userId) {
-        this.currentUserId = userId;
+    public void setup(Educator currentUser) {
+        this.currentUser = currentUser;
     }
 
     private void connectToDatabase() {
         try {
-            connection = DriverManager.getConnection(JDBC_URL, JDBC_USER, JDBC_PASSWORD);
+            connection = DatabaseConnector.getConnection();
         } catch (SQLException e) {
             e.printStackTrace();
             // Handle connection error
@@ -245,8 +250,8 @@ public class CreateQuizController {
             int themeId = getThemeId(themeName);
 
             // Create an instance of the Quiz class
-            Quiz quiz = new Quiz(0, title, description, themeId, quizLink);
-
+            Quiz quiz = new Quiz(title, description, themeId, quizLink);
+            currentUser.createQuiz(quiz);
             // SQL query to insert quiz details into the Quiz table
             String sql = "INSERT INTO Quiz (quiz_title, quiz_description, theme_id, quiz_content) VALUES (?, ?, ?, ?)";
 
@@ -265,7 +270,7 @@ public class CreateQuizController {
                     int quizId = generatedKeys.getInt(1);
                     quiz.setQuizId(quizId);
                     // Insert a record into the QuizCreationRecord table
-                    insertQuizCreationRecord(currentUserId, quizId);
+                    insertQuizCreationRecord(currentUser.getUserId(), quizId);
                 }
                 // Quiz creation successful
                 showAlert("Quiz created successfully!");
@@ -330,6 +335,12 @@ public class CreateQuizController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        themeChoiceBox.getItems().addAll("Science", "Technology", "Engineering", "Mathematics");
+        connectToDatabase();
     }
 }
 
