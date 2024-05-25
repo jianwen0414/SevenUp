@@ -27,6 +27,14 @@ public class Event {
         this.date = date;
         this.time = time;
     }
+    
+    public Event(String title, String description, String venue, java.time.LocalDate date, java.time.LocalTime time) {
+        this.title = title;
+        this.description = description;
+        this.venue = venue;
+        this.date = date;
+        this.time = time;
+    }
 
     public int getEventId() {
         return eventId;
