@@ -1,0 +1,32 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 9 May 2024, 11:45:15 am
+    Author     : minzi
+*/
+.button {
+    -fx-background-color: #d4d5cf; /* default color */
+    -fx-text-fill: black;
+}
+
+.button:hover {
+    -fx-background-color: #b5c8c6; /* color on hover */
+}
+
+.button:clicked {
+    -fx-background-color: #708090; /* color when pressed */
+}
+ 
+.backgroundColorMain{
+    -fx-background-color: linear-gradient(to right bottom, #203e48,#4D869C);
+}
+
+.backgroundColor1{
+    -fx-background-color: linear-gradient(to right bottom,#97E7E1,#4D869C);
+}
+
+.backgroundColor2{
+    -fx-background-color: linear-gradient(to right bottom,#F9EFDB,#7AB2B2);
+}
