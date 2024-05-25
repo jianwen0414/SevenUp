@@ -1,11 +1,7 @@
 package hackthefuture;
 
+
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -42,9 +38,18 @@ public class ParentHomePageController {
 
     @FXML
     private Button bookingButton;
+    
+    private Parents currentUser;
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+    
+    public void setup(Parents currentUser){
+        this.currentUser = currentUser;
+        usernameLabel.setText(currentUser.getUsername());
+        emailLabel.setText(currentUser.getEmail());
+        locationLabel.setText(String.format("%.2f, %.2f", currentUser.getLocationCoordinateX(), currentUser.getLocationCoordinateY()));
     }
 
     public void setUserInformation(String username, String email, String location) {
@@ -52,58 +57,64 @@ public class ParentHomePageController {
         usernameLabel.setText(username);
         emailLabel.setText(email);
         locationLabel.setText(location);
-
-        // Retrieve and display parent's children
-        displayChildren(username);
     }
 
-    private void displayChildren(String username) {
-        // Connect to the database
-        try (Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/hackingthefuture", "root", "jianwen0414") ){
-            // Prepare SQL statement to retrieve children's usernames
-            String sql = "SELECT U.username FROM User U JOIN ParentChildRelationship PCR ON U.user_id = PCR.child_id " +
-                         "JOIN User P ON P.user_id = PCR.parent_id WHERE P.username = ?";
-            PreparedStatement statement = connection.prepareStatement(sql);
-            statement.setString(1, username);
+    @FXML
+    private void handleViewEventsAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewEvent_1.fxml"));
+            Parent root = loader.load();
+            ViewEventController controller = loader.getController();
+            controller.setup(currentUser);
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("View Event");
 
-            // Execute the query
-            ResultSet resultSet = statement.executeQuery();
-
-            // Display children's usernames on labels
-            int childCount = 0;
-            while (resultSet.next() && childCount < 3) {
-                String childUsername = resultSet.getString("username");
-                switch (childCount) {
-                    case 0:
-                        child1Label.setText(childUsername);
-                        break;
-                    case 1:
-                        child2Label.setText(childUsername);
-                        break;
-                    case 2:
-                        child3Label.setText(childUsername);
-                        break;
-                }
-                childCount++;
-            }
-
-            // Close the result set and statement
-            resultSet.close();
-            statement.close();
-        } catch (SQLException e) {
+            // Show the new scene
+            primaryStage.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     @FXML
-    private void handleViewEventsAction(ActionEvent event) {
-        // Your implementation to handle view events action
-    }
-
-    @FXML
     private void handleBookingAction(ActionEvent event) {
-        // Your implementation to handle booking action
-    }
+        try {
+            // Load the Create Quiz page FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuiz.fxml"));
+            Parent root = loader.load();
 
-    // Add any additional methods or event handlers as needed
+            // Get the controller associated with the Create Quiz page
+            CreateQuizController controller = loader.getController();
+
+            // Pass any necessary data to the Create Quiz controller if needed
+            // For example, you can pass the user's information
+            // controller.setUserInfo(usernameLabel.getText(), emailLabel.getText(), locationLabel.getText());
+            // Replace the current scene with the Create Quiz page
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Create Quiz");
+
+            // Show the new scene
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    @FXML
+    void handleLeaderboardAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Leaderboard.fxml"));
+            Parent root = loader.load();
+            LeaderboardController controller = loader.getController();
+//            controller.setup(currentUser);// Set the current user's ID
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Leaderboard");
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

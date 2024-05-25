@@ -22,7 +22,13 @@ public class Quiz {
         this.themeId = themeId;
         this.content = content;
     }
-
+    
+    public Quiz( String title, String description, int themeId, String content) {
+        this.title = title;
+        this.description = description;
+        this.themeId = themeId;
+        this.content = content;
+    }
     public int getQuizId() {
         return quizId;
     }

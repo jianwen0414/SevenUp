@@ -28,7 +28,7 @@ public class Event {
         this.time = time;
     }
     
-    public Event(String title, String description, String venue, java.time.LocalDate date, java.time.LocalTime time) {
+    public Event(String title, String description, String venue, LocalDate date, LocalTime time) {
         this.title = title;
         this.description = description;
         this.venue = venue;
@@ -83,6 +83,6 @@ public class Event {
     public void setTime(LocalTime time) {
         this.time = time;
     }
-
-
+    
+    
 }
