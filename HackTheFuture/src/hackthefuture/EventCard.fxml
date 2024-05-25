@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="226.0" prefWidth="243.0" style="-fx-border-color: white; -fx-border-radius: 50; -fx-background-radius: 50; -fx-border-width: 3;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackthefuture.EventCardController">
+   <children>
+      <Label fx:id="viewEventName" layoutX="20.0" layoutY="14.0" prefHeight="46.0" prefWidth="208.0" styleClass="viewevent-label" stylesheets="@css/ComboBox.css" text="Name:" textFill="WHITE" wrapText="true">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="viewEventDate" layoutX="22.0" layoutY="71.0" prefHeight="24.0" prefWidth="162.0" styleClass="viewevent-label" stylesheets="@css/ComboBox.css" text="Date:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="viewEventTime" layoutX="22.0" layoutY="113.0" prefHeight="24.0" prefWidth="162.0" styleClass="viewevent-label" stylesheets="@css/ComboBox.css" text="Time:" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Button fx:id="viewEventDetails" alignment="CENTER" layoutX="20.0" layoutY="167.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="102.0" style="-fx-background-color: #ff8282; -fx-background-radius: 25;" text="View Details" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="registerEvent" alignment="CENTER" layoutX="130.0" layoutY="167.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="84.0" style="-fx-background-color: #FF204E; -fx-background-radius: 25;" text="Register" textFill="WHITE" visible="false">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

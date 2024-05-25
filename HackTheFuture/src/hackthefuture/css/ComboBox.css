@@ -1,0 +1,105 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 30 Apr 2024, 8:42:35 pm
+    Author     : Tan Shi Han
+*/
+
+/* scrollbarStyle.css */
+.scroll-pane .viewport {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-background-insets: 0;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px;
+    -fx-min-width: 10px;
+    -fx-min-height: 10px;
+}
+
+.scroll-bar:vertical .thumb:hover,
+.scroll-bar:horizontal .thumb:hover {
+    -fx-background-color: rgba(0, 0, 0, 0.7);
+}
+
+.scroll-bar:vertical .track,
+.scroll-bar:horizontal .track {
+    -fx-background-color: transparent;
+}
+
+.scroll-bar:vertical .increment-button,
+.scroll-bar:vertical .decrement-button,
+.scroll-bar:horizontal .increment-button,
+.scroll-bar:horizontal .decrement-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+    -fx-shape: null;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+
+
+
+.combo-box
+{
+        -fx-border-width: 0.5px;
+        -fx-border-radius:50px;
+        -fx-background-radius: 50px;
+        -fx-font-size: 20px;
+        
+        -fx-font-weight:700;
+        -fx-font-family: 'Open Sans','Helvetica Neue','Arail','sans-serif';
+    
+}
+
+.custom-pane {
+    -fx-background-image: url("../Image/register1.jpg"); /* Replace image_path_here.jpg with the path to your image */
+    -fx-background-size: cover; /* Adjust as needed */
+}
+
+/* .vbox_background_left{
+    -fx-background-image:url("../Image/register.jpg")
+} */
+
+.backgroundColorMain{
+    -fx-background-color: linear-gradient(to right bottom, #203e48,#4D869C);
+}
+
+.button-add{
+    -fx-font-size: 15px;
+    -fx-font-weight:700;
+}
+
+.right TextField{
+    -fx-background-radius: 50;
+    -fx-pref-width: 314;
+    -fx-min-height: 43;
+}
+
+.time-font{
+    -fx-font-size: 20px;
+        -fx-font-weight:700;
+    
+}
+
+.register-side {
+    -fx-background-image: url("../Image/register3.jpg"); /* Replace image_path_here.jpg with the path to your image */
+    -fx-background-size: cover; /* Adjust as needed */
+}
+
+.viewevent-label{
+     -fx-font-size: 15px;
+    -fx-font-weight:700;
+    
+}
+
