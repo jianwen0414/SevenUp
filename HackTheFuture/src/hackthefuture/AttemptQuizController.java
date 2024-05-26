@@ -1,4 +1,4 @@
-
+package hackthefuture;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -47,6 +47,8 @@ public class AttemptQuizController implements Initializable {
     @FXML
     private Button themeTech;
     
+    private User currentUser;
+    
     private Map<String, String> quizNamesToLinks = new HashMap<>();
     private Map<String, Set<String>> quizLinks = new HashMap<>();
     private Map<String, Boolean> quizCompletionStatus = new HashMap<>();
@@ -56,8 +58,14 @@ public class AttemptQuizController implements Initializable {
     private String lastSelectedQuizLink = null;
     private boolean quizCompleted = false;
     
-    public void setCurrentUserID(int userid){
-        this.userID = userid;
+//    public void setCurrentUserID(int userid){
+//        this.userID = userid;
+//        initializeQuizLinksFromDatabase();
+//    }
+    
+    public void setup(User currentUser) {
+        this.currentUser = currentUser;
+        System.out.println("current user id:"+currentUser.getUserId());
         initializeQuizLinksFromDatabase();
     }
     @Override
@@ -108,7 +116,7 @@ public class AttemptQuizController implements Initializable {
         
         complete.setOnAction(e -> {
             complete.setVisible(false); // Hide the complete button
-            updateStudentPoints(userID, 2);
+            updateStudentPoints(currentUser.getUserId(), 2);
             String selectedQuizName = lastSelectedQuizName;
             String selectedQuizLink = lastSelectedQuizLink;
             if (selectedQuizName != null && !selectedQuizName.isEmpty()) {
@@ -129,7 +137,7 @@ public class AttemptQuizController implements Initializable {
     }    
     
     private void initializeQuizLinksFromDatabase() {
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DatabaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(
             "SELECT q.quiz_id, q.quiz_title, q.quiz_content, q.theme_id " +
             "FROM Quiz q " +
@@ -138,7 +146,7 @@ public class AttemptQuizController implements Initializable {
             "                         WHERE uqc.user_id = ?)"     
             )) {
             
-            stmt.setInt(1, userID);
+            stmt.setInt(1, currentUser.getUserId());
             ResultSet rs = stmt.executeQuery();
             
             while (rs.next()) {
@@ -243,7 +251,7 @@ public class AttemptQuizController implements Initializable {
     } 
    
     private void updateStudentPoints(int userID, int points) {
-         try (Connection conn = DatabaseConnection.getConnection();
+         try (Connection conn = DatabaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement("UPDATE User SET current_points = current_points + ? WHERE user_id = ?")) {
 
             stmt.setInt(1, points);
@@ -255,13 +263,13 @@ public class AttemptQuizController implements Initializable {
     }
     
     private void storeQuizCompletionInDatabase(String quizTitle) {
-        try (Connection conn = DatabaseConnection.getConnection();
+        try (Connection conn = DatabaseConnector.getConnection();
              PreparedStatement stmt = conn.prepareStatement(
                  "INSERT INTO UserQuizCompletion (user_id, quiz_id, completion_date) " +
                  "SELECT ?, quiz_id, ? FROM Quiz WHERE quiz_title = ?"
              )) {
             
-            stmt.setInt(1, userID);
+            stmt.setInt(1, currentUser.getUserId());
             stmt.setDate(2, Date.valueOf(LocalDate.now()));
             stmt.setString(3, quizTitle);
             stmt.executeUpdate();

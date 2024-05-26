@@ -20,14 +20,6 @@
       </Pane>
       <AnchorPane layoutX="104.0" layoutY="55.0" prefHeight="709.0" prefWidth="988.0">
          <children>
-            <Button fx:id="createQuizButton" layoutX="390.0" layoutY="640.0" mnemonicParsing="false" onAction="#handleCreateQuizButtonAction" prefHeight="51.0" prefWidth="274.0" style="-fx-background-color: #FF204E; -fx-background-radius: 25;" text="Create Quiz" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-               <padding>
-                  <Insets left="20.0" />
-               </padding>
-            </Button>
             <Pane layoutX="374.0" layoutY="77.0" prefHeight="60.0" prefWidth="256.0" style="-fx-background-color: #b5c8c6; -fx-background-radius: 25; -fx-border-radius: 25;" stylesheets="@CreateQuiz.css">
                <children>
                   <Label alignment="CENTER" layoutX="39.0" layoutY="13.0" prefHeight="35.0" prefWidth="219.0" stylesheets="@CreateQuiz.css" text="Quiz Creation" textFill="#203e48">
@@ -44,13 +36,21 @@
                         <Image url="@Image/quiz.png" />
                      </image>
                   </ImageView>
-                  <ImageView fitHeight="88.0" fitWidth="88.0" layoutX="355.0" layoutY="542.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@Image/choose.png" />
-                     </image>
-                  </ImageView>
                </children>
             </AnchorPane>
+            <Button fx:id="createQuizButton" layoutX="390.0" layoutY="640.0" mnemonicParsing="false" onAction="#handleCreateQuizButtonAction" prefHeight="51.0" prefWidth="274.0" style="-fx-background-color: #FF204E; -fx-background-radius: 25;" text="Create Quiz" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Button>
+            <ImageView fitHeight="88.0" fitWidth="88.0" layoutX="374.0" layoutY="622.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Image/choose.png" />
+               </image>
+            </ImageView>
             <Pane layoutX="63.0" layoutY="130.0" prefHeight="490.0" prefWidth="952.0" style="-fx-background-radius: 25; -fx-background-color: transparent;">
                <children>
                   <Pane layoutX="79.0" layoutY="34.0" prefHeight="45.0" prefWidth="204.0" style="-fx-background-color: transparent; -fx-background-radius: 25;">
