@@ -164,49 +164,77 @@ void register(ActionEvent event) {
         }
 
         if (registered) {
-            try {
-                AlertUtils.showRegistrationSuccessAlert();
-                
-                String sql = "SELECT * FROM User u WHERE u.username = ? AND u.password = ?";
-                Connection connection = DatabaseConnector.getConnection();
-                PreparedStatement preparedStatement = null;
-                ResultSet resultSet = null;
-                try {
-                    preparedStatement = connection.prepareStatement(sql);
+            AlertUtils.showRegistrationSuccessAlert();
+
+            try (Connection connection = DatabaseConnector.getConnection()) {
+                // Fetch user details for redirection
+                String sql = "SELECT * FROM User WHERE username = ?";
+                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                     preparedStatement.setString(1, username);
-                    preparedStatement.setString(2, pw);
-                    resultSet = preparedStatement.executeQuery();
-                    
-                    if (resultSet.next()) {
-                        int userId = resultSet.getInt("user_id");
-                        String userEmail = resultSet.getString("email");
-                        String userUsername = resultSet.getString("username");
-                        String userPassword = resultSet.getString("password");
-                        double locationX = resultSet.getDouble("location_coordinate_x");
-                        double locationY = resultSet.getDouble("location_coordinate_y");
-                        int userPoints = resultSet.getInt("current_points");
-                        
-                        UserRedirectionUtils.redirectUserToHomepage(userId, roleId, userEmail, userUsername, userPassword,
-                                locationX, locationY, userPoints, connection,
-                                (Stage) regEmail.getScene().getWindow());
-                    }
-                } catch (SQLException | IOException e) {
-                    e.printStackTrace();
-                } finally {
-                    try {
-                        if (resultSet != null) {
-                            resultSet.close();
+                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                        if (resultSet.next()) {
+                            int userId = resultSet.getInt("user_id");
+                            String userEmail = resultSet.getString("email");
+                            String userUsername = resultSet.getString("username");
+                            String userPassword = resultSet.getString("password");
+                            double locationX = resultSet.getDouble("location_coordinate_x");
+                            double locationY = resultSet.getDouble("location_coordinate_y");
+                            int userPoints = resultSet.getInt("current_points");
+
+                            UserRedirectionUtils.redirectUserToHomepage(userId, roleId, userEmail, userUsername, userPassword,
+                                    locationX, locationY, userPoints, connection,
+                                    (Stage) ((Node) event.getSource()).getScene().getWindow());
+                        } else {
+                            System.out.println("User not found in the database after registration.");
                         }
-                        if (preparedStatement != null) {
-                            preparedStatement.close();
-                        }
-                    } catch (SQLException e) {
-                        e.printStackTrace();
                     }
                 }
-            } catch (SQLException ex) {
-                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException | IOException e) {
+                e.printStackTrace();
             }
+//            try {
+//                AlertUtils.showRegistrationSuccessAlert();
+//                
+//                String sql = "SELECT * FROM User u WHERE u.username = ? AND u.password = ?";
+//                Connection connection = DatabaseConnector.getConnection();
+//                PreparedStatement preparedStatement = null;
+//                ResultSet resultSet = null;
+//                try {
+//                    preparedStatement = connection.prepareStatement(sql);
+//                    preparedStatement.setString(1, username);
+//                    preparedStatement.setString(2, pw);
+//                    resultSet = preparedStatement.executeQuery();
+//                    
+//                    if (resultSet.next()) {
+//                        int userId = resultSet.getInt("user_id");
+//                        String userEmail = resultSet.getString("email");
+//                        String userUsername = resultSet.getString("username");
+//                        String userPassword = resultSet.getString("password");
+//                        double locationX = resultSet.getDouble("location_coordinate_x");
+//                        double locationY = resultSet.getDouble("location_coordinate_y");
+//                        int userPoints = resultSet.getInt("current_points");
+//                        
+//                        UserRedirectionUtils.redirectUserToHomepage(userId, roleId, userEmail, userUsername, userPassword,
+//                                locationX, locationY, userPoints, connection,
+//                                (Stage) regEmail.getScene().getWindow());
+//                    }
+//                } catch (SQLException | IOException e) {
+//                    e.printStackTrace();
+//                } finally {
+//                    try {
+//                        if (resultSet != null) {
+//                            resultSet.close();
+//                        }
+//                        if (preparedStatement != null) {
+//                            preparedStatement.close();
+//                        }
+//                    } catch (SQLException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            } catch (SQLException ex) {
+//                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
         } else {
             AlertUtils.showRegistrationFailedAlert();
         }

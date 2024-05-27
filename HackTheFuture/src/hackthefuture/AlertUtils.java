@@ -51,4 +51,10 @@ public class AlertUtils {
     public static void showFailCreateEvent() {
         showAlert(Alert.AlertType.INFORMATION, "Failed", "Failed to create event.");
     }
+    public static void showAccountNotFound() {
+        showAlert(Alert.AlertType.ERROR, "Failed", "You dont have an account yet.");
+    }
+    public static void showLoginError() {
+        showAlert(Alert.AlertType.ERROR, "Failed", "Invalid username or password. Please try again.");
+    }
 }

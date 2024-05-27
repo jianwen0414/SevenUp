@@ -4,7 +4,12 @@
  */
 package hackthefuture;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.sql.*;
+import java.util.Base64;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -60,16 +65,20 @@ public class UserUtils {
             x = minX + (maxX - minX) * random.nextDouble();
             y = minY + (maxY - minY) * random.nextDouble();
         } while (coordinatesExist(x, y));
-
+        
+        String salt = generateSalt();
+        String hashedPassword = hashPassword(password, salt);
+        
         try (Connection conn = DatabaseConnector.getConnection()) {
-            String sql = "INSERT INTO User (email, username, password, role_id, location_coordinate_x, location_coordinate_y) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO User (email, username, password, salt,role_id, location_coordinate_x, location_coordinate_y) VALUES (?,?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setString(1, email);
-                ps.setString(2, username);
-                ps.setString(3, password);
-                ps.setInt(4, roleId);
-                ps.setDouble(5, x);
-                ps.setDouble(6, y);
+               ps.setString(1, email);
+            ps.setString(2, username);
+            ps.setString(3, hashedPassword);
+            ps.setString(4, salt); // Store the salt in the database
+            ps.setInt(5, roleId);
+            ps.setDouble(6, x);
+            ps.setDouble(7, y);
                 int rowsInserted = ps.executeUpdate();
                 return rowsInserted > 0;
             }
@@ -161,49 +170,8 @@ public class UserUtils {
         return matcher.matches();
     }
 
-    /*public static boolean registerUserMemberExists(String email, String username, String pw, String selectedRole, String relationUsername) {
-        double locationCoordinateX = 0.0;
-        double locationCoordinateY = 0.0;
-
-        try (Connection conn = DatabaseConnector.getConnection()) {
-            String sql = "SELECT location_coordinate_x, location_coordinate_y FROM User WHERE username = ?";
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setString(1, relationUsername);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) {
-                        locationCoordinateX = rs.getDouble("location_coordinate_x");
-                        locationCoordinateY = rs.getDouble("location_coordinate_y");
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        // Step 2: Register the new user with the retrieved location coordinates
-        int roleId = getRoleIdByRoleName(selectedRole);
-        if (roleId == -1) {
-            return false;
-        }
-
-        try (Connection conn = DatabaseConnector.getConnection()) {
-            String sql = "INSERT INTO User (email, username, password, role_id, location_coordinate_x, location_coordinate_y) VALUES (?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setString(1, email);
-                ps.setString(2, username);
-                ps.setString(3, pw);
-                ps.setInt(4, roleId);
-                ps.setDouble(5, locationCoordinateX);
-                ps.setDouble(6, locationCoordinateY);
-                int rowsInserted = ps.executeUpdate();
-                return rowsInserted > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    } */
+    
+    
     public static boolean registerUserMemberExists(String email, String username, String pw, String selectedRole, String relationUsername) {
         double locationCoordinateX = 0.0;
         double locationCoordinateY = 0.0;
@@ -238,16 +206,18 @@ public class UserUtils {
         if (roleId == -1) {
             return false;
         }
-
+        String salt = generateSalt();
+        String hashedPassword = hashPassword(pw, salt);
         try (Connection conn = DatabaseConnector.getConnection()) {
-            String sql = "INSERT INTO User (email, username, password, role_id, location_coordinate_x, location_coordinate_y) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO User (email, username, password, salt, role_id, location_coordinate_x, location_coordinate_y) VALUES (?,?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 ps.setString(1, email);
                 ps.setString(2, username);
-                ps.setString(3, pw);
-                ps.setInt(4, roleId);
-                ps.setDouble(5, locationCoordinateX);
-                ps.setDouble(6, locationCoordinateY);
+                ps.setString(3, hashedPassword);
+                ps.setString(4,salt);
+                ps.setInt(5, roleId);
+                ps.setDouble(6, locationCoordinateX);
+                ps.setDouble(7, locationCoordinateY);
                 int rowsInserted = ps.executeUpdate();
                 if (rowsInserted <= 0) {
                     return false; // Failed to insert new user
@@ -366,17 +336,21 @@ public class UserUtils {
             locationCoordinateX = minX + (maxX - minX) * random.nextDouble();
             locationCoordinateY = minY + (maxY - minY) * random.nextDouble();
         } while (coordinatesExist(locationCoordinateX, locationCoordinateY));
-
+        String salt = generateSalt();
+        String hashedPassword = hashPassword(pw, salt);
+        String salt2 = generateSalt();
+        String hashedPassword2 = hashPassword(pw1, salt2);
         try (Connection conn = DatabaseConnector.getConnection()) {
-            String sql = "INSERT INTO User (email, username, password, role_id, location_coordinate_x, location_coordinate_y) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO User (email, username, password, salt, role_id, location_coordinate_x, location_coordinate_y) VALUES (?,?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
                 // Insert first user
                 ps.setString(1, email);
                 ps.setString(2, username);
-                ps.setString(3, pw);
-                ps.setInt(4, roleId);
-                ps.setDouble(5, locationCoordinateX);
-                ps.setDouble(6, locationCoordinateY);
+                ps.setString(3, hashedPassword);
+                ps.setString(4,salt);
+                ps.setInt(5, roleId);
+                ps.setDouble(6, locationCoordinateX);
+                ps.setDouble(7, locationCoordinateY);
                 int rowsInserted = ps.executeUpdate();
                 if (rowsInserted <= 0) {
                     return false; // Failed to insert first user
@@ -393,10 +367,11 @@ public class UserUtils {
                 ps.clearParameters(); // Clear parameters before reusing
                 ps.setString(1, email1);
                 ps.setString(2, username1);
-                ps.setString(3, pw1);
-                ps.setInt(4, roleId1);
-                ps.setDouble(5, locationCoordinateX);
-                ps.setDouble(6, locationCoordinateY);
+                ps.setString(3, hashedPassword2);
+                ps.setString(4,salt2);
+                ps.setInt(5, roleId1);
+                ps.setDouble(6, locationCoordinateX);
+                ps.setDouble(7, locationCoordinateY);
                 rowsInserted = ps.executeUpdate();
                 if (rowsInserted <= 0) {
                     return false; // Failed to insert second user
@@ -428,5 +403,28 @@ public class UserUtils {
             return false;
         }
     }
+    
+    public static String generateSalt() {
+    SecureRandom random = new SecureRandom();
+    byte[] salt = new byte[16];
+    random.nextBytes(salt);
+    return Base64.getEncoder().encodeToString(salt);
+}
 
+    public static String hashPassword(String password, String salt) {
+    try {
+        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+        String saltedPassword = salt + password;
+        byte[] encodedhash = digest.digest(saltedPassword.getBytes(StandardCharsets.UTF_8));
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : encodedhash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString();
+    } catch (NoSuchAlgorithmException e) {
+        throw new RuntimeException(e);
+    }
+}
 }
