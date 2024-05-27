@@ -242,9 +242,9 @@ public class CreateQuizController implements Initializable {
 
         try {
             // Check if currentUserId exists in the user table
-            if (!doesUserExist(currentUserId)) {
-                throw new SQLException("User ID " + currentUserId + " does not exist.");
-            }
+//            if (!doesUserExist(currentUserId)) {
+//                throw new SQLException("User ID " + currentUserId + " does not exist.");
+//            }
 
             // Retrieve theme ID based on the selected theme name
             int themeId = getThemeId(themeName);

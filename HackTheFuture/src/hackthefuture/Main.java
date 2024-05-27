@@ -29,22 +29,6 @@ public class Main extends Application {
         launch(args);
     }
 
-    /*
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        // Load the FXML file for the Create Quiz page
-        Parent root = FXMLLoader.load(getClass().getResource("CreateQuiz.fxml"));
-        
-        // Set the scene with the loaded FXML
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Create Quiz");
-        primaryStage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
-*/
+    
 }
 

@@ -156,23 +156,38 @@ public class StudentProfileController implements Initializable {
 
     @FXML
     private void handleQuizPageButtonClick(ActionEvent event) {
-    try {
-        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("AttemptQuiz.fxml"));
-        Scene scene = new Scene(loader.load()); // Directly creating a Scene from the loaded FXML
-        // Get the stage from the event source
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-
-        // Get the controller of the quiz page
+//    try {
+//        FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("AttemptQuiz.fxml"));
+//        Scene scene = new Scene(loader.load()); // Directly creating a Scene from the loaded FXML
+//        // Get the stage from the event source
+//        
+//        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+//
+//        // Get the controller of the quiz page
 //        AttemptQuizController attemptQuizController = loader.getController();
 //        attemptQuizController.setCurrentUserID(userID); // Set the currentUser before the controller is initialized
-        
+//        
+//
+//        // Set the scene to the stage
+//        stage.setScene(scene);
+//        stage.show();
+//    } catch (IOException e) {
+//        e.printStackTrace();
+//    }
+try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AttemptQuiz.fxml"));
+            Parent root = loader.load();
+            AttemptQuizController controller = loader.getController();
+            controller.setup(currentUser);
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Attempt Quiz");
 
-        // Set the scene to the stage
-        stage.setScene(scene);
-        stage.show();
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+            // Show the new scene
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

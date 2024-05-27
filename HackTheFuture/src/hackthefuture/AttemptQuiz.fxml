@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: linear-gradient(to right bottom, #203e48, #4D869C);" styleClass="root" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackthefuture.AttemptQuizController">
+    <stylesheets>
+      <URL value="@AttemptQuiz.css" />
+   </stylesheets>
+    <children>
+      <AnchorPane prefHeight="800.0" prefWidth="1200.0">
+         <children>
+            <Label layoutX="496.0" layoutY="27.0" prefHeight="76.0" prefWidth="226.0" text="Attempt Quiz" textFill="#d4d5cf">
+               <font>
+                  <Font name="Calibri Bold" size="39.0" />
+               </font>
+            </Label>
+            <Label layoutX="153.0" layoutY="193.0" prefHeight="90.0" prefWidth="147.0" text="Themes : " textFill="#d4d5cf">
+               <font>
+                  <Font name="Calibri" size="32.0" />
+               </font>
+            </Label>
+            <Button fx:id="themeSc" layoutX="376.0" layoutY="119.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="235.0" text="Science">
+               <font>
+                  <Font name="Comic Sans MS" size="32.0" />
+               </font>
+            </Button>
+            <Button fx:id="themeTech" layoutX="690.0" layoutY="275.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="235.0" text="Technology">
+               <font>
+                  <Font name="Comic Sans MS" size="32.0" />
+               </font>
+            </Button>
+            <Button fx:id="themeEng" layoutX="379.0" layoutY="273.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="235.0" text="Engineering">
+               <font>
+                  <Font name="Comic Sans MS" size="32.0" />
+               </font>
+            </Button>
+            <Button fx:id="themeMaths" layoutX="686.0" layoutY="120.0" mnemonicParsing="false" prefHeight="110.0" prefWidth="235.0" text="Maths">
+               <font>
+                  <Font name="Comic Sans MS" size="32.0" />
+               </font>
+            </Button>
+            <Label layoutX="141.0" layoutY="436.0" text="Quiz Link : " textFill="#d4d5cf">
+               <font>
+                  <Font name="Calibri" size="32.0" />
+               </font>
+            </Label>
+            <Button fx:id="complete" layoutX="561.0" layoutY="581.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="141.0" text="Completed">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Label layoutX="359.0" layoutY="743.0" text="Sometimes the questions are complicated, but the answers are simple." textFill="#d4d5cf">
+               <font>
+                  <Font name="Bell MT" size="20.0" />
+               </font>
+            </Label>
+            <ComboBox fx:id="quizChoose" layoutX="379.0" layoutY="442.0" prefHeight="26.0" prefWidth="546.0" />
+         </children></AnchorPane>
+   </children>
+</AnchorPane>
