@@ -66,6 +66,7 @@ public class StudentProfileController implements Initializable {
 
     private Student currentUser; 
     
+    
     private int userID=1;   //assume id is 1 (belum pass from login page)
     
     private Stage primaryStage;
