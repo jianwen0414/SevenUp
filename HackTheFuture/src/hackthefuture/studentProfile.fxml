@@ -104,7 +104,7 @@
             <Font name="Calibri Bold" size="25.0" />
          </font>
       </Label>
-      <Button fx:id="addFriend" layoutX="778.0" layoutY="684.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="133.0" style="-fx-background-color: #203e48;" text="Add Friend" textFill="#d4d5cf">
+      <Button fx:id="addFriend" layoutX="778.0" layoutY="684.0" mnemonicParsing="false" onAction="#handleAddFriendButton" prefHeight="38.0" prefWidth="133.0" style="-fx-background-color: #203e48;" text="Add Friend" textFill="#d4d5cf">
          <font>
             <Font name="Calibri" size="18.0" />
          </font></Button>
