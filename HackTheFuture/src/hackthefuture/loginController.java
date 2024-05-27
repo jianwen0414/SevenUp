@@ -80,39 +80,44 @@ public class loginController {
         }
     }
 
-    
     @FXML
 private void handleLoginButtonAction() {
     String username = usernameField.getText();
     String password = passwordField.getText();
 
-    String sql = "SELECT * FROM User u WHERE u.username = ? AND u.password = ?";
+    String sql = "SELECT * FROM User WHERE username = ?";
 
     try {
         preparedStatement = connection.prepareStatement(sql);
         preparedStatement.setString(1, username);
-        preparedStatement.setString(2, password);
         resultSet = preparedStatement.executeQuery();
 
         if (resultSet.next()) {
-            int userId = resultSet.getInt("user_id");
-            int roleId = resultSet.getInt("role_id");
-            String userEmail = resultSet.getString("email");
-            String userUsername = resultSet.getString("username");
-            String userPassword = resultSet.getString("password");
-            double locationX = resultSet.getDouble("location_coordinate_x");
-            double locationY = resultSet.getDouble("location_coordinate_y");
-            int userPoints = resultSet.getInt("current_points");
+            // Retrieve the stored password and salt
+            String storedHashedPassword = resultSet.getString("password");
+            String storedSalt = resultSet.getString("salt");
 
-            UserRedirectionUtils.redirectUserToHomepage(userId, roleId, userEmail, userUsername, userPassword, 
-                                                        locationX, locationY, userPoints, connection, 
-                                                        (Stage) usernameField.getScene().getWindow());
+            // Hash the input password using the retrieved salt
+            String hashedInputPassword = UserUtils.hashPassword(password, storedSalt);
+
+            // Compare the hashed input password with the stored hashed password
+            if (storedHashedPassword.equals(hashedInputPassword)) {
+                int userId = resultSet.getInt("user_id");
+                int roleId = resultSet.getInt("role_id");
+                String userEmail = resultSet.getString("email");
+                String userUsername = resultSet.getString("username");
+                double locationX = resultSet.getDouble("location_coordinate_x");
+                double locationY = resultSet.getDouble("location_coordinate_y");
+                int userPoints = resultSet.getInt("current_points");
+
+                UserRedirectionUtils.redirectUserToHomepage(userId, roleId, userEmail, userUsername, storedHashedPassword, 
+                                                            locationX, locationY, userPoints, connection, 
+                                                            (Stage) usernameField.getScene().getWindow());
+            } else {
+                AlertUtils.showLoginError();
+            }
         } else {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Login Failed");
-            alert.setHeaderText(null);
-            alert.setContentText("Invalid username or password. Please try again.");
-            alert.showAndWait();
+            AlertUtils.showAccountNotFound();
         }
     } catch (SQLException | IOException e) {
         e.printStackTrace();
@@ -129,6 +134,56 @@ private void handleLoginButtonAction() {
         }
     }
 }
+    
+ //before doing password hashing
+//    @FXML
+//private void handleLoginButtonAction() {
+//    String username = usernameField.getText();
+//    String password = passwordField.getText();
+//
+//    String sql = "SELECT * FROM User u WHERE u.username = ? AND u.password = ?";
+//
+//    try {
+//        preparedStatement = connection.prepareStatement(sql);
+//        preparedStatement.setString(1, username);
+//        preparedStatement.setString(2, password);
+//        resultSet = preparedStatement.executeQuery();
+//
+//        if (resultSet.next()) {
+//            int userId = resultSet.getInt("user_id");
+//            int roleId = resultSet.getInt("role_id");
+//            String userEmail = resultSet.getString("email");
+//            String userUsername = resultSet.getString("username");
+//            String userPassword = resultSet.getString("password");
+//            double locationX = resultSet.getDouble("location_coordinate_x");
+//            double locationY = resultSet.getDouble("location_coordinate_y");
+//            int userPoints = resultSet.getInt("current_points");
+//
+//            UserRedirectionUtils.redirectUserToHomepage(userId, roleId, userEmail, userUsername, userPassword, 
+//                                                        locationX, locationY, userPoints, connection, 
+//                                                        (Stage) usernameField.getScene().getWindow());
+//        } else {
+//            Alert alert = new Alert(Alert.AlertType.ERROR);
+//            alert.setTitle("Login Failed");
+//            alert.setHeaderText(null);
+//            alert.setContentText("Invalid username or password. Please try again.");
+//            alert.showAndWait();
+//        }
+//    } catch (SQLException | IOException e) {
+//        e.printStackTrace();
+//    } finally {
+//        try {
+//            if (resultSet != null) {
+//                resultSet.close();
+//            }
+//            if (preparedStatement != null) {
+//                preparedStatement.close();
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+//    }
+//}
 
 // ori method
 //    @FXML

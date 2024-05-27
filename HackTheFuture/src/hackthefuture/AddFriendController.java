@@ -38,10 +38,10 @@ public class AddFriendController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        FriendProfile.getItems().addAll(currentStudent.viewStudentProfileList());
+        
         FriendProfile.setOnMouseClicked(this::handleFriendProfileClick);
         
-        fetchFriendRequests();
+        
         FriendRequest.setOnMouseClicked(this::handleFriendRequestClick);
 //        
     }    
@@ -214,7 +214,8 @@ public class AddFriendController implements Initializable {
     
     public void setup(Student currentStudent){
         this.currentStudent = currentStudent;
-       
+        FriendProfile.getItems().addAll(currentStudent.viewStudentProfileList());
+        fetchFriendRequests();
     }
 
 
