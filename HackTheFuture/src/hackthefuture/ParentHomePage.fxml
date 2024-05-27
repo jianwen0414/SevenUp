@@ -50,7 +50,7 @@
                         <Image url="@quiz.png" />
                      </image>
                   </ImageView>
-                  <Button fx:id="bookingButton" mnemonicParsing="false" prefHeight="44.0" prefWidth="198.0" style="-fx-background-color: transparent;" text="Booking" textFill="#d4d5cf">
+                  <Button fx:id="bookingButton" mnemonicParsing="false" onAction="#handleBookingAction" prefHeight="44.0" prefWidth="198.0" style="-fx-background-color: transparent;" text="Booking" textFill="#d4d5cf">
                      <font>
                         <Font name="System Bold" size="20.0" />
                      </font>

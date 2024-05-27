@@ -223,4 +223,22 @@ try {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    void handleAddFriendButton(ActionEvent event) {
+         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFriend.fxml"));
+            Parent root = loader.load();
+            AddFriendController controller = loader.getController();
+            controller.setup(currentUser);
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("View Event");
+
+            // Show the new scene
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

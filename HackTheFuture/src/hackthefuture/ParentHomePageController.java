@@ -107,21 +107,14 @@ public class ParentHomePageController {
 
     @FXML
     private void handleBookingAction(ActionEvent event) {
-        try {
-            // Load the Create Quiz page FXML file
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuiz.fxml"));
+         try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MakeBookings.fxml"));
             Parent root = loader.load();
-
-            // Get the controller associated with the Create Quiz page
-            CreateQuizController controller = loader.getController();
-
-            // Pass any necessary data to the Create Quiz controller if needed
-            // For example, you can pass the user's information
-            // controller.setUserInfo(usernameLabel.getText(), emailLabel.getText(), locationLabel.getText());
-            // Replace the current scene with the Create Quiz page
+            MakeBookingsController controller = loader.getController();
+            controller.setup(currentUser);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Create Quiz");
+            primaryStage.setTitle("Make Booking");
 
             // Show the new scene
             primaryStage.show();
