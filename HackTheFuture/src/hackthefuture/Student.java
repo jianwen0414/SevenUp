@@ -72,7 +72,7 @@ public class Student extends User {
                 }
             }
 
-            String destinationQuery = "SELECT booking_date FROM UserBookingDestination WHERE user_id = ?";
+            String destinationQuery = "SELECT booking_date FROM UserBookingDestination WHERE student_id = ?";
             try (PreparedStatement pstmtDestination = connection.prepareStatement(destinationQuery)) {
                 pstmtDestination.setInt(1, this.getId());
                 try (ResultSet rsDestination = pstmtDestination.executeQuery()) {
