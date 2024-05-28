@@ -90,12 +90,13 @@ public class MakeBookingsController implements Initializable {
 
     if (selectedChildName != null && selectedDestination != null && selectedDate != null) {
         try (Connection connection = DatabaseConnector.getConnection()) {
-            String insertQuery = "INSERT INTO UserBookingDestination (user_id, destination_name, booking_date) " +
-                                 "VALUES (?, ?, ?)";
+            String insertQuery = "INSERT INTO UserBookingDestination (booking_parent_id, student_id, destination_name, booking_date) " +
+                                 "VALUES (?, ?, ?, ?)";
             try (PreparedStatement pstmt = connection.prepareStatement(insertQuery)) {
-                pstmt.setInt(1, currentUser.getChildByName(selectedChildName).getId()); // Assuming getId() returns the user_id
-                pstmt.setString(2, selectedDestination);
-                pstmt.setDate(3, java.sql.Date.valueOf(selectedDate));
+                pstmt.setInt(1, currentUser.getUserId()); // Set booking_parent_id
+                pstmt.setInt(2, currentUser.getChildByName(selectedChildName).getId()); // Set student_id
+                pstmt.setString(3, selectedDestination);
+                pstmt.setDate(4, java.sql.Date.valueOf(selectedDate));
                 pstmt.executeUpdate();
                 showSuccessAlert("Booking Successful", "Your booking has been successfully made.");
             }
@@ -107,6 +108,7 @@ public class MakeBookingsController implements Initializable {
         showFailAlert("Booking Failed", "Please select a child, a destination, and a date to make a booking.");
     }
 }
+
     
     private void showSuccessAlert(String title, String message) {
         Alert alert = new Alert(AlertType.INFORMATION);
