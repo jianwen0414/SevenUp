@@ -224,16 +224,18 @@ try {
         }
     }
     
+    ////shinyen
     @FXML
     void handleAddFriendButton(ActionEvent event) {
          try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFriend.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewProfile.fxml"));
             Parent root = loader.load();
-            AddFriendController controller = loader.getController();
+            //AddFriendController controller = loader.getController();
+            ViewProfileController controller= loader.getController();
             controller.setup(currentUser);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
-            primaryStage.setTitle("View Event");
+            primaryStage.setTitle("Add Friend");
 
             // Show the new scene
             primaryStage.show();

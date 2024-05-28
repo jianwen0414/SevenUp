@@ -4,6 +4,12 @@
  */
 package hackthefuture;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 /**
  *
  * @author User
@@ -83,4 +89,28 @@ public abstract class User {
     public void setLocationCoordinateY(double y) {
         this.locationCoordinateY = y;
     }
+    
+    public ArrayList<String> viewProfileList(int roleId) {
+        ArrayList<String> profileList = new ArrayList<>();
+
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String query = "SELECT username FROM User WHERE role_id = ?";
+            try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+                pstmt.setInt(1, roleId); // Set the role_id parameter
+                try (ResultSet rs = pstmt.executeQuery()) {
+                    while (rs.next()) {
+                        String username = rs.getString("username");
+                        if (!this.getUsername().equals(username)) {
+                            profileList.add(username);
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return profileList;
+    }
 }
+

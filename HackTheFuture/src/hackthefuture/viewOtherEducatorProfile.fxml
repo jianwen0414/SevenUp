@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="509.0" prefWidth="781.0" style="-fx-background-color: b5c8c6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackthefuture.viewOtherEducatorProfileController">
+   <children>
+      <Label layoutX="53.0" layoutY="139.0" prefHeight="56.0" prefWidth="179.0" text="Personal Details" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="usernameLabel" layoutX="53.0" layoutY="190.0" prefHeight="56.0" prefWidth="110.0" text="User Name">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="emailLabel" layoutX="415.0" layoutY="202.0" text="email">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="locationLabel" layoutX="54.0" layoutY="277.0" text="Location">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="53.0" layoutY="332.0" prefHeight="56.0" prefWidth="290.0" text="Number of quizzes created:" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="quizCountLabel" layoutX="384.0" layoutY="332.0" prefHeight="56.0" prefWidth="110.0" text="No. 1">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="50.0" layoutY="415.0" prefHeight="56.0" prefWidth="290.0" text="Number of events created:" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="eventCountLabel" layoutX="384.0" layoutY="415.0" prefHeight="56.0" prefWidth="110.0" text="No. 2">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#203e48" height="144.0" layoutY="-11.0" stroke="BLACK" strokeType="INSIDE" width="781.0" />
+      <Label fx:id="username" layoutX="99.0" layoutY="32.0" prefHeight="74.0" prefWidth="582.0" text="Username Username" textFill="#d4d5cf" textOverrun="CENTER_WORD_ELLIPSIS">
+         <font>
+            <Font name="Calibri Bold" size="64.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
