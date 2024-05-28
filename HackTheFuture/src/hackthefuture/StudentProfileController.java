@@ -27,6 +27,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 //import javafx.scene.Parents;
 import javafx.scene.Scene;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 
@@ -243,4 +244,31 @@ try {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    void handleLogoutAction(MouseEvent event) {
+        clearSessionData();
+        redirectToLogin();
+    }
+    
+    private void clearSessionData() {
+        currentUser = null;
+    }
+    
+    private void redirectToLogin() {
+        try {
+            // Load the login FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            Parent root = loader.load();
+            loginController controller=loader.getController();
+            Scene scene=new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Login");
+            primaryStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

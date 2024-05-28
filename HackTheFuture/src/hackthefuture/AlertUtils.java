@@ -57,4 +57,7 @@ public class AlertUtils {
     public static void showLoginError() {
         showAlert(Alert.AlertType.ERROR, "Failed", "Invalid username or password. Please try again.");
     }
+    public static void showRoleSame(){
+        showAlert(Alert.AlertType.ERROR, "Failed", "The name you entered has the same role with you.");
+    }
 }
