@@ -181,7 +181,7 @@ public class AddFriendController implements Initializable {
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, currentStudent.getUserId());
             statement.setInt(2, getUserIdByUsername(senderUsername)); 
-
+            statement.executeUpdate();
             statement.close();
             connection.close();
         } catch (SQLException e) {
