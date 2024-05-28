@@ -188,7 +188,8 @@ public class UserUtils {
                         // Ensure that the existing user is a suitable relation based on their role
                         if ((selectedRole.equals("Parent") && relationRoleId != 3)
                                 || // Parent should have a child relation
-                                (selectedRole.equals("Child") && relationRoleId != 2)) { // Child should have a parent relation
+                                (selectedRole.equals("Student") && relationRoleId != 2)) { // Child should have a parent relation
+                            AlertUtils.showRoleSame();
                             return false;
                         }
                     } else {
