@@ -28,7 +28,7 @@ public class ViewProfileController implements Initializable{
         
          StudentProfile.setOnMouseClicked(this::handleStudentProfileClick);
          educatorProfile.setOnMouseClicked(this::handleEducatorProfileClick);
-
+         parentsProfile.setOnMouseClicked(this::handleParentProfileClick);
      
     }
     
@@ -66,6 +66,30 @@ public class ViewProfileController implements Initializable{
                 javafx.scene.Parent root = loader.load();
 
                 viewOtherEducatorProfileController controller = loader.getController();
+
+                controller.setup(selectedUsername);
+
+                Stage profileStage = new Stage();
+                profileStage.setScene(new Scene(root));
+                profileStage.setTitle(selectedUsername);
+                profileStage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+        }    
+    }
+    
+    private void handleParentProfileClick(MouseEvent event) {
+        String selectedUsername = parentsProfile.getSelectionModel().getSelectedItem();
+
+        if (selectedUsername != null) {
+            try {
+
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("viewOtherParentProfile.fxml"));
+                javafx.scene.Parent root = loader.load();
+
+                viewOtherParentProfileController controller = loader.getController();
 
                 controller.setup(selectedUsername);
 
