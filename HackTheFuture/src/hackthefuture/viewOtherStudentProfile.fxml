@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="801.0" prefWidth="737.0" style="-fx-background-color: b5c8c6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackthefuture.viewOtherStudentProfileController">
+    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#203e48" height="153.0" layoutX="-6.0" stroke="BLACK" strokeType="INSIDE" width="744.0" />
+      <Label fx:id="username" layoutX="92.0" layoutY="47.0" prefHeight="74.0" prefWidth="582.0" text="Username Username" textFill="#d4d5cf" textOverrun="CENTER_WORD_ELLIPSIS">
+         <font>
+            <Font name="Calibri Bold" size="64.0" />
+         </font>
+      </Label>
+      <Label layoutX="55.0" layoutY="160.0" prefHeight="56.0" prefWidth="179.0" text="Personal Details" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="68.0" layoutY="216.0" text="Email">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="62.0" layoutY="306.0" text="Location">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="61.0" layoutY="381.0" text="Parents" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="63.0" layoutY="423.0" text="Parent 1">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="365.0" layoutY="423.0" text="Parent 2">
+         <font>
+            <Font name="Calibri Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="356.0" layoutY="212.0" text="Point" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label layoutX="63.0" layoutY="524.0" text="Friends" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="25.0" />
+         </font>
+      </Label>
+      <Label fx:id="getEmail" layoutX="71.0" layoutY="256.0" text="email" textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="getLocationX" layoutX="98.0" layoutY="335.0" text="location x" textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="getPoint" layoutX="367.0" layoutY="253.0" text="1234" textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="getParent1" layoutX="69.0" layoutY="448.0" text="parent1" textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="getParent2" layoutX="375.0" layoutY="448.0" text="parent2" textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="63.0" layoutY="336.0" text=" X : ">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="354.0" layoutY="335.0" text="Y : ">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="getLocationY" layoutX="387.0" layoutY="336.0" text="location y" textFill="#565353">
+         <font>
+            <Font name="Calibri" size="20.0" />
+         </font>
+      </Label>
+      <ListView fx:id="friendList" layoutX="86.0" layoutY="574.0" prefHeight="127.0" prefWidth="562.0" />
+   </children>
+</AnchorPane>
