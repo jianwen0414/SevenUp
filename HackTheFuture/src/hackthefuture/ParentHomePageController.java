@@ -66,7 +66,7 @@ public class ParentHomePageController {
     private Button viewPastBookingsButton;
 
     private Parents currentUser;
-
+    
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
