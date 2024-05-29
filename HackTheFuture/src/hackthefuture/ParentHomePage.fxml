@@ -103,7 +103,7 @@
             <Font name="Calibri Bold" size="25.0" />
          </font>
       </Label>
-      <Label fx:id="child1Label" layoutX="481.0" layoutY="357.0">
+      <Label fx:id="child1Label" layoutX="496.0" layoutY="357.0">
          <font>
             <Font size="20.0" />
          </font>
@@ -123,7 +123,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="child4Label" layoutX="479.0" layoutY="424.0">
+      <Label fx:id="child4Label" layoutX="496.0" layoutY="424.0">
          <font>
             <Font size="20.0" />
          </font>
@@ -174,5 +174,10 @@
             <Font name="Calibri Bold" size="20.0" />
          </font>
       </Label>
+      <Button fx:id="viewRelationship" layoutX="615.0" layoutY="298.0" mnemonicParsing="false" onAction="#handleViewRelationshipAction" prefHeight="34.0" prefWidth="169.0" style="-fx-background-color: #203e48;" text="View Relationship" textFill="#d4d5cf">
+         <font>
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

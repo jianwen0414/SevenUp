@@ -132,11 +132,6 @@
             <Font name="Calibri Bold" size="25.0" />
          </font>
       </Label>
-      <Label layoutX="540.0" layoutY="336.0" text="Parent 1">
-         <font>
-            <Font name="Calibri Bold" size="20.0" />
-         </font>
-      </Label>
       <Label layoutX="846.0" layoutY="335.0">
          <font>
             <Font name="Calibri Bold" size="20.0" />
@@ -176,12 +171,12 @@
             <Font name="Calibri" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="getParent1" layoutX="541.0" layoutY="372.0" text=" " textFill="#565353">
+      <Label fx:id="getParent1" layoutX="541.0" layoutY="370.0" text=" " textFill="#565353">
          <font>
             <Font name="Calibri" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="getParent2" layoutX="831.0" layoutY="372.0" text=" " textFill="#565353">
+      <Label fx:id="getParent2" layoutX="831.0" layoutY="370.0" text=" " textFill="#565353">
          <font>
             <Font name="Calibri" size="20.0" />
          </font>
@@ -226,9 +221,19 @@
             <Image url="@blue%20stripes%20circle.png" />
          </image>
       </ImageView>
-      <Label layoutX="831.0" layoutY="336.0" text="Parent 2">
+      <Button fx:id="viewRelationship" layoutX="652.0" layoutY="290.0" mnemonicParsing="false" onAction="#handleViewRelationshipAction" prefHeight="34.0" prefWidth="169.0" style="-fx-background-color: #203e48;" text="View Relationship" textFill="#d4d5cf">
          <font>
-            <Font name="Calibri Bold" size="20.0" />
+            <Font name="Calibri" size="18.0" />
+         </font>
+      </Button>
+      <Label layoutX="540.0" layoutY="332.0" text="Parent 1:" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="831.0" layoutY="332.0" text="Parent 2:" textFill="#203e48">
+         <font>
+            <Font name="Calibri Bold" size="24.0" />
          </font>
       </Label>
    </children>
