@@ -34,6 +34,8 @@ public class EducatorHomePageController {
     private Label quizCountLabel;
 
     
+    @FXML
+    private Button viewprofile;
 
     @FXML
     private Button createQuizButton;
@@ -68,6 +70,24 @@ public class EducatorHomePageController {
         locationLabel.setText(location);
     }
 
+     @FXML
+    void handleViewprofileButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewProfile.fxml"));
+            Parent root = loader.load();
+            ViewProfileController controller = loader.getController();
+            controller.setup(currentUser);
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("View Profile");
+
+            // Show the new scene
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
     @FXML
     private void handleViewEventsButtonAction(ActionEvent event) {
         try {

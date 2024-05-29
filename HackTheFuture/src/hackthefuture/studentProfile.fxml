@@ -20,11 +20,11 @@
                   <Image url="@student.jpg" />
                </image>
             </ImageView>
-            <VBox layoutX="-3.0" layoutY="385.0" prefHeight="97.0" prefWidth="466.0" spacing="10.0">
+            <VBox layoutX="1.0" layoutY="324.0" prefHeight="97.0" prefWidth="466.0" spacing="10.0">
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="34.0" fitWidth="38.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="45.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@Image/view.png" />
                            </image>
@@ -32,7 +32,7 @@
                               <Insets left="100.0" top="8.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button fx:id="viewprofile" alignment="CENTER" mnemonicParsing="false" onAction="#handleViewprofileButton" prefHeight="46.0" prefWidth="216.0" style="-fx-background-color: #203e48;" text="View profile" textFill="#d4d5cf">
+                        <Button fx:id="viewprofile" alignment="CENTER" mnemonicParsing="false" onAction="#handleViewprofileButton" prefHeight="46.0" prefWidth="232.0" style="-fx-background-color: #203e48;" text="View profile" textFill="#d4d5cf">
                            <font>
                               <Font name="Calibri Bold" size="25.0" />
                            </font>
@@ -44,7 +44,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="41.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="40.0" fitWidth="46.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@Image/quizN.png" />
                            </image>
@@ -52,7 +52,7 @@
                               <Insets left="98.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button fx:id="quizPage" mnemonicParsing="false" onAction="#handleQuizPageButtonClick" prefHeight="46.0" prefWidth="141.0" style="-fx-background-color: transparent;" text="Quiz" textFill="#d4d5cf">
+                        <Button fx:id="quizPage" mnemonicParsing="false" onAction="#handleQuizPageButtonClick" prefHeight="46.0" prefWidth="155.0" style="-fx-background-color: transparent;" text="Quiz" textFill="#d4d5cf">
                            <font>
                               <Font name="Calibri Bold" size="25.0" />
                            </font>
@@ -61,7 +61,7 @@
                   </HBox>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="47.0" fitWidth="52.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="51.0" fitWidth="57.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@event%20icon.png" />
                            </image>
@@ -69,7 +69,7 @@
                               <Insets left="95.0" />
                            </HBox.margin>
                         </ImageView>
-                        <Button fx:id="eventPage" mnemonicParsing="false" onAction="#handleViewEventsAction" prefHeight="46.0" prefWidth="106.0" style="-fx-background-color: transparent;" text="Event" textFill="#d4d5cf">
+                        <Button fx:id="eventPage" mnemonicParsing="false" onAction="#handleViewEventsAction" prefHeight="46.0" prefWidth="114.0" style="-fx-background-color: transparent;" text="Event" textFill="#d4d5cf">
                            <font>
                               <Font name="Calibri Bold" size="25.0" />
                            </font>
@@ -142,10 +142,17 @@
             <Font name="Calibri Bold" size="25.0" />
          </font>
       </Label>
-      <Button fx:id="addFriend" layoutX="786.0" layoutY="679.0" mnemonicParsing="false" onAction="#handleAddFriendButton" prefHeight="38.0" prefWidth="133.0" style="-fx-background-color: #203e48;" text="Add Friend" textFill="#d4d5cf">
+      <Button fx:id="addFriend" layoutX="627.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleAddFriendButton" prefHeight="38.0" prefWidth="164.0" style="-fx-background-color: #203e48;" text="Add Friend" textFill="#d4d5cf">
          <font>
             <Font name="Calibri" size="18.0" />
-         </font></Button>
+         </font>
+         <graphic>
+            <ImageView fitHeight="33.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Image/icons8-add-friend-24.png" />
+               </image>
+            </ImageView>
+         </graphic></Button>
       <Label fx:id="getUserName" layoutX="543.0" layoutY="162.0" text="username show at here " textFill="#565353">
          <font>
             <Font name="Calibri" size="20.0" />
@@ -216,10 +223,17 @@
             <Image url="@blue%20stripes%20circle.png" />
          </image>
       </ImageView>
-      <Button fx:id="viewRelationship" layoutX="652.0" layoutY="290.0" mnemonicParsing="false" onAction="#handleViewRelationshipAction" prefHeight="34.0" prefWidth="169.0" style="-fx-background-color: #203e48;" text="View Relationship" textFill="#d4d5cf">
+      <Button fx:id="viewRelationship" layoutX="880.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleViewRelationshipAction" prefHeight="45.0" prefWidth="207.0" style="-fx-background-color: #203e48;" text="View Relationship" textFill="#d4d5cf">
          <font>
             <Font name="Calibri" size="18.0" />
          </font>
+         <graphic>
+            <ImageView fitHeight="47.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Image/icons8-single-father-32.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
       <Label layoutX="540.0" layoutY="332.0" text="Parent 1:" textFill="#203e48">
          <font>

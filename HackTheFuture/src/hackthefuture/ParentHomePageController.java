@@ -70,6 +70,9 @@ public class ParentHomePageController {
 
     @FXML
     private Button viewRelationship;
+    
+    @FXML
+    private Button viewprofile;
 
     private Parents currentUser;
 
@@ -159,6 +162,24 @@ public class ParentHomePageController {
             alert.setHeaderText(null);
             alert.setContentText("Please select a month.");
             alert.showAndWait();
+        }
+    }
+    
+    @FXML
+    void handleViewprofileButton(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewProfile.fxml"));
+            Parent root = loader.load();
+            ViewProfileController controller = loader.getController();
+            controller.setup(currentUser);
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("View Profile");
+
+            // Show the new scene
+            primaryStage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

@@ -27,7 +27,7 @@ public class loginController {
     // JDBC URL, username, and password of MySQL server
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/hackingthefuture";
     private static final String JDBC_USER = "root";
-    private static final String JDBC_PASSWORD = "040729Shihan.";
+    private static final String JDBC_PASSWORD = "No16juru*";
 
     // JDBC variables for opening, closing, and managing connection
     private static Connection connection;

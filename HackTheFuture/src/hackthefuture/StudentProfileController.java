@@ -71,13 +71,11 @@ public class StudentProfileController implements Initializable {
     @FXML
     private Label getLocationY;
     @FXML
-    private Button noti;
-    @FXML
     private Button viewprofile;
 
     private Student currentUser;
 
-    private int userID = 1;   //assume id is 1 (belum pass from login page)
+    //private int userID = 1;   //assume id is 1 (belum pass from login page)
 
     private Stage primaryStage;
 
@@ -87,7 +85,7 @@ public class StudentProfileController implements Initializable {
 
     public void setup(Student currentUser) {
         this.currentUser = currentUser;
-        getUsername.setText(currentUser.getUsername());
+        getUserName.setText(currentUser.getUsername());
         getEmail.setText(currentUser.getEmail());
         getLocationX.setText(String.format("%.2f", currentUser.getLocationCoordinateX()));
         getLocationY.setText(String.format("%.2f", currentUser.getLocationCoordinateY()));

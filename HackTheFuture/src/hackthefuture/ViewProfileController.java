@@ -12,7 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class ViewProfileController implements Initializable{
-    Student currentStudent;
+    User currentUser;
 
     @FXML
     private ListView<String> StudentProfile;
@@ -42,7 +42,7 @@ public class ViewProfileController implements Initializable{
 
                 viewOtherStudentProfileController controller = loader.getController();
 
-                controller.initData(selectedUsername,currentStudent.userId);
+                controller.initData(selectedUsername,currentUser.userId);
 
                 Stage profileStage = new Stage();
                 profileStage.setScene(new Scene(root));
@@ -103,11 +103,11 @@ public class ViewProfileController implements Initializable{
         }    
     }
         
-        public void setup(Student currentStudent){
-                this.currentStudent = currentStudent;
-                StudentProfile.getItems().addAll(currentStudent.viewProfileList(3));
-                educatorProfile.getItems().addAll(currentStudent.viewProfileList(1));
-                parentsProfile.getItems().addAll(currentStudent.viewProfileList(2));
-            }
-
+        public void setup(User currentUser){
+                this.currentUser = currentUser;
+                StudentProfile.getItems().addAll(currentUser.viewProfileList(3));
+                educatorProfile.getItems().addAll(currentUser.viewProfileList(1));
+                parentsProfile.getItems().addAll(currentUser.viewProfileList(2));
+        }
+        
 }
