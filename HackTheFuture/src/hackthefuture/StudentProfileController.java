@@ -32,7 +32,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.Viewer;
+import java.util.List;
 
 /**
  * FXML Controller class
@@ -49,6 +52,8 @@ public class StudentProfileController implements Initializable {
     private Button eventPage;
     @FXML
     private Button addFriend;
+    @FXML
+    private Button viewRelationship;
     @FXML
     private ListView<String> getFriendList;
     @FXML
@@ -70,36 +75,32 @@ public class StudentProfileController implements Initializable {
     @FXML
     private Button viewprofile;
 
-    private Student currentUser; 
-    
-    
-    private int userID=1;   //assume id is 1 (belum pass from login page)
-    
+    private Student currentUser;
+
+    private int userID = 1;   //assume id is 1 (belum pass from login page)
+
     private Stage primaryStage;
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
-    
-
-    
-    public void setup(Student currentUser){
-        this.currentUser=currentUser;
+    public void setup(Student currentUser) {
+        this.currentUser = currentUser;
         getUsername.setText(currentUser.getUsername());
         getEmail.setText(currentUser.getEmail());
         getLocationX.setText(String.format("%.2f", currentUser.getLocationCoordinateX()));
         getLocationY.setText(String.format("%.2f", currentUser.getLocationCoordinateY()));
-        int numParent=currentUser.getParents().size();
-                getParent1.setText(currentUser.getParents().get(0).getUsername());
-        if(numParent==2){
-                    getParent2.setText(currentUser.getParents().get(1).getUsername());
+        int numParent = currentUser.getParents().size();
+        getParent1.setText(currentUser.getParents().get(0).getUsername());
+        if (numParent == 2) {
+            getParent2.setText(currentUser.getParents().get(1).getUsername());
         }
         getUserName.setText(currentUser.getUsername());
         getPoint.setText(String.valueOf(currentUser.getCurrentPoints()));
         fetchFriends();
     }
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //fetchFriends();
@@ -162,7 +163,6 @@ public class StudentProfileController implements Initializable {
 //        }
     }
 
-
     @FXML
     private void handleQuizPageButtonClick(ActionEvent event) {
 //    try {
@@ -183,7 +183,7 @@ public class StudentProfileController implements Initializable {
 //    } catch (IOException e) {
 //        e.printStackTrace();
 //    }
-try {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AttemptQuiz.fxml"));
             Parent root = loader.load();
             AttemptQuizController controller = loader.getController();
@@ -216,7 +216,8 @@ try {
             e.printStackTrace();
         }
     }
-     @FXML
+
+    @FXML
     void handleLeaderboardAction(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Leaderboard.fxml"));
@@ -231,11 +232,11 @@ try {
             e.printStackTrace();
         }
     }
-    
+
     ////shinyen
     @FXML
     void handleAddFriendButton(ActionEvent event) {
-         try {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFriend.fxml"));
             Parent root = loader.load();
             AddFriendController controller = loader.getController();
@@ -250,13 +251,13 @@ try {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     void handleViewprofileButton(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewProfile.fxml"));
             Parent root = loader.load();
-            ViewProfileController controller= loader.getController();
+            ViewProfileController controller = loader.getController();
             controller.setup(currentUser);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -268,24 +269,24 @@ try {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     void handleLogoutAction(MouseEvent event) {
         clearSessionData();
         redirectToLogin();
     }
-    
+
     private void clearSessionData() {
         currentUser = null;
     }
-    
+
     private void redirectToLogin() {
         try {
             // Load the login FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
             Parent root = loader.load();
-            loginController controller=loader.getController();
-            Scene scene=new Scene(root);
+            loginController controller = loader.getController();
+            Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Login");
             primaryStage.show();
@@ -294,51 +295,57 @@ try {
             e.printStackTrace();
         }
     }
-    
+
     private void fetchFriends() {
         ObservableList<String> friendsList = FXCollections.observableArrayList();
-        
-        try (Connection conn = DatabaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(
-            "SELECT user2_id FROM UserFriend WHERE user1_id = ? UNION SELECT user1_id FROM UserFriend WHERE user2_id = ?"    
-            )) {
-             
+
+        try (Connection conn = DatabaseConnector.getConnection(); PreparedStatement stmt = conn.prepareStatement(
+                "SELECT user2_id FROM UserFriend WHERE user1_id = ? UNION SELECT user1_id FROM UserFriend WHERE user2_id = ?"
+        )) {
+
             stmt.setInt(1, currentUser.getUserId());
             stmt.setInt(2, currentUser.getUserId());
             ResultSet rs = stmt.executeQuery();
-            
+
             while (rs.next()) {
                 int friendId = rs.getInt(1);
-                System.out.println("friend id : "+friendId);
+                System.out.println("friend id : " + friendId);
                 String friendName = getUserNameById(friendId); // Fetch friend's name by ID
                 friendsList.add(friendName);
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         getFriendList.setItems(friendsList);
     }
-    
+
     private String getUserNameById(int userId) {
         String userName = "";
         //String query = "SELECT username FROM User WHERE user_id = ?";
-        
-        try (Connection conn = DatabaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("SELECT username FROM User WHERE user_id = ?")) {
-            
+
+        try (Connection conn = DatabaseConnector.getConnection(); PreparedStatement stmt = conn.prepareStatement("SELECT username FROM User WHERE user_id = ?")) {
+
             stmt.setInt(1, userId);
             ResultSet resultSet = stmt.executeQuery();
-            
+
             if (resultSet.next()) {
                 userName = resultSet.getString("username");
             }
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return userName;
     }
+
+    @FXML
+    private void handleViewRelationshipAction(ActionEvent event) {
+        List<ParentChildRelationship> relationships = RelationshipService.getRelationshipsForUser(currentUser.getUserId());
+        Graph graph = RelationshipGraph.createGraph(relationships);
+        RelationshipGraph.displayGraph(graph);
+    }
+
 }

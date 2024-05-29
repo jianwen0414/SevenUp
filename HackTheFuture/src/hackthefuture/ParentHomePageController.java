@@ -21,6 +21,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.Viewer;
 
 public class ParentHomePageController {
 
@@ -58,15 +61,18 @@ public class ParentHomePageController {
 
     @FXML
     private Button bookingButton;
-    
+
     @FXML
     private ComboBox<String> monthComboBox;
 
     @FXML
     private Button viewPastBookingsButton;
 
+    @FXML
+    private Button viewRelationship;
+
     private Parents currentUser;
-    
+
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
@@ -80,14 +86,14 @@ public class ParentHomePageController {
         populateMonthComboBox();
     }
 
-/*
+    /*
     public void setUserInformation(String username, String email, String location) {
         // Display user information on the GUI
         usernameLabel.setText(username);
         emailLabel.setText(email);
         locationLabel.setText(location);       
     }
-*/
+     */
     @FXML
     private void handleViewEventsAction(ActionEvent event) {
         try {
@@ -108,7 +114,7 @@ public class ParentHomePageController {
 
     @FXML
     private void handleBookingAction(ActionEvent event) {
-         try {
+        try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MakeBookings.fxml"));
             Parent root = loader.load();
             MakeBookingsController controller = loader.getController();
@@ -139,7 +145,7 @@ public class ParentHomePageController {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     private void handleViewPastBookingsAction(ActionEvent event) {
         String selectedMonth = monthComboBox.getValue();
@@ -203,11 +209,11 @@ public class ParentHomePageController {
             e.printStackTrace();
         }
     }
-    
+
     private void populateMonthComboBox() {
         monthComboBox.setItems(FXCollections.observableArrayList(
-            "January", "February", "March", "April", "May", "June", 
-            "July", "August", "September", "October", "November", "December"
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
         ));
 
         // Add listener to show button when a month is selected
@@ -217,18 +223,18 @@ public class ParentHomePageController {
             }
         });
     }
-    
+
     private List<String> getPastBookingsForMonth(int month) {
         List<String> bookings = new ArrayList<>();
         String username = usernameLabel.getText();
 
         try (Connection connection = DatabaseConnector.getConnection()) {
             // Prepare SQL statement to retrieve past bookings for the selected month
-            String sql = "SELECT U.username AS child_username, B.destination_name, B.booking_date " +
-                         "FROM UserBookingDestination B " +
-                         "JOIN User U ON B.student_id = U.user_id " +
-                         "JOIN User P ON B.booking_parent_id = P.user_id " +
-                         "WHERE P.username = ? AND MONTH(B.booking_date) = ?";
+            String sql = "SELECT U.username AS child_username, B.destination_name, B.booking_date "
+                    + "FROM UserBookingDestination B "
+                    + "JOIN User U ON B.student_id = U.user_id "
+                    + "JOIN User P ON B.booking_parent_id = P.user_id "
+                    + "WHERE P.username = ? AND MONTH(B.booking_date) = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, username);
             statement.setInt(2, month);
@@ -274,24 +280,24 @@ public class ParentHomePageController {
             alert.showAndWait();
         }
     }
-    
+
     @FXML
     void handleLogoutAction(MouseEvent event) {
         clearSessionData();
         redirectToLogin();
     }
-    
+
     private void clearSessionData() {
         currentUser = null;
     }
-    
+
     private void redirectToLogin() {
         try {
             // Load the login FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
             Parent root = loader.load();
-            loginController controller=loader.getController();
-            Scene scene=new Scene(root);
+            loginController controller = loader.getController();
+            Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Login");
             primaryStage.show();
@@ -299,6 +305,13 @@ public class ParentHomePageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void handleViewRelationshipAction(ActionEvent event) {
+        List<ParentChildRelationship> relationships = RelationshipService.getRelationshipsForUser(currentUser.getUserId());
+        Graph graph = RelationshipGraph.createGraph(relationships);
+        RelationshipGraph.displayGraph(graph);
     }
 
 }
