@@ -34,7 +34,6 @@ public class ViewProfileController implements Initializable{
     
     private void handleStudentProfileClick(MouseEvent event) {
         String selectedUsername = StudentProfile.getSelectionModel().getSelectedItem();
-
         if (selectedUsername != null) {
             try {
 
