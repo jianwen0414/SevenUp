@@ -12,9 +12,14 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -33,8 +38,8 @@ public class viewOtherParentProfileController {
     @FXML
     private ComboBox<String> monthComboBox;
 
-    @FXML
-    private Label username;
+//    @FXML
+//    private Label username;
 
     @FXML
     private Label usernameLabel;
@@ -78,31 +83,101 @@ public class viewOtherParentProfileController {
             childList.setItems(childrenList);
             
             //fetch past booking
-
+            populateMonthComboBox();
+            
+            
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
     
-    private String getUserNameById(int userId) {
-        String userName = "";
-        //String query = "SELECT username FROM User WHERE user_id = ?";
-        
-        try (Connection conn = DatabaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("SELECT username FROM User WHERE user_id = ?")) {
-            
-            stmt.setInt(1, userId);
-            ResultSet resultSet = stmt.executeQuery();
-            
-            if (resultSet.next()) {
-                userName = resultSet.getString("username");
+    @FXML
+    private void handleViewPastBookingsAction(ActionEvent event) {
+        String selectedMonth = monthComboBox.getValue();
+        if (selectedMonth != null) {
+            int month = monthComboBox.getSelectionModel().getSelectedIndex() + 1;
+            List<String> bookings = getPastBookingsForMonth(month);
+            displayBookings(bookings);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText(null);
+            alert.setContentText("Please select a month.");
+            alert.showAndWait();
+        }
+    }
+    
+    private List<String> getPastBookingsForMonth(int month) {
+        List<String> bookings = new ArrayList<>();
+        String username = usernameLabel.getText();
+
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            // Prepare SQL statement to retrieve past bookings for the selected month
+            String sql = "SELECT U.username AS child_username, B.destination_name, B.booking_date " +
+                         "FROM UserBookingDestination B " +
+                         "JOIN User U ON B.student_id = U.user_id " +
+                         "JOIN User P ON B.booking_parent_id = P.user_id " +
+                         "WHERE P.username = ? AND MONTH(B.booking_date) = ?";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, username);
+            statement.setInt(2, month);
+
+            // Execute the query
+            ResultSet resultSet = statement.executeQuery();
+
+            // Process the result set
+            while (resultSet.next()) {
+                String childUsername = resultSet.getString("child_username");
+                String destinationName = resultSet.getString("destination_name");
+                LocalDate bookingDate = resultSet.getDate("booking_date").toLocalDate();
+                bookings.add(childUsername + " - " + destinationName + " - " + bookingDate);
             }
-            
+
+            // Close the result set and statement
+            resultSet.close();
+            statement.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
-        return userName;
+
+        return bookings;
     }
+
+    private void displayBookings(List<String> bookings) {
+        if (bookings.isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Past Bookings");
+            alert.setHeaderText(null);
+            alert.setContentText("No bookings found for the selected month.");
+            alert.showAndWait();
+        } else {
+            StringBuilder bookingDetails = new StringBuilder();
+            for (String booking : bookings) {
+                bookingDetails.append(booking).append("\n");
+            }
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Past Bookings");
+            alert.setHeaderText("Bookings for " + monthComboBox.getValue());
+            alert.setContentText(bookingDetails.toString());
+            alert.showAndWait();
+        }
+    }
+    
+    private void populateMonthComboBox() {
+        monthComboBox.setItems(FXCollections.observableArrayList(
+            "January", "February", "March", "April", "May", "June", 
+            "July", "August", "September", "October", "November", "December"
+        ));
+
+        // Add listener to show button when a month is selected
+        monthComboBox.getSelectionModel().selectedItemProperty().addListener((options, oldValue, newValue) -> {
+            if (newValue != null) {
+                viewPastBookingsButton.setVisible(true);
+            }
+        });
+    }
+    
+    
 }
 

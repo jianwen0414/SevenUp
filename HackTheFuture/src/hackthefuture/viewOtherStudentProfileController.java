@@ -73,7 +73,7 @@ public class viewOtherStudentProfileController implements Initializable{
                                     if (resultSetParent.next()) {
                                         getParent2.setText(resultSetParent.getString("parent_name"));
                                     } else {
-                                        getParent2.setText("null");
+                                        getParent2.setText(" ");
                                     }
                                 } else {
                                     getParent1.setText("null");

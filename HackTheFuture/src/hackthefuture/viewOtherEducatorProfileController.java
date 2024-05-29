@@ -20,8 +20,8 @@ public class viewOtherEducatorProfileController {
     @FXML
     private Label quizCountLabel;
 
-    @FXML
-    private Label username;
+//    @FXML
+//    private Label username;
 
     @FXML
     private Label usernameLabel;
@@ -37,7 +37,7 @@ public class viewOtherEducatorProfileController {
                     if (userRs.next()) {
                         emailLabel.setText(userRs.getString("email"));
                         usernameLabel.setText(userRs.getString("username"));
-                        username.setText(userRs.getString("username"));
+                        //username.setText(userRs.getString("username"));
                         locationLabel.setText(userRs.getBigDecimal("location_coordinate_x") + ", " + userRs.getBigDecimal("location_coordinate_y"));
                     }
                 }

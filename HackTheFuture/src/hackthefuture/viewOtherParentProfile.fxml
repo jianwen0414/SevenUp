@@ -25,7 +25,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Label fx:id="locationLabel" layoutX="94.0" layoutY="211.0" text="Location">
+      <Label fx:id="locationLabel" layoutX="142.0" layoutY="211.0" text="Location">
          <font>
             <Font name="Calibri" size="20.0" />
          </font>
@@ -41,9 +41,9 @@
          </font>
       </Label>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#203e48" height="110.0" layoutY="-11.0" stroke="BLACK" strokeType="INSIDE" width="781.0" />
-      <Label layoutX="207.0" layoutY="14.0" prefHeight="74.0" prefWidth="382.0" text="Parent Profile " textFill="#d4d5cf" textOverrun="CENTER_WORD_ELLIPSIS">
+      <Label layoutX="141.0" layoutY="7.0" prefHeight="74.0" prefWidth="514.0" text="Parent Profile " textFill="#d4d5cf" textOverrun="CENTER_WORD_ELLIPSIS">
          <font>
-            <Font name="Calibri Bold" size="64.0" />
+            <Font name="Broadway" size="64.0" />
          </font>
       </Label>
       <ListView fx:id="childList" layoutX="125.0" layoutY="274.0" prefHeight="74.0" prefWidth="486.0" />
@@ -57,12 +57,12 @@
             <Font name="Calibri Bold" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="23.0" layoutY="211.0" text="Label : ">
+      <Label layoutX="23.0" layoutY="211.0" text="Location : ">
          <font>
             <Font name="Calibri Bold" size="20.0" />
          </font>
       </Label>
       <ComboBox fx:id="monthComboBox" layoutX="155.0" layoutY="402.0" prefWidth="150.0" />
-      <Button fx:id="viewPastBookingsButton" layoutX="372.0" layoutY="402.0" mnemonicParsing="false" text="View Booking" />
+      <Button fx:id="viewPastBookingsButton" layoutX="372.0" layoutY="402.0" mnemonicParsing="false" onAction="#handleViewPastBookingsAction" text="View Booking" visible="false" />
    </children>
 </AnchorPane>
