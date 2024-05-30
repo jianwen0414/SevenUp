@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: b5c8c6;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackthefuture.StudentProfileController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" style="-fx-background-color: b5c8c6; -fx-background-radius: 10;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackthefuture.StudentProfileController">
     <children>
       <AnchorPane layoutX="-6.0" layoutY="-7.0" prefHeight="823.0" prefWidth="477.0" style="-fx-background-color: #203e48;">
          <children>
@@ -24,7 +24,7 @@
                <children>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <ImageView fitHeight="45.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="40.0" fitWidth="37.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@Image/view.png" />
                            </image>
@@ -142,7 +142,7 @@
             <Font name="Calibri Bold" size="25.0" />
          </font>
       </Label>
-      <Button fx:id="addFriend" layoutX="627.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleAddFriendButton" prefHeight="38.0" prefWidth="164.0" style="-fx-background-color: #203e48;" text="Add Friend" textFill="#d4d5cf">
+      <Button fx:id="addFriend" layoutX="776.0" layoutY="675.0" mnemonicParsing="false" onAction="#handleAddFriendButton" prefHeight="38.0" prefWidth="164.0" style="-fx-background-color: #203e48;" text="Add Friend" textFill="#d4d5cf">
          <font>
             <Font name="Calibri" size="18.0" />
          </font>
@@ -223,7 +223,7 @@
             <Image url="@blue%20stripes%20circle.png" />
          </image>
       </ImageView>
-      <Button fx:id="viewRelationship" layoutX="880.0" layoutY="678.0" mnemonicParsing="false" onAction="#handleViewRelationshipAction" prefHeight="45.0" prefWidth="207.0" style="-fx-background-color: #203e48;" text="View Relationship" textFill="#d4d5cf">
+      <Button fx:id="viewRelationship" layoutX="1058.0" layoutY="312.0" mnemonicParsing="false" onAction="#handleViewRelationshipAction" prefHeight="46.0" prefWidth="53.0" style="-fx-background-color: #203e48; -fx-background-radius: 5em;" textFill="#d4d5cf">
          <font>
             <Font name="Calibri" size="18.0" />
          </font>
