@@ -11,14 +11,17 @@ import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import java.util.ResourceBundle;
 import java.sql.Connection;
-import java.util.ArrayList;
+import java.util.List;
+import javafx.event.ActionEvent;
+import org.graphstream.graph.Graph;
 
-public class viewOtherStudentProfileController implements Initializable{
-    private int currentUserId; 
+public class viewOtherStudentProfileController implements Initializable {
+
+    private int currentUserId;
     private int selectedUserId;
     @FXML
     private Label username;
-    
+
     @FXML
     private ListView<String> friendList;
 
@@ -39,13 +42,16 @@ public class viewOtherStudentProfileController implements Initializable{
 
     @FXML
     private Label getPoint;
-    
+
+    @FXML
+    private Button viewRelationshipButton;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
     }
 
-     public void initData(String selectedUsername, int currentUserId) {
+    public void initData(String selectedUsername, int currentUserId) {
         this.currentUserId = currentUserId;
         username.setText(selectedUsername);
         try (Connection connection = DatabaseConnector.getConnection()) {
@@ -61,10 +67,10 @@ public class viewOtherStudentProfileController implements Initializable{
 
                         selectedUserId = resultSetUser.getInt("user_id");
 
-                        String parentQuery = "SELECT p.username AS parent_name " +
-                                             "FROM ParentChildRelationship pc " +
-                                             "JOIN User p ON pc.parent_id = p.user_id " +
-                                             "WHERE pc.child_id = ?";
+                        String parentQuery = "SELECT p.username AS parent_name "
+                                + "FROM ParentChildRelationship pc "
+                                + "JOIN User p ON pc.parent_id = p.user_id "
+                                + "WHERE pc.child_id = ?";
                         try (PreparedStatement pstmtParent = connection.prepareStatement(parentQuery)) {
                             pstmtParent.setInt(1, selectedUserId);
                             try (ResultSet resultSetParent = pstmtParent.executeQuery()) {
@@ -90,16 +96,15 @@ public class viewOtherStudentProfileController implements Initializable{
             e.printStackTrace();
         }
     }
-     
+
     public void getFriends() {
         System.out.println("Fetching friends for user ID: " + selectedUserId); // Debug statement
-        String query = "SELECT DISTINCT u.username FROM UserFriend uf " +
-                       "JOIN User u ON (u.user_id = uf.user1_id OR u.user_id = uf.user2_id) " +
-                       "WHERE (uf.user1_id = ? OR uf.user2_id = ?) " +
-                       "AND u.user_id <> ?";
+        String query = "SELECT DISTINCT u.username FROM UserFriend uf "
+                + "JOIN User u ON (u.user_id = uf.user1_id OR u.user_id = uf.user2_id) "
+                + "WHERE (uf.user1_id = ? OR uf.user2_id = ?) "
+                + "AND u.user_id <> ?";
 
-        try (Connection connection = DatabaseConnector.getConnection();
-             PreparedStatement statement = connection.prepareStatement(query)) {
+        try (Connection connection = DatabaseConnector.getConnection(); PreparedStatement statement = connection.prepareStatement(query)) {
 
             statement.setInt(1, selectedUserId);
             statement.setInt(2, selectedUserId);
@@ -118,7 +123,32 @@ public class viewOtherStudentProfileController implements Initializable{
         }
     }
 
+    @FXML
+    private void handleViewRelationshipGraphAction(ActionEvent event) {
+        String selectedUsername = username.getText();
+        int userId = getUserIdByUsername(selectedUsername);
+        if (userId != -1) {
+            List<ParentChildRelationship> relationships = RelationshipService.getRelationshipsForUser(userId);
+            Graph graph = RelationshipGraph.createGraph(relationships);
+            RelationshipGraph.displayGraph(graph);
+        }
+    }
 
-
-
+    private int getUserIdByUsername(String username) {
+        int userId = -1;
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String query = "SELECT user_id FROM User WHERE username = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                stmt.setString(1, username);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        userId = rs.getInt("user_id");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userId;
+    }
 }

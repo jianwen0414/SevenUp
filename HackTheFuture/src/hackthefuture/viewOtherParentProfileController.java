@@ -1,9 +1,9 @@
 package hackthefuture;
+
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-
 /**
  *
  * @author minzi
@@ -24,8 +24,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import org.graphstream.graph.Graph;
+import org.graphstream.graph.implementations.SingleGraph;
+import org.graphstream.ui.view.Viewer;
 
 public class viewOtherParentProfileController {
+
     @FXML
     private ListView<String> childList;
 
@@ -40,13 +44,15 @@ public class viewOtherParentProfileController {
 
 //    @FXML
 //    private Label username;
-
     @FXML
     private Label usernameLabel;
 
     @FXML
     private Button viewPastBookingsButton;
-    
+
+    @FXML
+    private Button viewRelationshipButton;
+
     public void setup(String selectedUsername) {
         // Fetch user details
         try (Connection connection = DatabaseConnector.getConnection()) {
@@ -63,14 +69,14 @@ public class viewOtherParentProfileController {
                     }
                 }
             }
-            
+
             //fetch children list
             ObservableList<String> childrenList = FXCollections.observableArrayList();
-            String childQuery = "SELECT u.username " +
-                         "FROM ParentChildRelationship p " +
-                         "JOIN User u ON p.child_id = u.user_id " +
-                         "JOIN User parent ON p.parent_id = parent.user_id " +
-                         "WHERE parent.username = ?";
+            String childQuery = "SELECT u.username "
+                    + "FROM ParentChildRelationship p "
+                    + "JOIN User u ON p.child_id = u.user_id "
+                    + "JOIN User parent ON p.parent_id = parent.user_id "
+                    + "WHERE parent.username = ?";
             try (PreparedStatement userStmt = connection.prepareStatement(childQuery)) {
                 userStmt.setString(1, selectedUsername);
                 try (ResultSet rs = userStmt.executeQuery()) {
@@ -81,16 +87,15 @@ public class viewOtherParentProfileController {
                 }
             }
             childList.setItems(childrenList);
-            
+
             //fetch past booking
             populateMonthComboBox();
-            
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     private void handleViewPastBookingsAction(ActionEvent event) {
         String selectedMonth = monthComboBox.getValue();
@@ -106,18 +111,18 @@ public class viewOtherParentProfileController {
             alert.showAndWait();
         }
     }
-    
+
     private List<String> getPastBookingsForMonth(int month) {
         List<String> bookings = new ArrayList<>();
         String username = usernameLabel.getText();
 
         try (Connection connection = DatabaseConnector.getConnection()) {
             // Prepare SQL statement to retrieve past bookings for the selected month
-            String sql = "SELECT U.username AS child_username, B.destination_name, B.booking_date " +
-                         "FROM UserBookingDestination B " +
-                         "JOIN User U ON B.student_id = U.user_id " +
-                         "JOIN User P ON B.booking_parent_id = P.user_id " +
-                         "WHERE P.username = ? AND MONTH(B.booking_date) = ?";
+            String sql = "SELECT U.username AS child_username, B.destination_name, B.booking_date "
+                    + "FROM UserBookingDestination B "
+                    + "JOIN User U ON B.student_id = U.user_id "
+                    + "JOIN User P ON B.booking_parent_id = P.user_id "
+                    + "WHERE P.username = ? AND MONTH(B.booking_date) = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, username);
             statement.setInt(2, month);
@@ -163,11 +168,11 @@ public class viewOtherParentProfileController {
             alert.showAndWait();
         }
     }
-    
+
     private void populateMonthComboBox() {
         monthComboBox.setItems(FXCollections.observableArrayList(
-            "January", "February", "March", "April", "May", "June", 
-            "July", "August", "September", "October", "November", "December"
+                "January", "February", "March", "April", "May", "June",
+                "July", "August", "September", "October", "November", "December"
         ));
 
         // Add listener to show button when a month is selected
@@ -177,7 +182,33 @@ public class viewOtherParentProfileController {
             }
         });
     }
-    
-    
-}
 
+    @FXML
+    private void handleViewRelationshipGraphAction(ActionEvent event) {
+        String selectedUsername = usernameLabel.getText();
+        int userId = getUserIdByUsername(selectedUsername);
+        if (userId != -1) {
+            List<ParentChildRelationship> relationships = RelationshipService.getRelationshipsForUser(userId);
+            Graph graph = RelationshipGraph.createGraph(relationships);
+            RelationshipGraph.displayGraph(graph);
+        }
+    }
+
+    private int getUserIdByUsername(String username) {
+        int userId = -1;
+        try (Connection connection = DatabaseConnector.getConnection()) {
+            String query = "SELECT user_id FROM User WHERE username = ?";
+            try (PreparedStatement stmt = connection.prepareStatement(query)) {
+                stmt.setString(1, username);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        userId = rs.getInt("user_id");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userId;
+    }
+}
