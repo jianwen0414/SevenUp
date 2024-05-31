@@ -186,5 +186,21 @@ public class EducatorHomePageController {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    void handleDiscussionAction(ActionEvent event) {
+        try {
+            // Load the login FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml"));
+            Parent root = loader.load();
+//            ForumController controller=loader.getController();
+            Scene scene=new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Discussion");
+            primaryStage.show();
 
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

@@ -181,5 +181,19 @@
             <Image url="@blue%20stripes%20circle.png" />
          </image>
       </ImageView>
+      <HBox alignment="CENTER" layoutX="647.0" layoutY="665.0" prefHeight="55.0" prefWidth="304.0">
+         <children>
+            <ImageView fitHeight="57.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Image/discussion.png" />
+               </image>
+            </ImageView>
+            <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleDiscussionAction" prefHeight="44.0" prefWidth="201.0" style="-fx-background-color: transparent;" text="Discussion" textFill="#d4d5cf">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
