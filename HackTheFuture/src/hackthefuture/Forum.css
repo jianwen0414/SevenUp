@@ -1,0 +1,57 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+.header-label {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* Adjust text color */
+}
+
+.list-cell {
+    -fx-background-color: #F9EFDB; /* Adjust background color */
+    -fx-padding: 10px;
+}
+
+.list-view {
+    -fx-background-color: #7AB2B2; /* Adjust background color */
+}
+
+.text-area {
+    -fx-background-color: #97E7E1; /* Adjust background color */
+    -fx-border-color: #4D869C; /* Adjust border color */
+    -fx-border-width: 1px;
+    -fx-padding: 5px;
+}
+
+.button {
+    -fx-background-color: #203e48; /* Adjust background color */
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+}
+
+.button:hover {
+    -fx-background-color: #4D869C; /* Adjust hover color */
+}
+
+.button:pressed {
+    -fx-background-color: #1c2b33; /* Adjust pressed color */
+}
+
+.comment-user-time-label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #4D869C; /* Blue-ish color for username and time */
+}
+
+.comment-text-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #203e48; /* Darker shade for comment text */
+    -fx-padding: 5px 0 5px 0; /* Top and bottom padding */
+}
+
+.comment-separator {
+    -fx-background-color: #97E7E1; /* Light teal color for separator */
+    -fx-padding: 2px;
+    -fx-pref-width: 100%; /* Ensure the separator takes up the full width */
+}

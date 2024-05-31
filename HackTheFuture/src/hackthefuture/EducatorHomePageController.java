@@ -193,7 +193,8 @@ public class EducatorHomePageController {
             // Load the login FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml"));
             Parent root = loader.load();
-//            ForumController controller=loader.getController();
+            ForumController controller=loader.getController();
+            controller.setup(currentUser);// Set the current user's ID
             Scene scene=new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Discussion");
