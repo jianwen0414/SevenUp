@@ -1,6 +1,5 @@
 package hackthefuture;
 
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +16,6 @@ public class EducatorHomePageController {
     private Stage primaryStage; // Reference to the primary stage
 
 //    private int userId;
-
     @FXML
     private Label usernameLabel;
 
@@ -29,17 +27,16 @@ public class EducatorHomePageController {
 
     @FXML
     private Label eventCountLabel;
-    
+
     @FXML
     private Label quizCountLabel;
 
-    
     @FXML
     private Button viewprofile;
 
     @FXML
     private Button createQuizButton;
-    
+
     private Educator currentUser;
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -49,8 +46,7 @@ public class EducatorHomePageController {
 //    public void setUserId(int userId) {
 //        this.userId = userId;
 //    }
-    
-    public void setup(Educator currentUser){
+    public void setup(Educator currentUser) {
         this.currentUser = currentUser;
         usernameLabel.setText(currentUser.getUsername());
         emailLabel.setText(currentUser.getEmail());
@@ -58,11 +54,9 @@ public class EducatorHomePageController {
 //        viewEventsButton.setOnAction(eh->handleViewEventsButtonAction(eh));
         eventCountLabel.setText(String.valueOf(currentUser.getCreatedEvents().size()));
         quizCountLabel.setText(String.valueOf(currentUser.getCreatedQuizzes().size()));
-        
 
     }
 
-    
     public void setUserInformation(String username, String email, String location) {
         // Display user information on the GUI
         usernameLabel.setText(username);
@@ -70,7 +64,7 @@ public class EducatorHomePageController {
         locationLabel.setText(location);
     }
 
-     @FXML
+    @FXML
     void handleViewprofileButton(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewProfile.fxml"));
@@ -87,7 +81,7 @@ public class EducatorHomePageController {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     private void handleViewEventsButtonAction(ActionEvent event) {
         try {
@@ -112,13 +106,17 @@ public class EducatorHomePageController {
     @FXML
     private void handleCreateQuizButtonAction(ActionEvent event) {
         try {
+            // Save current scene to history stack
+            NavigationHistory.push(primaryStage.getScene());
+
             // Load the Create Quiz page FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateQuiz.fxml"));
             Parent root = loader.load();
 
             // Get the controller associated with the Create Quiz page
             CreateQuizController controller = loader.getController();
-            controller.setup(currentUser);// Set the current user's ID
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage
+            controller.setup(currentUser); // Set the current user's ID
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Create Quiz");
@@ -129,6 +127,7 @@ public class EducatorHomePageController {
             e.printStackTrace();
         }
     }
+
     @FXML
     void handleCreateEventButtonAction(ActionEvent event) {
         try {
@@ -144,6 +143,7 @@ public class EducatorHomePageController {
             e.printStackTrace();
         }
     }
+
     // Add any additional methods or event handlers as needed
     @FXML
     void handleLeaderboardAction(ActionEvent event) {
@@ -160,24 +160,24 @@ public class EducatorHomePageController {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     void handleLogoutAction(MouseEvent event) {
         clearSessionData();
         redirectToLogin();
     }
-    
+
     private void clearSessionData() {
         currentUser = null;
     }
-    
+
     private void redirectToLogin() {
         try {
             // Load the login FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
             Parent root = loader.load();
-            loginController controller=loader.getController();
-            Scene scene=new Scene(root);
+            loginController controller = loader.getController();
+            Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Login");
             primaryStage.show();
@@ -186,16 +186,16 @@ public class EducatorHomePageController {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     void handleDiscussionAction(ActionEvent event) {
         try {
             // Load the login FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml"));
             Parent root = loader.load();
-            ForumController controller=loader.getController();
+            ForumController controller = loader.getController();
             controller.setup(currentUser);// Set the current user's ID
-            Scene scene=new Scene(root);
+            Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Discussion");
             primaryStage.show();

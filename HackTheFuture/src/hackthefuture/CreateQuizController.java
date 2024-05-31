@@ -164,8 +164,7 @@ public class CreateQuizController {
         alert.showAndWait();
     }
 }
-*/
-
+ */
 import java.net.URL;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -173,12 +172,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class CreateQuizController implements Initializable {
 
@@ -208,8 +209,13 @@ public class CreateQuizController implements Initializable {
 
     @FXML
     private Button createQuizButton;
-    
+
+    @FXML
+    private Button backButton;
+
     private Educator currentUser;
+
+    private Stage primaryStage;
 
 //    @FXML
 //    private void initialize() {
@@ -219,6 +225,9 @@ public class CreateQuizController implements Initializable {
 //        // Connect to the database
 //        connectToDatabase();
 //    }
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
     public void setup(Educator currentUser) {
         this.currentUser = currentUser;
@@ -342,5 +351,14 @@ public class CreateQuizController implements Initializable {
         themeChoiceBox.getItems().addAll("Science", "Technology", "Engineering", "Mathematics");
         connectToDatabase();
     }
-}
 
+    @FXML
+    private void handleBackButtonAction(ActionEvent event) {
+        if (!NavigationHistory.isEmpty()) {
+            Scene previousScene = NavigationHistory.pop();
+            primaryStage.setScene(previousScene);
+            primaryStage.show();
+        }
+    }
+
+}
