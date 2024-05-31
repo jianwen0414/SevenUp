@@ -16,7 +16,7 @@
       </Pane>
       <AnchorPane layoutX="99.0" layoutY="57.0" prefHeight="709.0" prefWidth="988.0">
          <children>
-            <Pane layoutX="374.0" layoutY="77.0" prefHeight="60.0" prefWidth="232.0" style="-fx-background-color: #b5c8c6; -fx-background-radius: 25; -fx-border-radius: 25;">
+            <Pane layoutX="411.0" prefHeight="60.0" prefWidth="232.0" style="-fx-background-color: #b5c8c6; -fx-background-radius: 25; -fx-border-radius: 25;">
                <children>
                   <Label alignment="CENTER" layoutX="49.0" layoutY="13.0" text="View Profile" textFill="#203e48">
                      <font>

@@ -171,7 +171,7 @@
             <Font name="Calibri Bold" size="25.0" />
          </font>
       </Label>
-      <ComboBox fx:id="monthComboBox" layoutX="494.0" layoutY="536.0" prefWidth="150.0" />
+      <ComboBox fx:id="monthComboBox" layoutX="494.0" layoutY="536.0" prefWidth="150.0" stylesheets="@css/ComboBox.css" />
       <Button fx:id="viewPastBookingsButton" layoutX="493.0" layoutY="590.0" mnemonicParsing="false" onAction="#handleViewPastBookingsAction" text="View Bookings" visible="false" />
       <HBox fx:id="logout" layoutX="1083.0" layoutY="21.0" onMouseClicked="#handleLogoutAction" prefHeight="30.0" prefWidth="86.0">
          <children>
@@ -202,10 +202,17 @@
             <Font name="Calibri Bold" size="20.0" />
          </font>
       </Label>
-      <Button fx:id="viewRelationship" layoutX="615.0" layoutY="298.0" mnemonicParsing="false" onAction="#handleViewRelationshipAction" prefHeight="34.0" prefWidth="169.0" style="-fx-background-color: #203e48;" text="View Relationship" textFill="#d4d5cf">
+      <Button fx:id="viewRelationship" layoutX="616.0" layoutY="292.0" mnemonicParsing="false" onAction="#handleViewRelationshipAction" prefHeight="46.0" prefWidth="53.0" style="-fx-background-color: #203e48; -fx-background-radius: 5em;" textFill="#d4d5cf">
          <font>
             <Font name="Calibri" size="18.0" />
          </font>
+         <graphic>
+            <ImageView fitHeight="47.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Image/icons8-single-father-32.png" />
+               </image>
+            </ImageView>
+         </graphic>
       </Button>
    </children>
 </AnchorPane>

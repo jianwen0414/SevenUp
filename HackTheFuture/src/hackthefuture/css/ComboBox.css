@@ -8,6 +8,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
 */
 
 /* scrollbarStyle.css */
+/*.list-view {
+    -fx-background-color: rgba(255, 255, 255, 0.1);
+}
+
+.list-cell {
+    -fx-font-family: 'System';
+    -fx-font-size: 20px;
+    -fx-background-color: rgba(255, 255, 255, 0.1);  White color with 10% transparency 
+}*/
+
+
+
 .scroll-pane .viewport {
     -fx-background-color: transparent;
 }
