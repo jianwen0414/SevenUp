@@ -1,0 +1,27 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 31 May 2024, 3:55:42 pm
+    Author     : Tan Shi Han
+*/
+.list-view {
+    -fx-background-color: rgba(255, 255, 255, 0.1); /* White color with 10% transparency */
+}
+
+.list-cell {
+    -fx-font-family: 'System';
+    -fx-font-size: 20px;
+    -fx-background-color: rgba(255, 255, 255, 0.1); /* White color with 10% transparency */
+}
+
+.scroll-bar:vertical .thumb,
+.scroll-bar:horizontal .thumb {
+    -fx-background-color: rgba(255, 255, 255, 0.5); /* White color with 50% transparency */
+}
+
+.scroll-bar:vertical .track,
+.scroll-bar:horizontal .track {
+    -fx-background-color: rgba(255, 255, 255, 0.2); /* White color with 20% transparency */
+}

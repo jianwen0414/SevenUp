@@ -142,7 +142,7 @@
             <Font name="Calibri Bold" size="25.0" />
          </font>
       </Label>
-      <Button fx:id="addFriend" layoutX="776.0" layoutY="675.0" mnemonicParsing="false" onAction="#handleAddFriendButton" prefHeight="38.0" prefWidth="164.0" style="-fx-background-color: #203e48;" text="Add Friend" textFill="#d4d5cf">
+      <Button fx:id="addFriend" layoutX="776.0" layoutY="675.0" mnemonicParsing="false" onAction="#handleAddFriendButton" prefHeight="38.0" prefWidth="164.0" style="-fx-background-color: #203e48; -fx-background-radius: 30;" text="Add Friend" textFill="#d4d5cf">
          <font>
             <Font name="Calibri" size="18.0" />
          </font>
@@ -217,7 +217,7 @@
             </Label>
          </children>
       </HBox>
-      <ListView fx:id="getFriendList" layoutX="656.0" layoutY="488.0" prefHeight="146.0" prefWidth="408.0" />
+      <ListView fx:id="getFriendList" layoutX="656.0" layoutY="488.0" prefHeight="146.0" prefWidth="408.0" style="-fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: transparent;" stylesheets="@css/ListView.css" />
       <ImageView fitHeight="364.0" fitWidth="367.0" layoutX="-107.0" layoutY="572.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@blue%20stripes%20circle.png" />
