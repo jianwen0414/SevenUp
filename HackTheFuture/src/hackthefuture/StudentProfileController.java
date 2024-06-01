@@ -76,7 +76,6 @@ public class StudentProfileController implements Initializable {
     private Student currentUser;
 
     //private int userID = 1;   //assume id is 1 (belum pass from login page)
-
     private Stage primaryStage;
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -182,9 +181,12 @@ public class StudentProfileController implements Initializable {
 //        e.printStackTrace();
 //    }
         try {
+            NavigationHistory.push(primaryStage.getScene());
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AttemptQuiz.fxml"));
             Parent root = loader.load();
             AttemptQuizController controller = loader.getController();
+            controller.setPrimaryStage(primaryStage);
             controller.setup(currentUser);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -200,9 +202,12 @@ public class StudentProfileController implements Initializable {
     @FXML
     private void handleViewEventsAction(ActionEvent event) {
         try {
+            NavigationHistory.push(primaryStage.getScene());
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewEvent_1.fxml"));
             Parent root = loader.load();
             ViewEventController controller = loader.getController();
+            controller.setPrimaryStage(primaryStage);
             controller.setup(currentUser);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -218,9 +223,12 @@ public class StudentProfileController implements Initializable {
     @FXML
     void handleLeaderboardAction(ActionEvent event) {
         try {
+            NavigationHistory.push(primaryStage.getScene());
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Leaderboard.fxml"));
             Parent root = loader.load();
             LeaderboardController controller = loader.getController();
+            controller.setPrimaryStage(primaryStage);
 //            controller.setup(currentUser);// Set the current user's ID
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -235,9 +243,12 @@ public class StudentProfileController implements Initializable {
     @FXML
     void handleAddFriendButton(ActionEvent event) {
         try {
+            NavigationHistory.push(primaryStage.getScene());
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFriend.fxml"));
             Parent root = loader.load();
             AddFriendController controller = loader.getController();
+            controller.setPrimaryStage(primaryStage);
             controller.setup(currentUser);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -253,9 +264,12 @@ public class StudentProfileController implements Initializable {
     @FXML
     void handleViewprofileButton(ActionEvent event) {
         try {
+            NavigationHistory.push(primaryStage.getScene());
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewProfile.fxml"));
             Parent root = loader.load();
             ViewProfileController controller = loader.getController();
+            controller.setPrimaryStage(primaryStage);
             controller.setup(currentUser);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);

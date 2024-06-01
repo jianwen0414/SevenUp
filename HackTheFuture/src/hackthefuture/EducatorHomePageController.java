@@ -67,9 +67,12 @@ public class EducatorHomePageController {
     @FXML
     void handleViewprofileButton(ActionEvent event) {
         try {
+            NavigationHistory.push(primaryStage.getScene());
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewProfile.fxml"));
             Parent root = loader.load();
             ViewProfileController controller = loader.getController();
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage
             controller.setup(currentUser);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -85,12 +88,15 @@ public class EducatorHomePageController {
     @FXML
     private void handleViewEventsButtonAction(ActionEvent event) {
         try {
+            NavigationHistory.push(primaryStage.getScene());
+
             // Load the Create Quiz page FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewEvent_1.fxml"));
             Parent root = loader.load();
 
             // Get the controller associated with the Create Quiz page
             ViewEventController controller = loader.getController();
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage
             controller.setup(currentUser);// Set the current user's ID
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -131,9 +137,12 @@ public class EducatorHomePageController {
     @FXML
     void handleCreateEventButtonAction(ActionEvent event) {
         try {
+            NavigationHistory.push(primaryStage.getScene());
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("CreateEvent_1.fxml"));
             Parent root = loader.load();
             CreateEvent_1Controller controller = loader.getController();
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage
             controller.setup(currentUser);// Set the current user's ID
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -148,9 +157,12 @@ public class EducatorHomePageController {
     @FXML
     void handleLeaderboardAction(ActionEvent event) {
         try {
+            NavigationHistory.push(primaryStage.getScene());
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Leaderboard.fxml"));
             Parent root = loader.load();
             LeaderboardController controller = loader.getController();
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage
 //            controller.setup(currentUser);// Set the current user's ID
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);

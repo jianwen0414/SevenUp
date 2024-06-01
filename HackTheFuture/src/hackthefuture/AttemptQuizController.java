@@ -1,4 +1,5 @@
 package hackthefuture;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
@@ -22,6 +23,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.time.LocalDate;
+import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 /**
  * FXML Controller class
  *
@@ -46,28 +51,37 @@ public class AttemptQuizController implements Initializable {
 
     @FXML
     private Button themeTech;
-    
+
+    @FXML
+    private Button backButton;
+
+    private Stage primaryStage;
+
     private User currentUser;
-    
+
     private Map<String, String> quizNamesToLinks = new HashMap<>();
     private Map<String, Set<String>> quizLinks = new HashMap<>();
     private Map<String, Boolean> quizCompletionStatus = new HashMap<>();
-    
+
     private int userID;
     private String lastSelectedQuizName = null;
     private String lastSelectedQuizLink = null;
     private boolean quizCompleted = false;
-    
+
 //    public void setCurrentUserID(int userid){
 //        this.userID = userid;
 //        initializeQuizLinksFromDatabase();
 //    }
-    
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
     public void setup(User currentUser) {
         this.currentUser = currentUser;
-        System.out.println("current user id:"+currentUser.getUserId());
+        System.out.println("current user id:" + currentUser.getUserId());
         initializeQuizLinksFromDatabase();
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         themeSc.setOnMouseClicked(event -> {
@@ -85,7 +99,7 @@ public class AttemptQuizController implements Initializable {
         themeMaths.setOnMouseClicked(event -> {
             toggleThemeSelection(themeMaths);
         });
-        
+
         //default setting: user enter the quiz page and all theme is selected
         themeSc.setStyle("-fx-background-color: #708090");
         themeTech.setStyle("-fx-background-color: #708090");
@@ -111,9 +125,9 @@ public class AttemptQuizController implements Initializable {
                     complete.setVisible(false); // Hide the complete button if the quiz is completed or no quiz link is available
                 }
             }
-            quizCompleted = false; 
+            quizCompleted = false;
         });
-        
+
         complete.setOnAction(e -> {
             complete.setVisible(false); // Hide the complete button
             updateStudentPoints(currentUser.getUserId(), 2);
@@ -122,33 +136,32 @@ public class AttemptQuizController implements Initializable {
             if (selectedQuizName != null && !selectedQuizName.isEmpty()) {
                 if (!quizCompletionStatus.containsKey(selectedQuizName)) {
                     storeQuizCompletionInDatabase(selectedQuizName); // Store the completion status in the database
-                    quizCompletionStatus.put(selectedQuizName, true); 
+                    quizCompletionStatus.put(selectedQuizName, true);
                 } else {
                     System.out.println("Quiz already completed: " + selectedQuizName);
                 }
                 updateQuizSelection(selectedQuizName);
-                lastSelectedQuizName = null; 
+                lastSelectedQuizName = null;
                 lastSelectedQuizLink = null;
                 quizCompleted = true;
             } else {
                 System.out.println("No quiz selected");
             }
         });
-    }    
-    
+    }
+
     private void initializeQuizLinksFromDatabase() {
-        try (Connection conn = DatabaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(
-            "SELECT q.quiz_id, q.quiz_title, q.quiz_content, q.theme_id " +
-            "FROM Quiz q " +
-            "WHERE q.quiz_id NOT IN (SELECT uqc.quiz_id " +
-            "                         FROM UserQuizCompletion uqc " +
-            "                         WHERE uqc.user_id = ?)"     
-            )) {
-            
+        try (Connection conn = DatabaseConnector.getConnection(); PreparedStatement stmt = conn.prepareStatement(
+                "SELECT q.quiz_id, q.quiz_title, q.quiz_content, q.theme_id "
+                + "FROM Quiz q "
+                + "WHERE q.quiz_id NOT IN (SELECT uqc.quiz_id "
+                + "                         FROM UserQuizCompletion uqc "
+                + "                         WHERE uqc.user_id = ?)"
+        )) {
+
             stmt.setInt(1, currentUser.getUserId());
             ResultSet rs = stmt.executeQuery();
-            
+
             while (rs.next()) {
                 int quizId = rs.getInt("quiz_id");
                 String quizTitle = rs.getString("quiz_title");
@@ -158,7 +171,7 @@ public class AttemptQuizController implements Initializable {
                 String theme = getThemeNameById(themeId);
                 quizLinks.computeIfAbsent(theme, k -> new HashSet<>()).add(quizTitle);
             }
-            for (String theme : new String[] {"Science", "Mathematics", "Engineering", "Technology"}) {
+            for (String theme : new String[]{"Science", "Mathematics", "Engineering", "Technology"}) {
                 if (!quizLinks.containsKey(theme) || quizLinks.get(theme).isEmpty()) {
                     Button themeButton = getThemeButton(theme);
                     if (themeButton != null) {
@@ -175,17 +188,22 @@ public class AttemptQuizController implements Initializable {
         }
         updateQuizSelection(null);
     }
-    
+
     private String getThemeNameById(int themeId) {
         switch (themeId) {
-            case 1: return "Science";
-            case 2: return "Mathematics";
-            case 3: return "Engineering";
-            case 4: return "Technology";
-            default: return null;
+            case 1:
+                return "Science";
+            case 2:
+                return "Mathematics";
+            case 3:
+                return "Engineering";
+            case 4:
+                return "Technology";
+            default:
+                return null;
         }
     }
-    
+
     private void toggleThemeSelection(Button button) {
         if (button.getStyle().contains("-fx-background-color: #708090")) {
             button.setStyle("-fx-background-color: #d4d5cf");
@@ -194,8 +212,8 @@ public class AttemptQuizController implements Initializable {
         }
         updateQuizSelection(null);
     }
-    
-     private void updateQuizSelection(String selectedLink) {
+
+    private void updateQuizSelection(String selectedLink) {
         ObservableList<String> items = FXCollections.observableArrayList();
         boolean themeSelected = false;
 
@@ -219,22 +237,22 @@ public class AttemptQuizController implements Initializable {
         quizChoose.setItems(items);
         complete.setVisible(false);
 
-        if (!items.isEmpty() && selectedLink!= null && items.contains(selectedLink)) {
+        if (!items.isEmpty() && selectedLink != null && items.contains(selectedLink)) {
             quizChoose.getSelectionModel().select(selectedLink);
         } else {
             Platform.runLater(() -> quizChoose.getSelectionModel().clearSelection());
         }
-        
+
         // Remove completed quiz from combo box
         if (selectedLink != null && items.contains(selectedLink)) {
             items.remove(selectedLink);
             quizChoose.setItems(items);
             quizCompletionStatus.put(selectedLink, true);
-            
+
         }
         System.out.println("Updated quiz selection.");
     }
-     
+
     private Button getThemeButton(String theme) {
         switch (theme) {
             case "Engineering":
@@ -248,11 +266,10 @@ public class AttemptQuizController implements Initializable {
             default:
                 return null;
         }
-    } 
-   
+    }
+
     private void updateStudentPoints(int userID, int points) {
-         try (Connection conn = DatabaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement("UPDATE User SET current_points = current_points + ? WHERE user_id = ?")) {
+        try (Connection conn = DatabaseConnector.getConnection(); PreparedStatement stmt = conn.prepareStatement("UPDATE User SET current_points = current_points + ? WHERE user_id = ?")) {
 
             stmt.setInt(1, points);
             stmt.setInt(2, userID);
@@ -261,14 +278,13 @@ public class AttemptQuizController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     private void storeQuizCompletionInDatabase(String quizTitle) {
-        try (Connection conn = DatabaseConnector.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(
-                 "INSERT INTO UserQuizCompletion (user_id, quiz_id, completion_date) " +
-                 "SELECT ?, quiz_id, ? FROM Quiz WHERE quiz_title = ?"
-             )) {
-            
+        try (Connection conn = DatabaseConnector.getConnection(); PreparedStatement stmt = conn.prepareStatement(
+                "INSERT INTO UserQuizCompletion (user_id, quiz_id, completion_date) "
+                + "SELECT ?, quiz_id, ? FROM Quiz WHERE quiz_title = ?"
+        )) {
+
             stmt.setInt(1, currentUser.getUserId());
             stmt.setDate(2, Date.valueOf(LocalDate.now()));
             stmt.setString(3, quizTitle);
@@ -277,6 +293,14 @@ public class AttemptQuizController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
+    @FXML
+    private void handleBackButtonAction(ActionEvent event) {
+        if (!NavigationHistory.isEmpty()) {
+            Scene previousScene = NavigationHistory.pop();
+            primaryStage.setScene(previousScene);
+            primaryStage.show();
+        }
+    }
 
 }
