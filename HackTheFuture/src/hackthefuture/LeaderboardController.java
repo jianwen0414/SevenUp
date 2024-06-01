@@ -14,13 +14,17 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import java.sql.*;
 import java.time.LocalDateTime;
+import javafx.event.ActionEvent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 /**
  *
  * @author Tan Shi Han
  */
-public class LeaderboardController implements Initializable{
-    
+public class LeaderboardController implements Initializable {
+
     @FXML
     private Label name1;
 
@@ -80,9 +84,14 @@ public class LeaderboardController implements Initializable{
 
     @FXML
     private Label points9;
-    
+
     private User currentUser;
-    
+
+    @FXML
+    private Button backButton;
+
+    private Stage primaryStage;
+
 //    @Override
 //    public void initialize(URL url, ResourceBundle rb) {
 //        PriorityQueue<UserPoints> leaderboard = new PriorityQueue<>(Comparator.comparingInt(UserPoints::getPoints).reversed());
@@ -134,17 +143,16 @@ public class LeaderboardController implements Initializable{
 //            return points;
 //        }
 //    }
-    
-    
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         PriorityQueue<Student> leaderboard = new PriorityQueue<>(Comparator.comparingInt(Student::getCurrentPoints).reversed().thenComparing(Student::getLastPointsUpdate));
 
-        try (Connection connection = DatabaseConnector.getConnection();
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM User WHERE role_id = 3 ORDER BY current_points DESC, last_points_update ASC");
-
-//             PreparedStatement statement = connection.prepareStatement("SELECT user_id, email, username, password, role_id, location_coordinate_x, location_coordinate_y, current_points FROM User WHERE role_id = 3 ORDER BY current_points DESC");
-             ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = DatabaseConnector.getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT * FROM User WHERE role_id = 3 ORDER BY current_points DESC, last_points_update ASC"); //             PreparedStatement statement = connection.prepareStatement("SELECT user_id, email, username, password, role_id, location_coordinate_x, location_coordinate_y, current_points FROM User WHERE role_id = 3 ORDER BY current_points DESC");
+                 ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 int userId = resultSet.getInt("user_id");
@@ -180,4 +188,14 @@ public class LeaderboardController implements Initializable{
             index++;
         }
     }
+
+    @FXML
+    private void handleBackButtonAction(ActionEvent event) {
+        if (!NavigationHistory.isEmpty()) {
+            Scene previousScene = NavigationHistory.pop();
+            primaryStage.setScene(previousScene);
+            primaryStage.show();
+        }
+    }
+
 }

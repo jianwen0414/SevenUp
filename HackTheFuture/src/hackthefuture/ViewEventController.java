@@ -17,18 +17,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 /**
  *
  * @author Tan Shi Han
  */
 public class ViewEventController implements Initializable {
-
-    
 
     @FXML
     private Button registerEvent;
@@ -47,8 +47,6 @@ public class ViewEventController implements Initializable {
 
     @FXML
     private Button registerEvent5;
-
-    
 
     @FXML
     private Label viewEventDate;
@@ -124,14 +122,23 @@ public class ViewEventController implements Initializable {
 
     @FXML
     private HBox todayEventsBox;
-    
+
     @FXML
     private HBox upcomingEventsBox;
+
+    @FXML
+    private Button backButton;
+
+    private Stage primaryStage;
 
     private User currentUser;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+    }
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
     }
 
     public void setup(User currentUser) {
@@ -152,7 +159,7 @@ public class ViewEventController implements Initializable {
                 e.printStackTrace();;
             }
         }
-        
+
         upcomingEventsBox.getChildren().clear();
         for (Event event : EventDao.getUpcomingEvent()) {
             try {
@@ -166,11 +173,6 @@ public class ViewEventController implements Initializable {
             }
         }
     }
-
-
-
-
-  
 
     private int getEventId(String eventName, String eventDate, String eventTime, String eventDescription, String eventVenue) {
         // Implement this method to retrieve the event ID from the Event table based on the provided parameters
@@ -194,8 +196,6 @@ public class ViewEventController implements Initializable {
         }
         return eventId;
     }
-
-
 
     private boolean registerForEvent(int userId, int eventId, String bookingDate) {
         if (userId == -1) {
@@ -260,6 +260,15 @@ public class ViewEventController implements Initializable {
             // Handle any SQL exceptions here
         }
         return false;
+    }
+
+    @FXML
+    private void handleBackButtonAction(ActionEvent event) {
+        if (!NavigationHistory.isEmpty()) {
+            Scene previousScene = NavigationHistory.pop();
+            primaryStage.setScene(previousScene);
+            primaryStage.show();
+        }
     }
 
 }

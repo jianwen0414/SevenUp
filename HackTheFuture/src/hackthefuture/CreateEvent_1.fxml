@@ -216,7 +216,7 @@
             </ImageView>
          </children>
       </AnchorPane>
-      <Button layoutX="14.0" layoutY="24.0" mnemonicParsing="false" prefHeight="45.0" prefWidth="50.0" style="-fx-background-color: #FF204E; -fx-background-radius: 25;" text="⬅" textFill="WHITE">
+      <Button fx:id="backButton" layoutX="14.0" layoutY="24.0" mnemonicParsing="false" onAction="#handleBackButtonAction" prefHeight="45.0" prefWidth="50.0" style="-fx-background-color: #FF204E; -fx-background-radius: 25;" text="⬅" textFill="WHITE">
          <font>
             <Font name="System Bold" size="21.0" />
          </font>

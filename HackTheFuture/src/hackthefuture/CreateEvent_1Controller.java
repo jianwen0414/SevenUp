@@ -15,7 +15,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import javafx.scene.Scene;
 import javafx.scene.control.DateCell;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -44,10 +46,17 @@ public class CreateEvent_1Controller implements Initializable {
 
     @FXML
     private ComboBox<String> timeMinute;
-    
+
+    @FXML
+    private Button backButton;
+
+    private Stage primaryStage;
+
     private Educator currentUser;
-    
-    
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -64,9 +73,7 @@ public class CreateEvent_1Controller implements Initializable {
             populateTimeComboBoxes(newValue);
         });
     }
-    
-    
-    
+
     private void populateTimeComboBoxes(LocalDate selectedDate) {
         // Clear the existing items in the ComboBox
         timeHour.getItems().clear();
@@ -108,7 +115,7 @@ public class CreateEvent_1Controller implements Initializable {
     public void setup(Educator currentUser) {
         this.currentUser = currentUser;
     }
-    
+
     @FXML
     private void handleCreateEventButtonClick(ActionEvent eh) {
         String title = eventTitle.getText();
@@ -119,8 +126,17 @@ public class CreateEvent_1Controller implements Initializable {
         String minute = timeMinute.getValue();
         Event event = new Event(title, description, venue, LocalDate.parse(date), LocalTime.of(Integer.parseInt(hour), Integer.parseInt(minute)));
 //        EventDao.saveEvent(title, venue, description, date, hour, minute);
-        EventDao.saveEvent(event,currentUser);
+        EventDao.saveEvent(event, currentUser);
         currentUser.createEvent(event);
+    }
+
+    @FXML
+    private void handleBackButtonAction(ActionEvent event) {
+        if (!NavigationHistory.isEmpty()) {
+            Scene previousScene = NavigationHistory.pop();
+            primaryStage.setScene(previousScene);
+            primaryStage.show();
+        }
     }
 
 }

@@ -16,8 +16,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 
 public class AddFriendController implements Initializable {
 //    //hardcode
@@ -29,23 +32,31 @@ public class AddFriendController implements Initializable {
 //    Student jett = new Student(10, "jett@gmail.com", "jettyeoh", "123", 2, 9.0700000, 11.0400000, 0, new asg.Parent[]{p});
 
     Student currentStudent;
-    
+
     @FXML
     private ListView<String> FriendProfile;
 
     @FXML
     private ListView<String> FriendRequest;
-    
+
+    @FXML
+    private Button backButton;
+
+    private Stage primaryStage;
+
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         FriendProfile.setOnMouseClicked(this::handleFriendProfileClick);
-        
-        
+
         FriendRequest.setOnMouseClicked(this::handleFriendRequestClick);
 //        
-    }    
-    
+    }
+
 //    public void refresh(){
 //        FriendProfile.getItems().addAll(currentStudent.viewStudentProfileList());
 //        FriendProfile.setOnMouseClicked(this::handleFriendProfileClick);
@@ -54,7 +65,6 @@ public class AddFriendController implements Initializable {
 //        FriendRequest.setOnMouseClicked(this::handleFriendRequestClick);
 //        
 //    }
-    
     private void handleFriendProfileClick(MouseEvent event) {
         String selectedUsername = FriendProfile.getSelectionModel().getSelectedItem();
 
@@ -66,7 +76,7 @@ public class AddFriendController implements Initializable {
 
                 AddFriendProfileController controller = loader.getController();
 
-                controller.initData(selectedUsername,currentStudent.userId);
+                controller.initData(selectedUsername, currentStudent.userId);
 
                 Stage profileStage = new Stage();
                 profileStage.setScene(new Scene(root));
@@ -77,7 +87,7 @@ public class AddFriendController implements Initializable {
             }
         }
     }
-    
+
     private void fetchFriendRequests() {
         try {
             Connection connection = DatabaseConnector.getConnection();
@@ -92,7 +102,7 @@ public class AddFriendController implements Initializable {
 
             while (resultSet.next()) {
                 int senderId = resultSet.getInt("sender_id");
-                String senderUsername = getUsernameById(senderId); 
+                String senderUsername = getUsernameById(senderId);
                 FriendRequest.getItems().add(senderUsername);
             }
 
@@ -103,11 +113,11 @@ public class AddFriendController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     private String getUsernameById(int userId) {
         String username = null;
         try {
-            Connection connection = DatabaseConnector.getConnection(); 
+            Connection connection = DatabaseConnector.getConnection();
 
             String query = "SELECT username FROM User WHERE user_id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -127,7 +137,7 @@ public class AddFriendController implements Initializable {
         }
         return username;
     }
-    
+
     private void handleFriendRequestClick(MouseEvent event) {
         String selectedUsername = FriendRequest.getSelectionModel().getSelectedItem();
 
@@ -151,12 +161,12 @@ public class AddFriendController implements Initializable {
                 }
             });
         }
-       
+
     }
 
     private void updateFriendRequestStatus(String senderUsername, String status) {
         try {
-            Connection connection = DatabaseConnector.getConnection(); 
+            Connection connection = DatabaseConnector.getConnection();
 
             String query = "UPDATE FriendRequest SET request_status = ? WHERE receiver_id = ? AND sender_id = ?";
             PreparedStatement statement = connection.prepareStatement(query);
@@ -175,12 +185,12 @@ public class AddFriendController implements Initializable {
 
     private void insertUserFriendRecord(String senderUsername) {
         try {
-            Connection connection = DatabaseConnector.getConnection(); 
+            Connection connection = DatabaseConnector.getConnection();
 
             String query = "INSERT INTO UserFriend (user1_id, user2_id) VALUES (?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setInt(1, currentStudent.getUserId());
-            statement.setInt(2, getUserIdByUsername(senderUsername)); 
+            statement.setInt(2, getUserIdByUsername(senderUsername));
             statement.executeUpdate();
             statement.close();
             connection.close();
@@ -188,17 +198,17 @@ public class AddFriendController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     private int getUserIdByUsername(String username) {
-        int userId = -1; 
+        int userId = -1;
         try {
-            Connection connection = DatabaseConnector.getConnection(); 
+            Connection connection = DatabaseConnector.getConnection();
             String query = "SELECT user_id FROM User WHERE username = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, username);
 
             ResultSet resultSet = statement.executeQuery();
-            
+
             if (resultSet.next()) {
                 userId = resultSet.getInt("user_id");
             }
@@ -211,13 +221,19 @@ public class AddFriendController implements Initializable {
         }
         return userId;
     }
-    
-    public void setup(Student currentStudent){
+
+    public void setup(Student currentStudent) {
         this.currentStudent = currentStudent;
         FriendProfile.getItems().addAll(currentStudent.viewStudentProfileList());
         fetchFriendRequests();
     }
 
-
-
+    @FXML
+    private void handleBackButtonAction(ActionEvent event) {
+        if (!NavigationHistory.isEmpty()) {
+            Scene previousScene = NavigationHistory.pop();
+            primaryStage.setScene(previousScene);
+            primaryStage.show();
+        }
+    }
 }
