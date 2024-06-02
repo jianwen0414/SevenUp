@@ -93,10 +93,24 @@
                         </Button>
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER" prefHeight="55.0" prefWidth="304.0">
+                     <children>
+                        <ImageView fitHeight="57.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Image/discussion.png" />
+                           </image>
+                        </ImageView>
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleDiscussionAction" prefHeight="44.0" prefWidth="201.0" style="-fx-background-color: transparent;" text="Discussion" textFill="#d4d5cf">
+                           <font>
+                              <Font name="System Bold" size="20.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children></AnchorPane>
-      <ImageView fitHeight="392.0" fitWidth="379.0" layoutX="-139.0" layoutY="496.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="392.0" fitWidth="379.0" layoutX="-139.0" layoutY="596.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@blue%20stripes%20circle.png" />
          </image>
@@ -141,7 +155,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <ImageView fitHeight="210.0" fitWidth="169.0" layoutX="289.0" layoutY="684.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="210.0" fitWidth="169.0" layoutX="289.0" layoutY="684.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@circle%202.png" />
          </image>
