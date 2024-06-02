@@ -46,7 +46,7 @@ public class CommentController {
 
     private String topicTitle;
     private int topicId; // Add a field for topic ID
-    private Educator currentUser;
+    private User currentUser;
 
     @FXML
     private void initialize() {
@@ -59,7 +59,7 @@ public class CommentController {
         });
     }
 
-    public void setup(Educator currentUser) {
+    public void setup(User currentUser) {
         this.currentUser = currentUser;
     }
 
@@ -175,4 +175,6 @@ public class CommentController {
             System.out.println(e.getMessage());
         }
     }
+    
+   
 }

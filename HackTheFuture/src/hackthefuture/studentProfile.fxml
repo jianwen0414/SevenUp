@@ -93,6 +93,20 @@
                         </Button>
                      </children>
                   </HBox>
+                  <HBox alignment="CENTER" prefHeight="55.0" prefWidth="304.0">
+                     <children>
+                        <ImageView fitHeight="57.0" fitWidth="55.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@Image/discussion.png" />
+                           </image>
+                        </ImageView>
+                        <Button alignment="CENTER" mnemonicParsing="false" onAction="#handleDiscussionAction" prefHeight="46.0" prefWidth="213.0" style="-fx-background-color: transparent;" text="Discussion" textFill="#d4d5cf">
+                           <font>
+                              <Font name="Calibri Bold" size="25.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
          </children>
@@ -183,7 +197,7 @@
             <Font name="Calibri" size="20.0" />
          </font>
       </Label>
-      <ImageView fitHeight="247.0" fitWidth="191.0" layoutX="293.0" layoutY="667.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="247.0" fitWidth="191.0" layoutX="293.0" layoutY="667.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@circle%202.png" />
          </image>
@@ -218,7 +232,7 @@
          </children>
       </HBox>
       <ListView fx:id="getFriendList" layoutX="656.0" layoutY="488.0" prefHeight="146.0" prefWidth="408.0" style="-fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: transparent;" stylesheets="@css/ListView.css" />
-      <ImageView fitHeight="364.0" fitWidth="367.0" layoutX="-107.0" layoutY="572.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="364.0" fitWidth="367.0" layoutX="-107.0" layoutY="626.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@blue%20stripes%20circle.png" />
          </image>

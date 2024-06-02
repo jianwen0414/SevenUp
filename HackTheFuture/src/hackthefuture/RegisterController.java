@@ -15,8 +15,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -123,15 +126,28 @@ public class RegisterController implements Initializable {
 
     @FXML
     private Label forWho;
+    private Stage primaryStage;
 
-    /* private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
+    public void setPrimaryStage(Stage primaryStage) {
+        this.primaryStage = primaryStage;
+    }
 
-    private static final Pattern pattern = Pattern.compile(EMAIL_REGEX);
+    @FXML
+    void BackToLoginPage(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            Parent root = loader.load();
+            loginController controller = loader.getController();
+            Scene scene = new Scene(root);
+            primaryStage = (Stage)signUp.getScene().getWindow();
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Login");
+            primaryStage.show();
 
-    private boolean isValidEmail(String email) {
-        Matcher matcher = pattern.matcher(email);
-        return matcher.matches();
-    } */
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     
     @FXML
 void register(ActionEvent event) {

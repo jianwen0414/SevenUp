@@ -281,6 +281,24 @@ public class StudentProfileController implements Initializable {
             e.printStackTrace();
         }
     }
+    
+    @FXML
+    void handleDiscussionAction(ActionEvent event) {
+        try {
+            // Load the login FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml"));
+            Parent root = loader.load();
+            ForumController controller = loader.getController();
+            controller.setup(currentUser);// Set the current user's ID
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Discussion");
+            primaryStage.show();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @FXML
     void handleLogoutAction(MouseEvent event) {
@@ -307,7 +325,7 @@ public class StudentProfileController implements Initializable {
             e.printStackTrace();
         }
     }
-
+    
     private void fetchFriends() {
         ObservableList<String> friendsList = FXCollections.observableArrayList();
 

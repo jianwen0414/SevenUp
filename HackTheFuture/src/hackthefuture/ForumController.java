@@ -47,7 +47,7 @@ public class ForumController {
 
     private int topicCount = 0;
     private Stage primaryStage;
-    private Educator currentUser;
+    private User currentUser;
 
     @FXML
     public void initialize() {
@@ -70,7 +70,7 @@ public class ForumController {
         });
     }
 
-    public void setup(Educator currentUser) {
+    public void setup(User currentUser) {
         this.currentUser = currentUser;
     }
 
