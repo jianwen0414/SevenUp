@@ -311,7 +311,13 @@ void registerAll(ActionEvent event) {
 
     if (UserUtils.validateRegistrationInputs(email, username, pw, conPw, selectedRole) && 
         UserUtils.validateRegistrationInputs(email1, username1, pw1, conPw1, selectRole1.getValue())) {
-
+        if(email.equals(email1)){
+            AlertUtils.showEmailSame();
+            return;
+        }else if(username.equals(username1)){
+            AlertUtils.showUsernameSame();
+            return;
+        }
         boolean registered = UserUtils.registerUserWithFam(email, username, pw, selectedRole, email1, username1, pw1, selectRole1.getValue());
 
         if (registered) {

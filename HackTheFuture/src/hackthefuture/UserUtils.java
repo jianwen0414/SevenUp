@@ -65,20 +65,20 @@ public class UserUtils {
             x = minX + (maxX - minX) * random.nextDouble();
             y = minY + (maxY - minY) * random.nextDouble();
         } while (coordinatesExist(x, y));
-        
+
         String salt = generateSalt();
         String hashedPassword = hashPassword(password, salt);
-        
+
         try (Connection conn = DatabaseConnector.getConnection()) {
             String sql = "INSERT INTO User (email, username, password, salt,role_id, location_coordinate_x, location_coordinate_y) VALUES (?,?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = conn.prepareStatement(sql)) {
-               ps.setString(1, email);
-            ps.setString(2, username);
-            ps.setString(3, hashedPassword);
-            ps.setString(4, salt); // Store the salt in the database
-            ps.setInt(5, roleId);
-            ps.setDouble(6, x);
-            ps.setDouble(7, y);
+                ps.setString(1, email);
+                ps.setString(2, username);
+                ps.setString(3, hashedPassword);
+                ps.setString(4, salt); // Store the salt in the database
+                ps.setInt(5, roleId);
+                ps.setDouble(6, x);
+                ps.setDouble(7, y);
                 int rowsInserted = ps.executeUpdate();
                 return rowsInserted > 0;
             }
@@ -152,13 +152,14 @@ public class UserUtils {
             System.out.println("third");
             AlertUtils.showPasswordMismatchAlert();
             return false;
-        }else if(!(isUsernameUnique(username))){
+        } else if (!(isUsernameUnique(username))) {
             AlertUtils.showUsernameNotUnique();
             return false;
-        }else if(!(isEmailUnique(email))){
+        } else if (!(isEmailUnique(email))) {
             AlertUtils.showEmailNotUnique();
             return false;
-        }return true;
+        }
+        return true;
     }
 
     private static final String EMAIL_REGEX = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$";
@@ -170,8 +171,6 @@ public class UserUtils {
         return matcher.matches();
     }
 
-    
-    
     public static boolean registerUserMemberExists(String email, String username, String pw, String selectedRole, String relationUsername) {
         double locationCoordinateX = 0.0;
         double locationCoordinateY = 0.0;
@@ -215,7 +214,7 @@ public class UserUtils {
                 ps.setString(1, email);
                 ps.setString(2, username);
                 ps.setString(3, hashedPassword);
-                ps.setString(4,salt);
+                ps.setString(4, salt);
                 ps.setInt(5, roleId);
                 ps.setDouble(6, locationCoordinateX);
                 ps.setDouble(7, locationCoordinateY);
@@ -348,7 +347,7 @@ public class UserUtils {
                 ps.setString(1, email);
                 ps.setString(2, username);
                 ps.setString(3, hashedPassword);
-                ps.setString(4,salt);
+                ps.setString(4, salt);
                 ps.setInt(5, roleId);
                 ps.setDouble(6, locationCoordinateX);
                 ps.setDouble(7, locationCoordinateY);
@@ -369,7 +368,7 @@ public class UserUtils {
                 ps.setString(1, email1);
                 ps.setString(2, username1);
                 ps.setString(3, hashedPassword2);
-                ps.setString(4,salt2);
+                ps.setString(4, salt2);
                 ps.setInt(5, roleId1);
                 ps.setDouble(6, locationCoordinateX);
                 ps.setDouble(7, locationCoordinateY);
@@ -404,28 +403,30 @@ public class UserUtils {
             return false;
         }
     }
-    
+
     public static String generateSalt() {
-    SecureRandom random = new SecureRandom();
-    byte[] salt = new byte[16];
-    random.nextBytes(salt);
-    return Base64.getEncoder().encodeToString(salt);
-}
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        return Base64.getEncoder().encodeToString(salt);
+    }
 
     public static String hashPassword(String password, String salt) {
-    try {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        String saltedPassword = salt + password;
-        byte[] encodedhash = digest.digest(saltedPassword.getBytes(StandardCharsets.UTF_8));
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : encodedhash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            String saltedPassword = salt + password;
+            byte[] encodedhash = digest.digest(saltedPassword.getBytes(StandardCharsets.UTF_8));
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : encodedhash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
-        return hexString.toString();
-    } catch (NoSuchAlgorithmException e) {
-        throw new RuntimeException(e);
     }
-}
 }
