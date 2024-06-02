@@ -44,6 +44,12 @@ public class CommentController {
     @FXML
     private Button submitCommentButton;
 
+    @FXML
+    private Button likeButton;
+
+    @FXML
+    private Label likeCountLabel;
+
     private String topicTitle;
     private int topicId; // Add a field for topic ID
     private User currentUser;
@@ -57,6 +63,7 @@ public class CommentController {
                 handleAddComment();
             }
         });
+        likeButton.setOnAction(event -> handleLikeTopic());
     }
 
     public void setup(User currentUser) {
@@ -68,6 +75,7 @@ public class CommentController {
         topicTitleLabel.setText(topicTitle); // Ensure the topic title is set in the UI
         loadTopicId();
         loadComments();
+        loadLikeCount(); // Load likes count when the topic is set
     }
 
     private void loadTopicId() {
@@ -112,7 +120,7 @@ public class CommentController {
         headerHBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
 
         // Create a label for the header
-        Label titleHeader = new Label( topicTitle);
+        Label titleHeader = new Label(topicTitle);
 
         // Style the label to make it bigger and bold
         titleHeader.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
@@ -175,6 +183,58 @@ public class CommentController {
             System.out.println(e.getMessage());
         }
     }
-    
-   
+
+    private void loadLikeCount() {
+        String sql = "SELECT COUNT(*) AS like_count FROM TopicLikes WHERE topic_id = ?";
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, topicId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                int likeCount = rs.getInt("like_count");
+                likeCountLabel.setText("Likes: " + likeCount);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleLikeTopic() {
+        if (!hasUserLikedTopic(currentUser.getUserId(), topicId)) {
+            saveLikeToDatabase(currentUser.getUserId(), topicId);
+            loadLikeCount();
+        } else {
+            System.out.println("User has already liked this topic.");
+        }
+    }
+
+    private boolean hasUserLikedTopic(int userId, int topicId) {
+        String sql = "SELECT COUNT(*) FROM TopicLikes WHERE user_id = ? AND topic_id = ?";
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, topicId);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private void saveLikeToDatabase(int userId, int topicId) {
+        String sql = "INSERT INTO TopicLikes (user_id, topic_id) VALUES (?, ?)";
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, topicId);
+            pstmt.executeUpdate();
+            System.out.println("Like saved successfully");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
