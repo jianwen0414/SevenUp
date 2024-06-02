@@ -109,7 +109,7 @@ public class CommentController {
         commentBox.setVisible(false); // Hide the comment box again
     }
 
-    void setup(Educator currentUser) {
+    void setup(User currentUser) {
         this.currentUser=currentUser;
     }
 }
