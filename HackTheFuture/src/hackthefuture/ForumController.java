@@ -24,6 +24,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ForumController {
 
     @FXML
@@ -46,6 +53,7 @@ public class ForumController {
     public void initialize() {
         createTopicButton.setOnAction(event -> addTopic());
         setRoundedCornersForLogo();
+        loadTopicsFromDatabase();
     }
 
     public void setPrimaryStage(Stage primaryStage) {
@@ -65,22 +73,87 @@ public class ForumController {
     public void setup(Educator currentUser) {
         this.currentUser = currentUser;
     }
+
     private void addTopic() {
         String topicText = topicField.getText();
         if (topicText.isEmpty()) {
-            return;
+            return; // Do nothing if the topic field is empty
         }
 
         topicCount++;
 
         // Create a new HBox to represent a topic
+        HBox topicHBox = createTopicHBox(topicCount, topicText, currentUser.getUsername());
+
+        // Add the HBox to the VBox
+        topicsVBox.getChildren().add(topicHBox);
+
+        // Save the topic to the database
+        saveTopicToDatabase(topicText, currentUser.getUserId());
+
+        // Clear the text field
+        topicField.clear();
+    }
+
+    private void saveTopicToDatabase(String title, int userId) {
+        String sql = "INSERT INTO Topics (title, user_id) VALUES (?, ?)";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, title);
+            pstmt.setInt(2, userId);
+            pstmt.executeUpdate();
+            System.out.println("Topic saved successfully");
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void loadTopicsFromDatabase() {
+        List<String> titles = new ArrayList<>();
+        List<String> usernames = new ArrayList<>();
+        
+        String sql = "SELECT t.title, u.username FROM Topics t JOIN User u ON t.user_id = u.user_id";
+
+        try (Connection conn = DatabaseConnector.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                titles.add(rs.getString("title"));
+                usernames.add(rs.getString("username"));
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        topicsVBox.getChildren().clear(); // Clear existing topics if any
+        addHeader(); // Add the header row
+        topicCount = 0; // Reset topic count
+        for (int i = 0; i < titles.size(); i++) {
+            topicCount++;
+            addTopicToVBox(titles.get(i), usernames.get(i), topicCount);
+        }
+    }
+
+    private void addTopicToVBox(String title, String username, int topicNumber) {
+        // Create a new HBox to represent a topic
+        HBox topicHBox = createTopicHBox(topicNumber, title, username);
+
+        // Add the HBox to the VBox
+        topicsVBox.getChildren().add(topicHBox);
+    }
+
+    private HBox createTopicHBox(int number, String title, String username) {
         HBox topicHBox = new HBox(10); // 10 is the spacing between elements
         topicHBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
 
         // Create labels for numbering, topic title, and topic starter
-        Label numberLabel = new Label(String.valueOf(topicCount));
-        Label titleLabel = new Label(topicText);
-        Label starterLabel = new Label(currentUser.getUsername()); // Replace with the actual starter name
+        Label numberLabel = new Label(String.valueOf(number));
+        Label titleLabel = new Label(title);
+        Label starterLabel = new Label(username); // Topic starter name
 
         // Style the labels for better layout (optional)
         numberLabel.setPrefWidth(50); // Set a fixed width for numbering
@@ -88,16 +161,34 @@ public class ForumController {
         starterLabel.setPrefWidth(150); // Set a fixed width for topic starter
 
         // Add click event to the title label to navigate to the comment page
-        titleLabel.setOnMouseClicked(event -> showCommentPage(topicText));
+        titleLabel.setOnMouseClicked(event -> showCommentPage(title));
 
         // Add the labels to the HBox
         topicHBox.getChildren().addAll(numberLabel, titleLabel, starterLabel);
 
-        // Add the HBox to the VBox
-        topicsVBox.getChildren().add(topicHBox);
+        return topicHBox;
+    }
 
-        // Clear the text field
-        topicField.clear();
+    private void addHeader() {
+        // Create a new HBox for the header row
+        HBox headerHBox = new HBox(10); // 10 is the spacing between elements
+        headerHBox.setPadding(new javafx.geometry.Insets(10, 10, 10, 10));
+
+        // Create labels for the header
+        Label numberHeader = new Label("Number");
+        Label titleHeader = new Label("Topic Title");
+        Label starterHeader = new Label("Topic Starter");
+
+        // Style the labels for better layout (optional)
+        numberHeader.setPrefWidth(50); // Set a fixed width for numbering
+        titleHeader.setPrefWidth(300); // Set a fixed width for topic title
+        starterHeader.setPrefWidth(150); // Set a fixed width for topic starter
+
+        // Add the labels to the HBox
+        headerHBox.getChildren().addAll(numberHeader, titleHeader, starterHeader);
+
+        // Add the header HBox to the VBox
+        topicsVBox.getChildren().add(headerHBox);
     }
 
     private void showCommentPage(String topicTitle) {
