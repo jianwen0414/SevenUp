@@ -60,7 +60,7 @@
                         </ImageView>
                     </graphic>
                 </Button>
-                <Button layoutX="637.0" layoutY="18.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="136.0" style="-fx-background-color: #D3D3D3;" text="Back">
+                <Button fx:id="backButton" layoutX="637.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleBackButtonAction" prefHeight="38.0" prefWidth="136.0" style="-fx-background-color: #D3D3D3;" text="Back">
                     <graphic>
                         <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
                             <image>

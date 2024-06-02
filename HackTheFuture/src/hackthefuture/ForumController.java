@@ -4,7 +4,6 @@ package hackthefuture;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-
 /**
  * FXML Controller class
  *
@@ -30,6 +29,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.event.ActionEvent;
 
 public class ForumController {
 
@@ -44,6 +44,9 @@ public class ForumController {
 
     @FXML
     private ImageView forumLogoImageView;
+
+    @FXML
+    private Button backButton;
 
     private int topicCount = 0;
     private Stage primaryStage;
@@ -98,8 +101,7 @@ public class ForumController {
     private void saveTopicToDatabase(String title, int userId) {
         String sql = "INSERT INTO Topics (title, user_id) VALUES (?, ?)";
 
-        try (Connection conn = DatabaseConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnector.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, title);
             pstmt.setInt(2, userId);
@@ -114,12 +116,10 @@ public class ForumController {
     private void loadTopicsFromDatabase() {
         List<String> titles = new ArrayList<>();
         List<String> usernames = new ArrayList<>();
-        
+
         String sql = "SELECT t.title, u.username FROM Topics t JOIN User u ON t.user_id = u.user_id";
 
-        try (Connection conn = DatabaseConnector.getConnection();
-             PreparedStatement pstmt = conn.prepareStatement(sql);
-             ResultSet rs = pstmt.executeQuery()) {
+        try (Connection conn = DatabaseConnector.getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql); ResultSet rs = pstmt.executeQuery()) {
 
             while (rs.next()) {
                 titles.add(rs.getString("title"));
@@ -214,11 +214,20 @@ public class ForumController {
         // Ensure the dimensions of the clip match the dimensions of the ImageView
         forumLogoImageView.setFitHeight(103);  // Match the FXML fitHeight
         forumLogoImageView.setFitWidth(85);    // Match the FXML fitWidth
-        
+
         // Create a rectangle with rounded corners
         Rectangle clip = new Rectangle(forumLogoImageView.getFitWidth(), forumLogoImageView.getFitHeight());
         clip.setArcWidth(20);  // Adjust as needed for the desired roundness
         clip.setArcHeight(20); // Adjust as needed for the desired roundness
         forumLogoImageView.setClip(clip);
+    }
+
+    @FXML
+    private void handleBackButtonAction(ActionEvent event) {
+        if (!NavigationHistory.isEmpty()) {
+            Scene previousScene = NavigationHistory.pop();
+            primaryStage.setScene(previousScene);
+            primaryStage.show();
+        }
     }
 }

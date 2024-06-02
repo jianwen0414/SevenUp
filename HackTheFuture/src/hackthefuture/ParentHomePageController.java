@@ -194,14 +194,16 @@ public class ParentHomePageController {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
     void handleDiscussionAction(ActionEvent event) {
         try {
+            NavigationHistory.push(primaryStage.getScene());
             // Load the login FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml"));
             Parent root = loader.load();
             ForumController controller = loader.getController();
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage
             controller.setup(currentUser);// Set the current user's ID
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
