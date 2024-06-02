@@ -60,4 +60,10 @@ public class AlertUtils {
     public static void showRoleSame(){
         showAlert(Alert.AlertType.ERROR, "Failed", "The name you entered has the same role with you.");
     }
+    public static void showEmailSame(){
+        showAlert(Alert.AlertType.ERROR, "Failed", "The email you entered for both users is the same.");
+    }
+    public static void showUsernameSame(){
+        showAlert(Alert.AlertType.ERROR, "Failed", "The username you entered for both users is the same.");
+    }
 }
