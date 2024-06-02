@@ -65,33 +65,6 @@
         </ScrollPane>
       <AnchorPane layoutX="-1.0" prefHeight="72.0" prefWidth="1201.0" style="-fx-background-color: #7AB2B2;">
          <children>
-            <Button layoutX="849.0" layoutY="17.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="136.0" style="-fx-background-color: #D3D3D3;" text="Profile">
-               <graphic>
-                  <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@pp1.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button layoutX="713.0" layoutY="17.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="136.0" style="-fx-background-color: #D3D3D3;" text="Home">
-               <graphic>
-                  <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@homepage.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
-            <Button layoutX="577.0" layoutY="17.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="136.0" style="-fx-background-color: #D3D3D3;" text="Back">
-               <graphic>
-                  <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@b.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </Button>
             <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="462.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </AnchorPane>

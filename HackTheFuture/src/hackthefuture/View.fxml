@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane id="AnchorPane" prefHeight="800.0" prefWidth="1200.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackthefuture.ForumController">
     <stylesheets>
@@ -42,39 +43,17 @@
         </ScrollPane>
         <AnchorPane prefHeight="74.0" prefWidth="1202.0" style="-fx-background-color: #7AB2B2;">
             <children>
-                <Button layoutX="909.0" layoutY="18.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="136.0" style="-fx-background-color: #D3D3D3;" text="Profile">
-                    <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@pp1.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button layoutX="773.0" layoutY="18.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="136.0" style="-fx-background-color: #D3D3D3;" text="Home">
-                    <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@homepage.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
-                <Button fx:id="backButton" layoutX="637.0" layoutY="18.0" mnemonicParsing="false" onAction="#handleBackButtonAction" prefHeight="38.0" prefWidth="136.0" style="-fx-background-color: #D3D3D3;" text="Back">
-                    <graphic>
-                        <ImageView fitHeight="22.0" fitWidth="22.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@b.png" />
-                            </image>
-                        </ImageView>
-                    </graphic>
-                </Button>
                 <ImageView fitHeight="22.0" fitWidth="22.0" layoutX="462.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" />
-                <ImageView fx:id="forumLogoImageView" fitHeight="64.0" fitWidth="85.0" layoutX="70.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="forumLogoImageView" fitHeight="64.0" fitWidth="85.0" layoutX="961.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@forumlogo.jpg" />
                     </image>
                 </ImageView>
+            <Button fx:id="backButton1" layoutX="83.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleBackButtonAction" prefHeight="45.0" prefWidth="50.0" style="-fx-background-color: #FF204E; -fx-background-radius: 25;" text="⬅" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="21.0" />
+               </font>
+            </Button>
             </children>
         </AnchorPane>
     </children>
