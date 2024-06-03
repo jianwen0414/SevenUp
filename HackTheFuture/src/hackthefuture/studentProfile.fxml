@@ -231,7 +231,7 @@
             </Label>
          </children>
       </HBox>
-      <ListView fx:id="getFriendList" layoutX="656.0" layoutY="488.0" prefHeight="146.0" prefWidth="408.0" style="-fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: transparent;" stylesheets="@css/ListView.css" />
+      <ListView fx:id="getFriendList" layoutX="656.0" layoutY="488.0" prefHeight="146.0" prefWidth="408.0" style="-fx-background-radius: 30; -fx-border-radius: 30; -fx-border-color: transparent;" stylesheets="@css/FriendList.css" />
       <ImageView fitHeight="364.0" fitWidth="367.0" layoutX="-107.0" layoutY="626.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@blue%20stripes%20circle.png" />
