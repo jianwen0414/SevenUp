@@ -3,11 +3,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to c
 Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
 */
 /* 
-    Created on : 31 May 2024, 3:55:42 pm
+    Created on : 3 Jun 2024, 7:19:56 pm
     Author     : Tan Shi Han
 */
+
 .list-view {
-    -fx-background-color:  #b5c8c6; /* White color with 10% transparency */
+    -fx-background-color: rgba(255,255,255,0.1); /* White color with 10% transparency */
 }
 
 .list-cell {
@@ -16,13 +17,3 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     -fx-text-fill: black;
     -fx-background-color: transparent; /* White color with 10% transparency */
 }
-
-/*.scroll-bar:vertical .thumb,
-.scroll-bar:horizontal .thumb {
-    -fx-background-color: rgba(255, 255, 255, 0.5);  White color with 50% transparency 
-}
-
-.scroll-bar:vertical .track,
-.scroll-bar:horizontal .track {
-    -fx-background-color: rgba(255, 255, 255, 0.2);  White color with 20% transparency 
-}*/

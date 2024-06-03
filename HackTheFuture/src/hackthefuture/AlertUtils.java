@@ -66,4 +66,7 @@ public class AlertUtils {
     public static void showUsernameSame(){
         showAlert(Alert.AlertType.ERROR, "Failed", "The username you entered for both users is the same.");
     }
+    public static void showMaxParentsReached(){
+        showAlert(Alert.AlertType.ERROR, "Failed", "The child already has the maximum number of two parents.");
+    }
 }

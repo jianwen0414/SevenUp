@@ -148,7 +148,7 @@
                               <Insets top="60.0" />
                            </VBox.margin>
                         </TextField>
-                        <Button fx:id="registerOther" mnemonicParsing="false" onAction="#newRegister" prefHeight="43.0" prefWidth="348.0" style="-fx-background-color: transparent;" textFill="WHITE" wrapText="true">
+                        <Button fx:id="registerOther" mnemonicParsing="false" onAction="#newRegister" prefHeight="58.0" prefWidth="412.0" style="-fx-background-color: transparent;" textFill="WHITE" wrapText="true">
                            <font>
                               <Font size="16.0" />
                            </font>

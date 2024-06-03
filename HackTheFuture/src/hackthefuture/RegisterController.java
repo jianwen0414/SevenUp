@@ -160,6 +160,7 @@ void register(ActionEvent event) {
 
     if (UserUtils.validateRegistrationInputs(email, username, pw, conPw, selectedRole)) {
         int roleId = UserUtils.getRoleIdByRoleName(selectedRole);
+        
         boolean registered = false;
         
         if (roleId == 1) {
@@ -174,7 +175,9 @@ void register(ActionEvent event) {
                 alert.setContentText("Your parents/child does not have an account yet.");
                 alert.showAndWait();
                 return;
-            } else {
+//            } else if(){
+            
+            }else {
                 registered = UserUtils.registerUserMemberExists(email, username, pw, selectedRole, relationUsername);
             }
         }
@@ -208,49 +211,7 @@ void register(ActionEvent event) {
             } catch (SQLException | IOException e) {
                 e.printStackTrace();
             }
-//            try {
-//                AlertUtils.showRegistrationSuccessAlert();
-//                
-//                String sql = "SELECT * FROM User u WHERE u.username = ? AND u.password = ?";
-//                Connection connection = DatabaseConnector.getConnection();
-//                PreparedStatement preparedStatement = null;
-//                ResultSet resultSet = null;
-//                try {
-//                    preparedStatement = connection.prepareStatement(sql);
-//                    preparedStatement.setString(1, username);
-//                    preparedStatement.setString(2, pw);
-//                    resultSet = preparedStatement.executeQuery();
-//                    
-//                    if (resultSet.next()) {
-//                        int userId = resultSet.getInt("user_id");
-//                        String userEmail = resultSet.getString("email");
-//                        String userUsername = resultSet.getString("username");
-//                        String userPassword = resultSet.getString("password");
-//                        double locationX = resultSet.getDouble("location_coordinate_x");
-//                        double locationY = resultSet.getDouble("location_coordinate_y");
-//                        int userPoints = resultSet.getInt("current_points");
-//                        
-//                        UserRedirectionUtils.redirectUserToHomepage(userId, roleId, userEmail, userUsername, userPassword,
-//                                locationX, locationY, userPoints, connection,
-//                                (Stage) regEmail.getScene().getWindow());
-//                    }
-//                } catch (SQLException | IOException e) {
-//                    e.printStackTrace();
-//                } finally {
-//                    try {
-//                        if (resultSet != null) {
-//                            resultSet.close();
-//                        }
-//                        if (preparedStatement != null) {
-//                            preparedStatement.close();
-//                        }
-//                    } catch (SQLException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            } catch (SQLException ex) {
-//                Logger.getLogger(RegisterController.class.getName()).log(Level.SEVERE, null, ex);
-//            }
+
         } else {
             AlertUtils.showRegistrationFailedAlert();
         }
@@ -414,13 +375,13 @@ void registerAll(ActionEvent event) {
     private void handleRole(ActionEvent event) {
         String selectedRole = selectRole.getValue();
         if (selectedRole != null && (selectedRole.equals("Parent"))) {
-            relation.setPromptText("Existing child's username/email");
+            relation.setPromptText("Existing child's username");
             relation.setVisible(true);
-            registerOther.setText("No account for your child yet? Sign up now!");
+            registerOther.setText("No account for your child yet? Click here to sign up now!");
         } else if (selectedRole != null && (selectedRole.equals("Student"))) {
-            relation.setPromptText("Existing parent's username/email");
+            relation.setPromptText("Existing parent's username");
             relation.setVisible(true);
-            registerOther.setText("No account for parents yet? Register now!");
+            registerOther.setText("No account for parents yet? Click here to register now!");
         }
     }
 

@@ -4,6 +4,9 @@
  */
 package hackthefuture;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -19,7 +22,39 @@ import java.util.regex.Pattern;
  * @author Tan Shi Han
  */
 public class UserUtils {
+    public static void writeUserDataToFile() {
+        String fileName = "User.txt";
 
+        try (Connection conn = DatabaseConnector.getConnection()) {
+            String sql = "SELECT user_id, email, username, password, salt, role_id, location_coordinate_x, location_coordinate_y, current_points FROM User";
+            try (PreparedStatement ps = conn.prepareStatement(sql);
+                 ResultSet rs = ps.executeQuery();
+                 PrintWriter writer = new PrintWriter(new FileWriter(fileName))) {
+
+                // Write column names
+                writer.println("user_id, email, username, password, salt, role_id, location_coordinate_x, location_coordinate_y, current_points");
+
+                // Write data rows
+                while (rs.next()) {
+                    writer.println(rs.getInt("user_id") + ", " +
+                                   rs.getString("email") + ", " +
+                                   rs.getString("username") + ", " +
+                                   rs.getString("password") + ", " +
+                                   rs.getString("salt") + ", " +
+                                   rs.getInt("role_id") + ", " +
+                                   rs.getDouble("location_coordinate_x") + ", " +
+                                   rs.getDouble("location_coordinate_y") + ", " +
+                                   rs.getInt("current_points"));
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
     public static boolean isEmailUnique(String email) {
         try (Connection conn = (Connection) DatabaseConnector.getConnection()) {
             try (PreparedStatement emailCheck = conn.prepareStatement("SELECT email FROM user WHERE email=?")) {
@@ -80,7 +115,11 @@ public class UserUtils {
                 ps.setDouble(6, x);
                 ps.setDouble(7, y);
                 int rowsInserted = ps.executeUpdate();
-                return rowsInserted > 0;
+                if (rowsInserted > 0) {
+                    writeUserDataToFile(); // Call the method to write data to the file
+                    return true;
+                }
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -191,6 +230,14 @@ public class UserUtils {
                             AlertUtils.showRoleSame();
                             return false;
                         }
+                        if (selectedRole.equals("Parent")) {
+                        int childId = getUserIdByUsername(conn, relationUsername);
+                        int parentCount = getParentCountForChild(conn, childId);
+                        if (parentCount >= 2) {
+                            AlertUtils.showMaxParentsReached();
+                            return false;
+                        }
+                    }
                     } else {
                         return false; // No user found with the given username
                     }
@@ -219,9 +266,14 @@ public class UserUtils {
                 ps.setDouble(6, locationCoordinateX);
                 ps.setDouble(7, locationCoordinateY);
                 int rowsInserted = ps.executeUpdate();
+                if (rowsInserted > 0) {
+                    writeUserDataToFile(); // Call the method to write data to the file
+                   
+                }
                 if (rowsInserted <= 0) {
                     return false; // Failed to insert new user
                 }
+                
                 ResultSet generatedKeys = ps.getGeneratedKeys();
                 int newUserId = -1;
                 if (generatedKeys.next()) {
@@ -352,6 +404,10 @@ public class UserUtils {
                 ps.setDouble(6, locationCoordinateX);
                 ps.setDouble(7, locationCoordinateY);
                 int rowsInserted = ps.executeUpdate();
+                if (rowsInserted > 0) {
+                    writeUserDataToFile(); // Call the method to write data to the file
+                    
+                }
                 if (rowsInserted <= 0) {
                     return false; // Failed to insert first user
                 }
@@ -373,6 +429,10 @@ public class UserUtils {
                 ps.setDouble(6, locationCoordinateX);
                 ps.setDouble(7, locationCoordinateY);
                 rowsInserted = ps.executeUpdate();
+                if (rowsInserted > 0) {
+                    writeUserDataToFile(); // Call the method to write data to the file
+
+                }
                 if (rowsInserted <= 0) {
                     return false; // Failed to insert second user
                 }
@@ -429,4 +489,19 @@ public class UserUtils {
             throw new RuntimeException(e);
         }
     }
+    
+    private static int getParentCountForChild(Connection conn, int childId) throws SQLException {
+    String sql = "SELECT COUNT(*) AS parent_count FROM ParentChildRelationship WHERE child_id = ?";
+    try (PreparedStatement ps = conn.prepareStatement(sql)) {
+        ps.setInt(1, childId);
+        try (ResultSet rs = ps.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt("parent_count");
+            } else {
+                return 0;
+            }
+        }
+    }
 }
+}
+
