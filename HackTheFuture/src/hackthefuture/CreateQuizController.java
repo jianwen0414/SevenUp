@@ -216,6 +216,9 @@ public class CreateQuizController implements Initializable {
     private Educator currentUser;
 
     private Stage primaryStage;
+    
+        private EducatorHomePageController homePageController;
+
 
 //    @FXML
 //    private void initialize() {
@@ -232,6 +235,8 @@ public class CreateQuizController implements Initializable {
     public void setup(Educator currentUser) {
         this.currentUser = currentUser;
     }
+    
+    
 
     private void connectToDatabase() {
         try {
@@ -261,6 +266,9 @@ public class CreateQuizController implements Initializable {
             // Create an instance of the Quiz class
             Quiz quiz = new Quiz(title, description, themeId, quizLink);
             currentUser.createQuiz(quiz);
+            if (homePageController != null) {
+            homePageController.incrementQuizCount();
+        }
             // SQL query to insert quiz details into the Quiz table
             String sql = "INSERT INTO Quiz (quiz_title, quiz_description, theme_id, quiz_content) VALUES (?, ?, ?, ?)";
 
@@ -359,6 +367,10 @@ public class CreateQuizController implements Initializable {
             primaryStage.setScene(previousScene);
             primaryStage.show();
         }
+    }
+
+    public void setHomePageController(EducatorHomePageController homePageController) {
+        this.homePageController = homePageController;
     }
 
 }
