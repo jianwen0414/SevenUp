@@ -4,3 +4,4 @@ user_id, email, username, password, salt, role_id, location_coordinate_x, locati
 3, af@gmail.com, ahmadfirdaus07, 382a9b11bd8d782c42486b3e9ee561f8ecbf8363f122c1888048c1b9f5bc8074, f/xKt1JX2uiyywpX6drLrg==, 3, 2.8293029, -161.5305683, 0
 4, s@gmail.com, Santya24, e95efff4603a8faf0ee3b7fde1dfd065782866005db5390957e7c8312fd984f7, chBAjAqLRNjNAEOdPYITVA==, 2, -359.9736561, -208.6226101, 0
 5, rs@gmail.com, reelansantya, f0d2c8beb74d79c71845ef4226ad6f3f41cc8ebef58b01fc9d8192a2d1a9c544, +1gwmHjVA9qcQQvj+6kxrQ==, 3, -359.9736561, -208.6226101, 0
+6, edu@gmail.com, edu, deb6b643b609aa45c6aa22651e35e2768de95344fd4808992cbffc51caf295dd, xsY00bB1KbF/ZrJXWKSJXA==, 1, 417.6109758, -181.3434627, 0

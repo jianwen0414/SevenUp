@@ -53,6 +53,8 @@ public class CreateEvent_1Controller implements Initializable {
     private Stage primaryStage;
 
     private Educator currentUser;
+    
+    private EducatorHomePageController homePageController;
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -128,6 +130,10 @@ public class CreateEvent_1Controller implements Initializable {
 //        EventDao.saveEvent(title, venue, description, date, hour, minute);
         EventDao.saveEvent(event, currentUser);
         currentUser.createEvent(event);
+        
+        if (homePageController != null) {
+            homePageController.incrementEventCount();
+        }
     }
 
     @FXML
@@ -137,6 +143,10 @@ public class CreateEvent_1Controller implements Initializable {
             primaryStage.setScene(previousScene);
             primaryStage.show();
         }
+    }
+
+    public void setHomePageController(EducatorHomePageController homePageController) {
+        this.homePageController = homePageController;
     }
 
 }

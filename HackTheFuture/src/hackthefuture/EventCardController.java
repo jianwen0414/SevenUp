@@ -107,7 +107,7 @@ public class EventCardController implements Initializable {
 
     try (Connection connection = DatabaseConnector.getConnection()) {
         String checkEventsSql = "SELECT COUNT(*) FROM UserBookingEvent WHERE user_id = ? AND booking_date = ?";
-        String checkDestinationsSql = "SELECT COUNT(*) FROM UserBookingDestination WHERE user_id = ? AND booking_date = ?";
+        String checkDestinationsSql = "SELECT COUNT(*) FROM UserBookingDestination WHERE student_id = ? AND booking_date = ?";
         String insertSql = "INSERT INTO UserBookingEvent (user_id, event_id, booking_date) VALUES (?, ?, ?)";
         String updateSql = "UPDATE User SET current_points = current_points + ? WHERE user_id = ?";
 

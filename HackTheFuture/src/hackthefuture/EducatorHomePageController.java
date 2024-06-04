@@ -56,6 +56,13 @@ public class EducatorHomePageController {
         quizCountLabel.setText(String.valueOf(currentUser.getCreatedQuizzes().size()));
 
     }
+    
+    public void incrementEventCount() {
+        int currentCount = Integer.parseInt(eventCountLabel.getText());
+        eventCountLabel.setText(String.valueOf(currentCount + 1));
+    }
+    
+    
 
     public void setUserInformation(String username, String email, String location) {
         // Display user information on the GUI
@@ -123,6 +130,7 @@ public class EducatorHomePageController {
             CreateQuizController controller = loader.getController();
             controller.setPrimaryStage(primaryStage);  // Set the primary stage
             controller.setup(currentUser); // Set the current user's ID
+            controller.setHomePageController(this);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Create Quiz");
@@ -144,6 +152,7 @@ public class EducatorHomePageController {
             CreateEvent_1Controller controller = loader.getController();
             controller.setPrimaryStage(primaryStage);  // Set the primary stage
             controller.setup(currentUser);// Set the current user's ID
+            controller.setHomePageController(this);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Create Event");
@@ -217,5 +226,10 @@ public class EducatorHomePageController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    void incrementQuizCount() {
+        int currentCount = Integer.parseInt(quizCountLabel.getText());
+        quizCountLabel.setText(String.valueOf(currentCount + 1));
     }
 }
