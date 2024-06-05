@@ -1,7 +1,9 @@
 user_id, email, username, password, salt, role_id, location_coordinate_x, location_coordinate_y, current_points
 1, tcp@gmail.com, TanChinPeng, bff579a118f99f83f7efc1659cc49a4a5b9bfca23cbda1c2f0cb0600a65cba98, TObQb6wc771FLcS6FZUldg==, 2, 386.6378174, 485.9246919, 0
 2, f@gmail.com, firdaus_an, e620abd4744319550adf3ddf504a0c62896a565498b223e859ce358fc871264f, ai3FqThSxhv0K8OTYYKSAg==, 2, 2.8293029, -161.5305683, 0
-3, af@gmail.com, ahmadfirdaus07, 382a9b11bd8d782c42486b3e9ee561f8ecbf8363f122c1888048c1b9f5bc8074, f/xKt1JX2uiyywpX6drLrg==, 3, 2.8293029, -161.5305683, 0
+3, af@gmail.com, ahmadfirdaus07, 382a9b11bd8d782c42486b3e9ee561f8ecbf8363f122c1888048c1b9f5bc8074, f/xKt1JX2uiyywpX6drLrg==, 3, 2.8293029, -161.5305683, 15
 4, s@gmail.com, Santya24, e95efff4603a8faf0ee3b7fde1dfd065782866005db5390957e7c8312fd984f7, chBAjAqLRNjNAEOdPYITVA==, 2, -359.9736561, -208.6226101, 0
-5, rs@gmail.com, reelansantya, f0d2c8beb74d79c71845ef4226ad6f3f41cc8ebef58b01fc9d8192a2d1a9c544, +1gwmHjVA9qcQQvj+6kxrQ==, 3, -359.9736561, -208.6226101, 0
+5, rs@gmail.com, reelansantya, f0d2c8beb74d79c71845ef4226ad6f3f41cc8ebef58b01fc9d8192a2d1a9c544, +1gwmHjVA9qcQQvj+6kxrQ==, 3, -359.9736561, -208.6226101, 25
 6, edu@gmail.com, edu, deb6b643b609aa45c6aa22651e35e2768de95344fd4808992cbffc51caf295dd, xsY00bB1KbF/ZrJXWKSJXA==, 1, 417.6109758, -181.3434627, 0
+7, s1@gmail.com, s1, 4a18ce4e4e04809fc649124debfbd52261fdb2b8775f1e9ee6a1deff4684c5eb, pj0b/e/1sZDuiYvpr6Da+w==, 3, 327.1579497, 312.8064376, 0
+8, p1@gmail.com, p1, 33f0fafe24dc6dd4930f2a9de52b94eb73b7133c66f58edefb3e661dd7b15b64, aRM2eE5+CcKIwYlYX7MSJg==, 2, 327.1579497, 312.8064376, 0

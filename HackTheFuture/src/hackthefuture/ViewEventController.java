@@ -132,18 +132,31 @@ public class ViewEventController implements Initializable {
     private Stage primaryStage;
 
     private User currentUser;
-
+    
+    private EventCardController eventCardController;
+    private StudentProfileController studentProfileController;
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }
+        //eventCardController = new EventCardController();
 
+    }
+    
+    public void setupControllers(StudentProfileController homePageController) {
+    if (currentUser instanceof Student) {
+        System.out.println("instance of student");
+        studentProfileController = homePageController;
+        System.out.println("student profile controller set in view event: "+studentProfileController);
+    }
+    refresh();
+}
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
-
+    
     public void setup(User currentUser) {
         this.currentUser = currentUser;
-        refresh();
+        //refresh();
     }
 
     private void refresh() {
@@ -153,6 +166,7 @@ public class ViewEventController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("EventCard.fxml"));
                 Node root = loader.load();
                 EventCardController eventCardController = loader.getController();
+                eventCardController.setStudentProfileController(studentProfileController);
                 eventCardController.setup(event, currentUser);
                 todayEventsBox.getChildren().add(root);
             } catch (IOException e) {
@@ -166,6 +180,8 @@ public class ViewEventController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("EventCard.fxml"));
                 Node root = loader.load();
                 EventCardController eventCardController = loader.getController();
+                                  eventCardController.setStudentProfileController(studentProfileController);
+
                 eventCardController.setup(event, currentUser);
                 upcomingEventsBox.getChildren().add(root);
             } catch (IOException e) {
