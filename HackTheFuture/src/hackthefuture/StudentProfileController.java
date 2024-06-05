@@ -188,6 +188,7 @@ public class StudentProfileController implements Initializable {
             AttemptQuizController controller = loader.getController();
             controller.setPrimaryStage(primaryStage);
             controller.setup(currentUser);
+            controller.setHomePageController(this);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Attempt Quiz");
@@ -378,6 +379,11 @@ public class StudentProfileController implements Initializable {
         List<ParentChildRelationship> relationships = RelationshipService.getRelationshipsForUser(currentUser.getUserId());
         Graph graph = RelationshipGraph.createGraph(relationships);
         RelationshipGraph.displayGraph(graph);
+    }
+
+    public void incrementPoints(int points) {
+        int currentPoints = Integer.parseInt(getPoint.getText());
+        getPoint.setText(String.valueOf(currentPoints + points));
     }
 
 }

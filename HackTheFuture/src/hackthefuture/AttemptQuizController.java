@@ -58,6 +58,8 @@ public class AttemptQuizController implements Initializable {
     private Stage primaryStage;
 
     private User currentUser;
+    
+    private StudentProfileController homePageController;
 
     private Map<String, String> quizNamesToLinks = new HashMap<>();
     private Map<String, Set<String>> quizLinks = new HashMap<>();
@@ -131,6 +133,7 @@ public class AttemptQuizController implements Initializable {
         complete.setOnAction(e -> {
             complete.setVisible(false); // Hide the complete button
             updateStudentPoints(currentUser.getUserId(), 2);
+            homePageController.incrementPoints(2);
             String selectedQuizName = lastSelectedQuizName;
             String selectedQuizLink = lastSelectedQuizLink;
             if (selectedQuizName != null && !selectedQuizName.isEmpty()) {
@@ -191,13 +194,13 @@ public class AttemptQuizController implements Initializable {
 
     private String getThemeNameById(int themeId) {
         switch (themeId) {
-            case 1:
+            case 9:
                 return "Science";
-            case 2:
+            case 12:
                 return "Mathematics";
-            case 3:
+            case 11:
                 return "Engineering";
-            case 4:
+            case 10:
                 return "Technology";
             default:
                 return null;
@@ -302,5 +305,10 @@ public class AttemptQuizController implements Initializable {
             primaryStage.show();
         }
     }
+    
+        public void setHomePageController(StudentProfileController homePageController) {
+        this.homePageController = homePageController;
+    }
+
 
 }
