@@ -105,6 +105,8 @@ public class EducatorHomePageController {
             ViewEventController controller = loader.getController();
             controller.setPrimaryStage(primaryStage);  // Set the primary stage
             controller.setup(currentUser);// Set the current user's ID
+            StudentProfileController homePageController = null;
+            controller.setupControllers(homePageController);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Create Quiz");

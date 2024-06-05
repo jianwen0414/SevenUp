@@ -97,6 +97,11 @@ public class StudentProfileController implements Initializable {
         getPoint.setText(String.valueOf(currentUser.getCurrentPoints()));
         fetchFriends();
     }
+    
+    public void incrementPoints(){
+        int currentPoint=Integer.parseInt(getPoint.getText());
+        getPoint.setText(String.valueOf(currentPoint+5));
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -209,6 +214,7 @@ public class StudentProfileController implements Initializable {
             ViewEventController controller = loader.getController();
             controller.setPrimaryStage(primaryStage);
             controller.setup(currentUser);
+            controller.setupControllers(this);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("View Event");
