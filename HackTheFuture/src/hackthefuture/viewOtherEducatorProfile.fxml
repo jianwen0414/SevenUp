@@ -65,7 +65,7 @@
       </Label>
       <Label layoutX="125.0" layoutY="25.0" text="Educator Profile" textFill="#d1c6c6">
          <font>
-            <Font name="Broadway" size="60.0" />
+            <Font name="System Bold" size="60.0" />
          </font>
       </Label>
    </children>

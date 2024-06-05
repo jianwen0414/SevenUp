@@ -112,7 +112,7 @@
       <ListView fx:id="friendList" layoutX="43.0" layoutY="574.0" prefHeight="153.0" prefWidth="646.0" />
       <Label layoutX="119.0" layoutY="42.0" text="Student Profile" textFill="#c1b7b7">
          <font>
-            <Font name="Broadway" size="60.0" />
+            <Font name="System Bold" size="60.0" />
          </font>
       </Label>
       <Label layoutX="51.0" layoutY="212.0" text="Username : ">

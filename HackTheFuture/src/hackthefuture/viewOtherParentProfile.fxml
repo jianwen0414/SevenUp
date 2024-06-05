@@ -57,7 +57,7 @@
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#203e48" height="110.0" layoutY="-11.0" stroke="BLACK" strokeType="INSIDE" width="781.0" />
       <Label layoutX="141.0" layoutY="7.0" prefHeight="74.0" prefWidth="514.0" text="Parent Profile " textFill="#d4d5cf" textOverrun="CENTER_WORD_ELLIPSIS">
          <font>
-            <Font name="Broadway" size="64.0" />
+            <Font name="System Bold" size="64.0" />
          </font>
       </Label>
       <ListView fx:id="childList" layoutX="125.0" layoutY="274.0" prefHeight="74.0" prefWidth="486.0" />
