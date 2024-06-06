@@ -69,4 +69,7 @@ public class AlertUtils {
     public static void showMaxParentsReached(){
         showAlert(Alert.AlertType.ERROR, "Failed", "The child already has the maximum number of two parents.");
     }
+    public static void showNotValidLink(){
+        showAlert(Alert.AlertType.ERROR, "Failed", "The link you entered is not a valid link.");
+    }
 }

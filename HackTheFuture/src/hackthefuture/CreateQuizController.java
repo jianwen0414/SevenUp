@@ -176,6 +176,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
@@ -253,7 +255,10 @@ public class CreateQuizController implements Initializable {
         String description = descriptionField.getText();
         String quizLink = quizLinkField.getText();
         String themeName = themeChoiceBox.getValue(); // Get selected theme name
-
+        if (!isValidURL(quizLink)) {
+        AlertUtils.showNotValidLink();
+        return;
+    }
         try {
             // Check if currentUserId exists in the user table
 //            if (!doesUserExist(currentUserId)) {
@@ -372,5 +377,12 @@ public class CreateQuizController implements Initializable {
     public void setHomePageController(EducatorHomePageController homePageController) {
         this.homePageController = homePageController;
     }
+    
+    private boolean isValidURL(String url) {
+    String regex = "^(https?|ftp)://[^\\s/$.?#].[^\\s]*$";
+    Pattern pattern = Pattern.compile(regex);
+    Matcher matcher = pattern.matcher(url);
+    return matcher.matches();
+}
 
 }
