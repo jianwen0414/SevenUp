@@ -256,7 +256,7 @@ public class StudentProfileController implements Initializable {
             Parent root = loader.load();
             AddFriendController controller = loader.getController();
             controller.setPrimaryStage(primaryStage);
-            controller.setup(currentUser);
+            controller.setup(currentUser,this);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Add Friend");
@@ -335,7 +335,7 @@ public class StudentProfileController implements Initializable {
         }
     }
 
-    private void fetchFriends() {
+    public void fetchFriends() {
         ObservableList<String> friendsList = FXCollections.observableArrayList();
 
         try (Connection conn = DatabaseConnector.getConnection(); PreparedStatement stmt = conn.prepareStatement(

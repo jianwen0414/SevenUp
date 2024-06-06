@@ -32,6 +32,7 @@ public class AddFriendController implements Initializable {
 //    Student jett = new Student(10, "jett@gmail.com", "jettyeoh", "123", 2, 9.0700000, 11.0400000, 0, new asg.Parent[]{p});
 
     Student currentStudent;
+    private StudentProfileController studentProfileController;
 
     @FXML
     private ListView<String> FriendProfile;
@@ -156,6 +157,7 @@ public class AddFriendController implements Initializable {
                     updateFriendRequestStatus(selectedUsername, "Accepted");
 
                     insertUserFriendRecord(selectedUsername);
+                    studentProfileController.fetchFriends();
                 } else if (response == declineButton) {
                     updateFriendRequestStatus(selectedUsername, "Rejected");
                 }
@@ -222,8 +224,9 @@ public class AddFriendController implements Initializable {
         return userId;
     }
 
-    public void setup(Student currentStudent) {
+    public void setup(Student currentStudent, StudentProfileController studentProfileController) {
         this.currentStudent = currentStudent;
+        this.studentProfileController = studentProfileController;
         FriendProfile.getItems().addAll(currentStudent.viewStudentProfileList());
         fetchFriendRequests();
     }
