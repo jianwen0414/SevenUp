@@ -194,13 +194,13 @@ public class AttemptQuizController implements Initializable {
 
     private String getThemeNameById(int themeId) {
         switch (themeId) {
-            case 9:
+            case 1:
                 return "Science";
-            case 12:
+            case 2:
                 return "Mathematics";
-            case 11:
+            case 3:
                 return "Engineering";
-            case 10:
+            case 4:
                 return "Technology";
             default:
                 return null;

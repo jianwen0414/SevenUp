@@ -5,5 +5,10 @@ user_id, email, username, password, salt, role_id, location_coordinate_x, locati
 4, s@gmail.com, Santya24, e95efff4603a8faf0ee3b7fde1dfd065782866005db5390957e7c8312fd984f7, chBAjAqLRNjNAEOdPYITVA==, 2, -359.9736561, -208.6226101, 0
 5, rs@gmail.com, reelansantya, f0d2c8beb74d79c71845ef4226ad6f3f41cc8ebef58b01fc9d8192a2d1a9c544, +1gwmHjVA9qcQQvj+6kxrQ==, 3, -359.9736561, -208.6226101, 25
 6, edu@gmail.com, edu, deb6b643b609aa45c6aa22651e35e2768de95344fd4808992cbffc51caf295dd, xsY00bB1KbF/ZrJXWKSJXA==, 1, 417.6109758, -181.3434627, 0
-7, s1@gmail.com, s1, 4a18ce4e4e04809fc649124debfbd52261fdb2b8775f1e9ee6a1deff4684c5eb, pj0b/e/1sZDuiYvpr6Da+w==, 3, 327.1579497, 312.8064376, 0
+7, s1@gmail.com, s1, 4a18ce4e4e04809fc649124debfbd52261fdb2b8775f1e9ee6a1deff4684c5eb, pj0b/e/1sZDuiYvpr6Da+w==, 3, 327.1579497, 312.8064376, 15
 8, p1@gmail.com, p1, 33f0fafe24dc6dd4930f2a9de52b94eb73b7133c66f58edefb3e661dd7b15b64, aRM2eE5+CcKIwYlYX7MSJg==, 2, 327.1579497, 312.8064376, 0
+9, father1@gmail.com, father1, e8abb430eb660602686ccf6362a35dc9ed02a54fe41359e547662020d0b908b5, NY73xGFQ8RcASNAihr8eIg==, 2, 452.0609685, -394.5020395, 0
+10, child1a@gmail.com, child1a, b13ab37c1b10645e0d575a06c039fac15d100c0fde0a55a188bdc1e4d7c4d903, lXoLO23p4fyXl2s5lJzGOg==, 3, 452.0609685, -394.5020395, 0
+11, child1b@gmail.com, child1b, 5905388e2fbc33d40053919824948c051cad505faee1e13b3d3c6825de7ecb88, 86Sjytjem90pBm9Gpne6Ng==, 3, 452.0609685, -394.5020395, 0
+12, mother1@gmail.com, mother1, 296c611dc5e9bdb6cc6010f01182d0465f0c975f9732b0cd60978361562fe53f, vgVttWvemj3BFKGmOHlsiQ==, 2, 452.0609685, -394.5020395, 0
+13, child1c@gmail.com, child1c, c414e7c48cf8f55f79ae9be7cf1358b2600436bd2785821da94a7574522bfcfb, yBE9XJfbdfwrGcnNRKnZZg==, 3, 452.0609685, -394.5020395, 0
