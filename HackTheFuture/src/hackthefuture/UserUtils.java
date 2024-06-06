@@ -209,28 +209,27 @@ public class UserUtils {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
-
+    
     public static boolean registerUserMemberExists(String email, String username, String pw, String selectedRole, String relationUsername) {
-        double locationCoordinateX = 0.0;
-        double locationCoordinateY = 0.0;
+    double locationCoordinateX = 0.0;
+    double locationCoordinateY = 0.0;
 
-        try (Connection conn = DatabaseConnector.getConnection()) {
-            String sql = "SELECT location_coordinate_x, location_coordinate_y, role_id FROM User WHERE username = ?";
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                ps.setString(1, relationUsername);
-                try (ResultSet rs = ps.executeQuery()) {
-                    if (rs.next()) {
-                        locationCoordinateX = rs.getDouble("location_coordinate_x");
-                        locationCoordinateY = rs.getDouble("location_coordinate_y");
-                        int relationRoleId = rs.getInt("role_id");
-                        // Ensure that the existing user is a suitable relation based on their role
-                        if ((selectedRole.equals("Parent") && relationRoleId != 3)
-                                || // Parent should have a child relation
-                                (selectedRole.equals("Student") && relationRoleId != 2)) { // Child should have a parent relation
-                            AlertUtils.showRoleSame();
-                            return false;
-                        }
-                        if (selectedRole.equals("Parent")) {
+    try (Connection conn = DatabaseConnector.getConnection()) {
+        String sql = "SELECT location_coordinate_x, location_coordinate_y, role_id FROM User WHERE username = ?";
+        try (PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, relationUsername);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    locationCoordinateX = rs.getDouble("location_coordinate_x");
+                    locationCoordinateY = rs.getDouble("location_coordinate_y");
+                    int relationRoleId = rs.getInt("role_id");
+                    // Ensure that the existing user is a suitable relation based on their role
+                    if ((selectedRole.equals("Parent") && relationRoleId != 3)
+                            || (selectedRole.equals("Student") && relationRoleId != 2)) {
+                        AlertUtils.showRoleSame();
+                        return false;
+                    }
+                    if (selectedRole.equals("Parent")) {
                         int childId = getUserIdByUsername(conn, relationUsername);
                         int parentCount = getParentCountForChild(conn, childId);
                         if (parentCount >= 2) {
@@ -238,75 +237,205 @@ public class UserUtils {
                             return false;
                         }
                     }
-                    } else {
-                        return false; // No user found with the given username
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-        // Step 2: Register the new user with the retrieved location coordinates
-        int roleId = getRoleIdByRoleName(selectedRole);
-        if (roleId == -1) {
-            return false;
-        }
-        String salt = generateSalt();
-        String hashedPassword = hashPassword(pw, salt);
-        try (Connection conn = DatabaseConnector.getConnection()) {
-            String sql = "INSERT INTO User (email, username, password, salt, role_id, location_coordinate_x, location_coordinate_y) VALUES (?,?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-                ps.setString(1, email);
-                ps.setString(2, username);
-                ps.setString(3, hashedPassword);
-                ps.setString(4, salt);
-                ps.setInt(5, roleId);
-                ps.setDouble(6, locationCoordinateX);
-                ps.setDouble(7, locationCoordinateY);
-                int rowsInserted = ps.executeUpdate();
-                if (rowsInserted > 0) {
-                    writeUserDataToFile(); // Call the method to write data to the file
-                   
-                }
-                if (rowsInserted <= 0) {
-                    return false; // Failed to insert new user
-                }
-                
-                ResultSet generatedKeys = ps.getGeneratedKeys();
-                int newUserId = -1;
-                if (generatedKeys.next()) {
-                    newUserId = generatedKeys.getInt(1);
                 } else {
-                    return false; // Failed to get new user_id
-                }
-
-                // Insert into ParentChildRelationship table
-                String relationshipSql = "INSERT INTO ParentChildRelationship (parent_id, child_id) VALUES (?, ?)";
-                try (PreparedStatement relationshipPs = conn.prepareStatement(relationshipSql)) {
-                    if (selectedRole.equals("Parent")) {
-                        // Existing user (relationUsername) is the child
-                        relationshipPs.setInt(1, newUserId); // parent_id
-                        // Retrieve the child's user_id based on their username
-                        int childId = getUserIdByUsername(conn, relationUsername);
-                        relationshipPs.setInt(2, childId); // child_id
-                    } else {
-                        // Existing user (relationUsername) is the parent
-                        // Retrieve the parent's user_id based on their username
-                        int parentId = getUserIdByUsername(conn, relationUsername);
-                        relationshipPs.setInt(1, parentId); // parent_id
-                        relationshipPs.setInt(2, newUserId); // child_id
-                    }
-                    rowsInserted = relationshipPs.executeUpdate();
-                    return rowsInserted > 0;
+                    return false; // No user found with the given username
                 }
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
         }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
     }
+
+    // Step 2: Register the new user with the retrieved location coordinates
+    int roleId = getRoleIdByRoleName(selectedRole);
+    if (roleId == -1) {
+        return false;
+    }
+    String salt = generateSalt();
+    String hashedPassword = hashPassword(pw, salt);
+    try (Connection conn = DatabaseConnector.getConnection()) {
+        String sql = "INSERT INTO User (email, username, password, salt, role_id, location_coordinate_x, location_coordinate_y) VALUES (?,?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            ps.setString(1, email);
+            ps.setString(2, username);
+            ps.setString(3, hashedPassword);
+            ps.setString(4, salt);
+            ps.setInt(5, roleId);
+            ps.setDouble(6, locationCoordinateX);
+            ps.setDouble(7, locationCoordinateY);
+            int rowsInserted = ps.executeUpdate();
+            if (rowsInserted > 0) {
+                writeUserDataToFile(); // Call the method to write data to the file
+            }
+            if (rowsInserted <= 0) {
+                return false; // Failed to insert new user
+            }
+
+            ResultSet generatedKeys = ps.getGeneratedKeys();
+            int newUserId = -1;
+            if (generatedKeys.next()) {
+                newUserId = generatedKeys.getInt(1);
+            } else {
+                return false; // Failed to get new user_id
+            }
+
+            // Insert into ParentChildRelationship table
+            String relationshipSql = "INSERT INTO ParentChildRelationship (parent_id, child_id) VALUES (?, ?)";
+            try (PreparedStatement relationshipPs = conn.prepareStatement(relationshipSql)) {
+                if (selectedRole.equals("Parent")) {
+                    // Existing user (relationUsername) is the child
+                    relationshipPs.setInt(1, newUserId); // parent_id
+                    int childId = getUserIdByUsername(conn, relationUsername);
+                    relationshipPs.setInt(2, childId); // child_id
+                } else {
+                    // Existing user (relationUsername) is the parent
+                    int parentId = getUserIdByUsername(conn, relationUsername);
+                    relationshipPs.setInt(1, parentId); // parent_id
+                    relationshipPs.setInt(2, newUserId); // child_id
+                }
+                rowsInserted = relationshipPs.executeUpdate();
+                if (rowsInserted <= 0) {
+                    return false;
+                }
+
+                // Additional logic to find and insert other suitable users
+                String findRelatedUsersSql;
+                if (selectedRole.equals("Parent")) {
+                    findRelatedUsersSql = "SELECT user_id FROM User WHERE role_id = 3 AND location_coordinate_x = ? AND location_coordinate_y = ? AND username != ?";
+                } else {
+                    findRelatedUsersSql = "SELECT user_id FROM User WHERE role_id = 2 AND location_coordinate_x = ? AND location_coordinate_y = ? AND username != ?";
+                }
+
+                try (PreparedStatement findPs = conn.prepareStatement(findRelatedUsersSql)) {
+                    findPs.setDouble(1, locationCoordinateX);
+                    findPs.setDouble(2, locationCoordinateY);
+                    findPs.setString(3, relationUsername);
+
+                    try (ResultSet relatedUsersRs = findPs.executeQuery()) {
+                        while (relatedUsersRs.next()) {
+                            int relatedUserId = relatedUsersRs.getInt("user_id");
+
+                            try (PreparedStatement insertRelatedPs = conn.prepareStatement(relationshipSql)) {
+                                if (selectedRole.equals("Parent")) {
+                                    insertRelatedPs.setInt(1, newUserId);
+                                    insertRelatedPs.setInt(2, relatedUserId);
+                                } else {
+                                    insertRelatedPs.setInt(1, relatedUserId);
+                                    insertRelatedPs.setInt(2, newUserId);
+                                }
+                                insertRelatedPs.executeUpdate();
+                            }
+                        }
+                    }
+                }
+                return true;
+            }
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+        return false;
+    }
+}
+
+
+//    public static boolean registerUserMemberExists(String email, String username, String pw, String selectedRole, String relationUsername) {
+//        double locationCoordinateX = 0.0;
+//        double locationCoordinateY = 0.0;
+//
+//        try (Connection conn = DatabaseConnector.getConnection()) {
+//            String sql = "SELECT location_coordinate_x, location_coordinate_y, role_id FROM User WHERE username = ?";
+//            try (PreparedStatement ps = conn.prepareStatement(sql)) {
+//                ps.setString(1, relationUsername);
+//                try (ResultSet rs = ps.executeQuery()) {
+//                    if (rs.next()) {
+//                        locationCoordinateX = rs.getDouble("location_coordinate_x");
+//                        locationCoordinateY = rs.getDouble("location_coordinate_y");
+//                        int relationRoleId = rs.getInt("role_id");
+//                        // Ensure that the existing user is a suitable relation based on their role
+//                        if ((selectedRole.equals("Parent") && relationRoleId != 3)
+//                                || // Parent should have a child relation
+//                                (selectedRole.equals("Student") && relationRoleId != 2)) { // Child should have a parent relation
+//                            AlertUtils.showRoleSame();
+//                            return false;
+//                        }
+//                        if (selectedRole.equals("Parent")) {
+//                        int childId = getUserIdByUsername(conn, relationUsername);
+//                        int parentCount = getParentCountForChild(conn, childId);
+//                        if (parentCount >= 2) {
+//                            AlertUtils.showMaxParentsReached();
+//                            return false;
+//                        }
+//                    }
+//                    } else {
+//                        return false; // No user found with the given username
+//                    }
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//
+//        // Step 2: Register the new user with the retrieved location coordinates
+//        int roleId = getRoleIdByRoleName(selectedRole);
+//        if (roleId == -1) {
+//            return false;
+//        }
+//        String salt = generateSalt();
+//        String hashedPassword = hashPassword(pw, salt);
+//        try (Connection conn = DatabaseConnector.getConnection()) {
+//            String sql = "INSERT INTO User (email, username, password, salt, role_id, location_coordinate_x, location_coordinate_y) VALUES (?,?, ?, ?, ?, ?, ?)";
+//            try (PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+//                ps.setString(1, email);
+//                ps.setString(2, username);
+//                ps.setString(3, hashedPassword);
+//                ps.setString(4, salt);
+//                ps.setInt(5, roleId);
+//                ps.setDouble(6, locationCoordinateX);
+//                ps.setDouble(7, locationCoordinateY);
+//                int rowsInserted = ps.executeUpdate();
+//                if (rowsInserted > 0) {
+//                    writeUserDataToFile(); // Call the method to write data to the file
+//                   
+//                }
+//                if (rowsInserted <= 0) {
+//                    return false; // Failed to insert new user
+//                }
+//                
+//                ResultSet generatedKeys = ps.getGeneratedKeys();
+//                int newUserId = -1;
+//                if (generatedKeys.next()) {
+//                    newUserId = generatedKeys.getInt(1);
+//                } else {
+//                    return false; // Failed to get new user_id
+//                }
+//
+//                // Insert into ParentChildRelationship table
+//                String relationshipSql = "INSERT INTO ParentChildRelationship (parent_id, child_id) VALUES (?, ?)";
+//                try (PreparedStatement relationshipPs = conn.prepareStatement(relationshipSql)) {
+//                    if (selectedRole.equals("Parent")) {
+//                        // Existing user (relationUsername) is the child
+//                        relationshipPs.setInt(1, newUserId); // parent_id
+//                        // Retrieve the child's user_id based on their username
+//                        int childId = getUserIdByUsername(conn, relationUsername);
+//                        relationshipPs.setInt(2, childId); // child_id
+//                    } else {
+//                        // Existing user (relationUsername) is the parent
+//                        // Retrieve the parent's user_id based on their username
+//                        int parentId = getUserIdByUsername(conn, relationUsername);
+//                        relationshipPs.setInt(1, parentId); // parent_id
+//                        relationshipPs.setInt(2, newUserId); // child_id
+//                    }
+//                    rowsInserted = relationshipPs.executeUpdate();
+//                    return rowsInserted > 0;
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            return false;
+//        }
+//    }
 
     private static int getUserIdByUsername(Connection conn, String username) throws SQLException {
         String sql = "SELECT user_id FROM User WHERE username = ?";
@@ -323,53 +452,7 @@ public class UserUtils {
     }
 
 
-    /* public static boolean registerUserWithFam(String email, String username, String pw, String selectedRole, String email1, String username1, String pw1, String selectedRole1) {
-        int roleId = getRoleIdByRoleName(selectedRole);
-        int roleId1 = getRoleIdByRoleName(selectedRole1);
-        if (roleId == -1 || roleId1 == -1) {
-            return false;
-        }
-        double locationCoordinateX;
-        double locationCoordinateY;
-        do {
-            double minX = -500.0;
-            double maxX = 500.0;
-            double minY = -500.0;
-            double maxY = 500.0;
-            Random random = new Random();
-            locationCoordinateX = minX + (maxX - minX) * random.nextDouble();
-            locationCoordinateY = minY + (maxY - minY) * random.nextDouble();
-        } while (coordinatesExist(locationCoordinateX, locationCoordinateY));
-        try (Connection conn = DatabaseConnector.getConnection()) {
-            String sql = "INSERT INTO User (email, username, password, role_id, location_coordinate_x, location_coordinate_y) VALUES (?, ?, ?, ?, ?, ?)";
-            try (PreparedStatement ps = conn.prepareStatement(sql)) {
-                // Insert first user
-                ps.setString(1, email);
-                ps.setString(2, username);
-                ps.setString(3, pw);
-                ps.setInt(4, roleId);
-                ps.setDouble(5, locationCoordinateX);
-                ps.setDouble(6, locationCoordinateY);
-                int rowsInserted = ps.executeUpdate();
-                if (rowsInserted <= 0) {
-                    return false; // Failed to insert first user
-                }
-
-                // Insert second user
-                ps.setString(1, email1);
-                ps.setString(2, username1);
-                ps.setString(3, pw1);
-                ps.setInt(4, roleId1);
-                ps.setDouble(5, locationCoordinateX);
-                ps.setDouble(6, locationCoordinateY);
-                rowsInserted = ps.executeUpdate();
-                return rowsInserted > 0;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    } */
+   
     public static boolean registerUserWithFam(String email, String username, String pw, String selectedRole,
             String email1, String username1, String pw1, String selectedRole1) {
         int roleId = getRoleIdByRoleName(selectedRole);
