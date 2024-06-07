@@ -192,12 +192,12 @@
       </Label>
       <Label fx:id="getParent1" layoutX="541.0" layoutY="370.0" text=" " textFill="#565353">
          <font>
-            <Font name="Calibri" size="20.0" />
+            <Font size="18.0" />
          </font>
       </Label>
       <Label fx:id="getParent2" layoutX="831.0" layoutY="370.0" text=" " textFill="#565353">
          <font>
-            <Font name="Calibri" size="20.0" />
+            <Font size="18.0" />
          </font>
       </Label>
       <ImageView fitHeight="247.0" fitWidth="191.0" layoutX="293.0" layoutY="667.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
