@@ -61,8 +61,11 @@ public class viewOtherStudentProfileController implements Initializable {
                 try (ResultSet resultSetUser = pstmtUser.executeQuery()) {
                     if (resultSetUser.next()) {
                         getEmail.setText(resultSetUser.getString("email"));
-                        getLocationX.setText(Double.toString(resultSetUser.getDouble("location_coordinate_x")));
-                        getLocationY.setText(Double.toString(resultSetUser.getDouble("location_coordinate_y")));
+                        double locationX = resultSetUser.getDouble("location_coordinate_x");
+                    double locationY = resultSetUser.getDouble("location_coordinate_y");
+                    getLocationX.setText(locationX + ", " + locationY);
+//                        getLocationX.setText(Double.toString(resultSetUser.getDouble("location_coordinate_x")));
+//                        getLocationY.setText(Double.toString(resultSetUser.getDouble("location_coordinate_y")));
                         getPoint.setText(Integer.toString(resultSetUser.getInt("current_points")));
 
                         selectedUserId = resultSetUser.getInt("user_id");

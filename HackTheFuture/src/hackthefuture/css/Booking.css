@@ -1,0 +1,16 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 7 Jun 2024, 5:08:38 pm
+    Author     : Tan Shi Han
+*/
+
+.list-view {
+    -fx-font-size: 17px;
+}
+
+.combo-box {
+    -fx-font-size: 17px;
+}

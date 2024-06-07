@@ -38,7 +38,10 @@ public class viewOtherEducatorProfileController {
                         emailLabel.setText(userRs.getString("email"));
                         usernameLabel.setText(userRs.getString("username"));
                         //username.setText(userRs.getString("username"));
-                        locationLabel.setText(userRs.getBigDecimal("location_coordinate_x") + ", " + userRs.getBigDecimal("location_coordinate_y"));
+                        double locationX=userRs.getDouble("location_coordinate_x");
+                        double locationY=userRs.getDouble("location_coordinate_y");
+                        locationLabel.setText(locationX+", "+locationY);
+//                        locationLabel.setText(userRs.getBigDecimal("location_coordinate_x") + ", " + userRs.getBigDecimal("location_coordinate_y"));
                     }
                 }
             }
