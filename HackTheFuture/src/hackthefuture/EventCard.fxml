@@ -27,7 +27,7 @@
             <Font name="System Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="registerEvent" alignment="CENTER" layoutX="130.0" layoutY="167.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="84.0" style="-fx-background-color: #FF204E; -fx-background-radius: 25;" text="Register" textFill="WHITE" visible="false">
+      <Button fx:id="registerEvent" alignment="CENTER" layoutX="130.0" layoutY="167.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="95.0" style="-fx-background-color: #FF204E; -fx-background-radius: 25;" text="Register" textFill="WHITE" visible="false" wrapText="true">
          <font>
             <Font name="System Bold" size="14.0" />
          </font>

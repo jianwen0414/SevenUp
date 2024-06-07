@@ -60,7 +60,7 @@
             <Font name="System Bold" size="64.0" />
          </font>
       </Label>
-      <ListView fx:id="childList" layoutX="125.0" layoutY="274.0" prefHeight="74.0" prefWidth="486.0" />
+      <ListView fx:id="childList" layoutX="125.0" layoutY="274.0" prefHeight="74.0" prefWidth="486.0" stylesheets="@css/ListView.css" />
       <Label layoutX="22.0" layoutY="155.0" text="User Name : ">
          <font>
             <Font name="Calibri Bold" size="20.0" />

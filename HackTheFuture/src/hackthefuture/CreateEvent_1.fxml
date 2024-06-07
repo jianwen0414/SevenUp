@@ -62,7 +62,7 @@
                                     <Image url="@Image/description.png" />
                                  </image>
                               </ImageView>
-                              <Label text="Event Description" textFill="#94a0a8">
+                              <Label text="Event Description" textFill="#b2c5d1">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
@@ -90,7 +90,7 @@
                                     <Image url="@Image/venue.png" />
                                  </image>
                               </ImageView>
-                              <Label prefHeight="55.0" prefWidth="141.0" text="Event Venue" textFill="#94a1aa">
+                              <Label prefHeight="55.0" prefWidth="141.0" text="Event Venue" textFill="#b2c5d1">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
@@ -118,7 +118,7 @@
                                     <Image url="@Image/date.png" />
                                  </image>
                               </ImageView>
-                              <Label text="Event Date" textFill="#94a1aa">
+                              <Label text="Event Date" textFill="#b2c5d1">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>
@@ -134,7 +134,7 @@
                                     <Insets left="340.0" />
                                  </HBox.margin>
                               </ImageView>
-                              <Label text="Event Time" textFill="#94a1aa">
+                              <Label text="Event Time" textFill="#b2c5d1">
                                  <font>
                                     <Font name="System Bold" size="24.0" />
                                  </font>

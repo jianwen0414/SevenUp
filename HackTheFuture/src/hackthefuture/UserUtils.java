@@ -99,6 +99,8 @@ public class UserUtils {
             Random random = new Random();
             x = minX + (maxX - minX) * random.nextDouble();
             y = minY + (maxY - minY) * random.nextDouble();
+            x = Math.round(x * 100.0) / 100.0;
+            y = Math.round(y * 100.0) / 100.0;
         } while (coordinatesExist(x, y));
 
         String salt = generateSalt();
@@ -470,6 +472,8 @@ public class UserUtils {
             Random random = new Random();
             locationCoordinateX = minX + (maxX - minX) * random.nextDouble();
             locationCoordinateY = minY + (maxY - minY) * random.nextDouble();
+            locationCoordinateX = Math.round(locationCoordinateX * 100.0) / 100.0;
+            locationCoordinateY = Math.round(locationCoordinateY * 100.0) / 100.0;
         } while (coordinatesExist(locationCoordinateX, locationCoordinateY));
         String salt = generateSalt();
         String hashedPassword = hashPassword(pw, salt);

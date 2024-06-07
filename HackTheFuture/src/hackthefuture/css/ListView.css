@@ -7,14 +7,14 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/CascadeStyleSheet.css to ed
     Author     : Tan Shi Han
 */
 .list-view {
-    -fx-background-color:  #b5c8c6; /* White color with 10% transparency */
+/*    -fx-background-color:  #b5c8c6;  White color with 10% transparency */
 }
 
 .list-cell {
     -fx-font-family: 'System';
-    -fx-font-size: 20px;
-    -fx-text-fill: black;
-    -fx-background-color: transparent; /* White color with 10% transparency */
+    -fx-font-size: 18px;
+/*    -fx-text-fill: black;
+    -fx-background-color: transparent;  White color with 10% transparency */
 }
 
 /*.scroll-bar:vertical .thumb,

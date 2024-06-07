@@ -68,8 +68,7 @@ public class StudentProfileController implements Initializable {
     private Label getParent1;
     @FXML
     private Label getParent2;
-    @FXML
-    private Label getLocationY;
+    
     @FXML
     private Button viewprofile;
 
@@ -86,8 +85,7 @@ public class StudentProfileController implements Initializable {
         this.currentUser = currentUser;
         getUserName.setText(currentUser.getUsername());
         getEmail.setText(currentUser.getEmail());
-        getLocationX.setText(String.format("%.2f", currentUser.getLocationCoordinateX()));
-        getLocationY.setText(String.format("%.2f", currentUser.getLocationCoordinateY()));
+        getLocationX.setText(String.format("%.2f, %.2f", currentUser.getLocationCoordinateX(), currentUser.getLocationCoordinateY()));
         int numParent = currentUser.getParents().size();
         getParent1.setText(currentUser.getParents().get(0).getUsername());
         if (numParent == 2) {

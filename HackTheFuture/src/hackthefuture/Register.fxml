@@ -126,7 +126,7 @@
                         </StackPane>
                         <HBox prefHeight="44.0" prefWidth="414.0">
                            <children>
-                              <ComboBox fx:id="selectRole" onAction="#handleRole" prefHeight="43.0" prefWidth="154.0" promptText="Role" styleClass="combo-box" stylesheets="@css/ComboBox.css" />
+                              <ComboBox fx:id="selectRole" onAction="#handleRole" prefHeight="43.0" prefWidth="170.0" promptText="Role" styleClass="combo-box" stylesheets="@css/ComboBox.css" />
                               <CheckBox fx:id="regSelectShow" mnemonicParsing="false" onAction="#showPw" prefHeight="42.0" prefWidth="174.0" text="Show Password" textFill="WHITE">
                                  <font>
                                     <Font size="20.0" />

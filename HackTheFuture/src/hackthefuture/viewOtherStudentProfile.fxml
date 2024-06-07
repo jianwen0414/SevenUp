@@ -74,7 +74,7 @@
             <Font name="Calibri" size="20.0" />
          </font>
       </Label>
-      <Label fx:id="getLocationX" layoutX="82.0" layoutY="312.0" text="location x" textFill="#565353">
+      <Label fx:id="getLocationX" layoutX="53.0" layoutY="312.0" text="location x" textFill="#565353">
          <font>
             <Font name="Calibri" size="20.0" />
          </font>
@@ -94,23 +94,8 @@
             <Font name="Calibri" size="20.0" />
          </font>
       </Label>
-      <Label layoutX="48.0" layoutY="312.0" text=" X : ">
-         <font>
-            <Font name="Calibri" size="20.0" />
-         </font>
-      </Label>
-      <Label layoutX="280.0" layoutY="312.0" text="Y : ">
-         <font>
-            <Font name="Calibri" size="20.0" />
-         </font>
-      </Label>
-      <Label fx:id="getLocationY" layoutX="305.0" layoutY="312.0" text="location y" textFill="#565353">
-         <font>
-            <Font name="Calibri" size="20.0" />
-         </font>
-      </Label>
-      <ListView fx:id="friendList" layoutX="43.0" layoutY="574.0" prefHeight="153.0" prefWidth="646.0" />
-      <Label layoutX="119.0" layoutY="42.0" text="Student Profile" textFill="#c1b7b7">
+      <ListView fx:id="friendList" layoutX="43.0" layoutY="574.0" prefHeight="153.0" prefWidth="646.0" stylesheets="@css/ListView.css" />
+      <Label layoutX="119.0" layoutY="42.0" text="Student Profile" textFill="#d4d5cf">
          <font>
             <Font name="System Bold" size="60.0" />
          </font>

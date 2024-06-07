@@ -4,6 +4,8 @@
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
@@ -17,7 +19,7 @@
       </Pane>
       <AnchorPane layoutX="99.0" layoutY="57.0" prefHeight="709.0" prefWidth="988.0">
          <children>
-            <Pane layoutX="374.0" layoutY="77.0" prefHeight="60.0" prefWidth="232.0" style="-fx-background-color: #b5c8c6; -fx-background-radius: 25; -fx-border-radius: 25;">
+            <Pane layoutX="399.0" layoutY="77.0" prefHeight="60.0" prefWidth="232.0" style="-fx-background-color: #b5c8c6; -fx-background-radius: 25; -fx-border-radius: 25;">
                <children>
                   <Label alignment="CENTER" layoutX="39.0" layoutY="13.0" text="Booking Page" textFill="#203e48">
                      <font>
@@ -28,37 +30,37 @@
             </Pane>
             <Pane layoutX="18.0" layoutY="137.0" prefHeight="490.0" prefWidth="952.0" style="-fx-background-radius: 25; -fx-background-color: transparent;">
                <children>
-                  <Pane layoutX="79.0" layoutY="34.0" prefHeight="45.0" prefWidth="204.0" style="-fx-background-color: transparent; -fx-background-radius: 25;">
+                  <Pane layoutX="79.0" layoutY="34.0" prefHeight="45.0" prefWidth="259.0" style="-fx-background-color: transparent; -fx-background-radius: 25;">
                      <children>
                         <Label layoutX="21.0" layoutY="9.0" text="Choose your destination" textFill="#b2c5d1">
                            <font>
-                              <Font name="System Bold" size="18.0" />
+                              <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
                      </children>
                   </Pane>
                   <Pane layoutX="85.0" layoutY="137.0" prefHeight="45.0" prefWidth="204.0" style="-fx-background-color: transparent; -fx-background-radius: 25;" />
                   <Pane layoutX="85.0" layoutY="240.0" prefHeight="45.0" prefWidth="204.0" style="-fx-background-color: transparent; -fx-background-radius: 25;" />
-                  <ChoiceBox fx:id="Date" layoutX="528.0" layoutY="417.0" prefHeight="45.0" prefWidth="151.0" style="-fx-background-radius: 25;" />
+                  <ChoiceBox fx:id="Date" layoutX="701.0" layoutY="417.0" prefHeight="45.0" prefWidth="179.0" style="-fx-background-radius: 25;" styleClass="combo-box" stylesheets="@css/Booking.css" />
                   <Pane layoutX="100.0" layoutY="342.0" prefHeight="45.0" prefWidth="204.0" style="-fx-background-color: transparent; -fx-background-radius: 25;">
                      <children>
                         <Label layoutX="-11.0" layoutY="31.0" text="Choose your child" textFill="#b2c5d1">
                            <font>
-                              <Font name="System Bold" size="18.0" />
+                              <Font name="System Bold" size="20.0" />
                            </font>
                         </Label>
                      </children>
                   </Pane>
-                  <ListView fx:id="Destination" layoutX="86.0" layoutY="82.0" prefHeight="260.0" prefWidth="792.0" style="-fx-background-color: #d4d5cf;" />
-                  <ChoiceBox fx:id="Child" layoutX="86.0" layoutY="417.0" prefHeight="45.0" prefWidth="232.0" style="-fx-background-radius: 25;" />
-                  <Label layoutX="519.0" layoutY="377.0" text="Choose your date" textFill="#b2c5d1">
+                  <ListView fx:id="Destination" layoutX="86.0" layoutY="82.0" prefHeight="260.0" prefWidth="792.0" style="-fx-background-color: #d4d5cf;" stylesheets="@css/Booking.css" />
+                  <ChoiceBox fx:id="Child" layoutX="86.0" layoutY="417.0" prefHeight="45.0" prefWidth="232.0" style="-fx-background-radius: 25;" styleClass="combo-box" stylesheets="@css/Booking.css" />
+                  <Label layoutX="707.0" layoutY="377.0" text="Choose your date" textFill="#b2c5d1">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font name="System Bold" size="20.0" />
                      </font>
                   </Label>
                </children>
             </Pane>
-            <Button fx:id="Book" layoutX="408.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleBooking" prefHeight="45.0" prefWidth="170.0" style="-fx-background-color: #FF204E; -fx-background-radius: 25;" text="Book" textFill="WHITE">
+            <Button fx:id="Book" layoutX="408.0" layoutY="635.0" mnemonicParsing="false" onAction="#handleBooking" prefHeight="51.0" prefWidth="239.0" style="-fx-background-color: #FF204E; -fx-background-radius: 25;" text="Make Booking" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="24.0" />
                </font>
@@ -68,6 +70,11 @@
                   <Font name="System Bold" size="21.0" />
                </font>
             </Button>
+            <ImageView fitHeight="109.0" fitWidth="103.0" layoutX="328.0" layoutY="45.0" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@Image/map.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

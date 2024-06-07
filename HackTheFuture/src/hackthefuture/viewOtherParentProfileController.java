@@ -64,8 +64,11 @@ public class viewOtherParentProfileController {
                     if (userRs.next()) {
                         emailLabel.setText(userRs.getString("email"));
                         usernameLabel.setText(userRs.getString("username"));
+                        double locationX=userRs.getDouble("location_coordinate_x");
+                        double locationY=userRs.getDouble("location_coordinate_y");
+                        locationLabel.setText(locationX+", "+locationY);
                         //username.setText(userRs.getString("username"));
-                        locationLabel.setText(userRs.getBigDecimal("location_coordinate_x") + ", " + userRs.getBigDecimal("location_coordinate_y"));
+//                        locationLabel.setText(userRs.getBigDecimal("location_coordinate_x") + ", " + userRs.getBigDecimal("location_coordinate_y"));
                     }
                 }
             }
