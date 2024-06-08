@@ -82,15 +82,14 @@ public class loginController {
 
     @FXML
     private void handleLoginButtonAction() {
-        String usernameOrEmail = usernameField.getText();
+        String username = usernameField.getText();
         String password = passwordField.getText();
 
-        String sql = "SELECT * FROM User WHERE (username = ? OR email = ?)";
+        String sql = "SELECT * FROM User WHERE username = ?";
 
         try {
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, usernameOrEmail);
-            preparedStatement.setString(2, usernameOrEmail);
+            preparedStatement.setString(1, username);           
             resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
