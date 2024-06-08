@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -128,6 +129,9 @@ public class ViewEventController implements Initializable {
 
     @FXML
     private Button backButton;
+    
+    @FXML
+    private Button Registered;
 
     private Stage primaryStage;
 
@@ -160,6 +164,8 @@ public class ViewEventController implements Initializable {
     }
 
     private void refresh() {
+        Registered.setVisible(currentUser.getRoleId()==3);
+        System.out.println("Test"+":"+currentUser.getUserId());
         todayEventsBox.getChildren().clear();
         for (Event event : EventDao.getTodayEvent()) {
             try {
@@ -190,93 +196,114 @@ public class ViewEventController implements Initializable {
         }
     }
 
-    private int getEventId(String eventName, String eventDate, String eventTime, String eventDescription, String eventVenue) {
-        // Implement this method to retrieve the event ID from the Event table based on the provided parameters
-        int eventId = -1; // Initialize eventId
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            String sql = "SELECT event_id FROM Event WHERE event_title = ? AND event_date = ? AND event_time = ? AND event_description = ? AND event_venue = ?";
-            try (PreparedStatement statement = connection.prepareStatement(sql)) {
-                statement.setString(1, eventName);
-                statement.setString(2, eventDate);
-                statement.setString(3, eventTime);
-                statement.setString(4, eventDescription);
-                statement.setString(5, eventVenue);
-                ResultSet resultSet = statement.executeQuery();
-                if (resultSet.next()) {
-                    eventId = resultSet.getInt("event_id");
-                }
-            }
-        } catch (SQLException e) {
+//    private int getEventId(String eventName, String eventDate, String eventTime, String eventDescription, String eventVenue) {
+//        // Implement this method to retrieve the event ID from the Event table based on the provided parameters
+//        int eventId = -1; // Initialize eventId
+//        try (Connection connection = DatabaseConnector.getConnection()) {
+//            String sql = "SELECT event_id FROM Event WHERE event_title = ? AND event_date = ? AND event_time = ? AND event_description = ? AND event_venue = ?";
+//            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+//                statement.setString(1, eventName);
+//                statement.setString(2, eventDate);
+//                statement.setString(3, eventTime);
+//                statement.setString(4, eventDescription);
+//                statement.setString(5, eventVenue);
+//                ResultSet resultSet = statement.executeQuery();
+//                if (resultSet.next()) {
+//                    eventId = resultSet.getInt("event_id");
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            // Handle any SQL exceptions here
+//        }
+//        return eventId;
+//    }
+
+//    private boolean registerForEvent(int userId, int eventId, String bookingDate) {
+//        if (userId == -1) {
+//            // No user logged in, handle accordingly
+//            return false;
+//        }
+//
+//        try (Connection connection = DatabaseConnector.getConnection()) {
+//            String insertSql = "INSERT INTO UserBookingEvent (user_id, event_id, booking_date) VALUES (?, ?, ?)";
+//            String updateSql = "UPDATE User SET current_points = current_points + ? WHERE user_id = ?";
+//
+//            // Begin transaction
+//            connection.setAutoCommit(false);
+//
+//            try (PreparedStatement insertStatement = connection.prepareStatement(insertSql); PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
+//                // Insert registration
+//                insertStatement.setInt(1, userId);
+//                insertStatement.setInt(2, eventId);
+//                insertStatement.setDate(3, java.sql.Date.valueOf(bookingDate));
+//                int rowsInserted = insertStatement.executeUpdate();
+//
+//                // Update points
+//                if (rowsInserted > 0) {
+//                    // Registration successful
+//                    updateStatement.setInt(1, 5); // Add 5 points
+//                    updateStatement.setInt(2, userId);
+//                    int rowsUpdated = updateStatement.executeUpdate();
+//
+//                    if (rowsUpdated > 0) {
+//                        // Commit transaction
+//                        connection.commit();
+//
+//                        // Show success message
+//                        Alert alert = new Alert(AlertType.INFORMATION);
+//                        alert.setTitle("Registration Successful");
+//                        alert.setHeaderText(null);
+//                        alert.setContentText("You have successfully registered for the event! You have earned 5 points.");
+//                        alert.showAndWait();
+//                        return true;
+//                    } else {
+//                        // Rollback transaction
+//                        connection.rollback();
+//
+//                        // Show error message
+//                        Alert alert = new Alert(AlertType.ERROR);
+//                        alert.setTitle("Registration Failed");
+//                        alert.setHeaderText(null);
+//                        alert.setContentText("Failed to update points. Registration aborted. Please try again.");
+//                        alert.showAndWait();
+//                    }
+//                } else {
+//                    // Registration failed
+//                    Alert alert = new Alert(AlertType.ERROR);
+//                    alert.setTitle("Registration Failed");
+//                    alert.setHeaderText(null);
+//                    alert.setContentText("Failed to register for the event. Please try again.");
+//                    alert.showAndWait();
+//                }
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            // Handle any SQL exceptions here
+//        }
+//        return false;
+//    }
+    
+    @FXML
+    void handleViewRegisteredEventsAction(ActionEvent event) {
+            try {
+            NavigationHistory.push(primaryStage.getScene());
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("RegisteredEvents.fxml"));
+            Parent root = loader.load();
+            RegisteredEventsController controller = loader.getController();
+            controller.setup(currentUser);// Set the current user's ID
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage
+            Scene scene = new Scene(root);
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Registered Events");
+            primaryStage.show();
+        } catch (IOException e) {
             e.printStackTrace();
-            // Handle any SQL exceptions here
         }
-        return eventId;
     }
+    
 
-    private boolean registerForEvent(int userId, int eventId, String bookingDate) {
-        if (userId == -1) {
-            // No user logged in, handle accordingly
-            return false;
-        }
-
-        try (Connection connection = DatabaseConnector.getConnection()) {
-            String insertSql = "INSERT INTO UserBookingEvent (user_id, event_id, booking_date) VALUES (?, ?, ?)";
-            String updateSql = "UPDATE User SET current_points = current_points + ? WHERE user_id = ?";
-
-            // Begin transaction
-            connection.setAutoCommit(false);
-
-            try (PreparedStatement insertStatement = connection.prepareStatement(insertSql); PreparedStatement updateStatement = connection.prepareStatement(updateSql)) {
-                // Insert registration
-                insertStatement.setInt(1, userId);
-                insertStatement.setInt(2, eventId);
-                insertStatement.setDate(3, java.sql.Date.valueOf(bookingDate));
-                int rowsInserted = insertStatement.executeUpdate();
-
-                // Update points
-                if (rowsInserted > 0) {
-                    // Registration successful
-                    updateStatement.setInt(1, 5); // Add 5 points
-                    updateStatement.setInt(2, userId);
-                    int rowsUpdated = updateStatement.executeUpdate();
-
-                    if (rowsUpdated > 0) {
-                        // Commit transaction
-                        connection.commit();
-
-                        // Show success message
-                        Alert alert = new Alert(AlertType.INFORMATION);
-                        alert.setTitle("Registration Successful");
-                        alert.setHeaderText(null);
-                        alert.setContentText("You have successfully registered for the event! You have earned 5 points.");
-                        alert.showAndWait();
-                        return true;
-                    } else {
-                        // Rollback transaction
-                        connection.rollback();
-
-                        // Show error message
-                        Alert alert = new Alert(AlertType.ERROR);
-                        alert.setTitle("Registration Failed");
-                        alert.setHeaderText(null);
-                        alert.setContentText("Failed to update points. Registration aborted. Please try again.");
-                        alert.showAndWait();
-                    }
-                } else {
-                    // Registration failed
-                    Alert alert = new Alert(AlertType.ERROR);
-                    alert.setTitle("Registration Failed");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Failed to register for the event. Please try again.");
-                    alert.showAndWait();
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            // Handle any SQL exceptions here
-        }
-        return false;
-    }
 
     @FXML
     private void handleBackButtonAction(ActionEvent event) {

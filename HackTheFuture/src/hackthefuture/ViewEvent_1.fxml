@@ -60,5 +60,9 @@
             <Font name="System Bold" size="21.0" />
          </font>
       </Button>
+      <Button fx:id="Registered" layoutX="512.0" layoutY="738.0" mnemonicParsing="false" onAction="#handleViewRegisteredEventsAction" prefHeight="47.0" prefWidth="194.0" style="-fx-background-radius: 30; -fx-background-color: #20b2aa;" text="View Registered Events" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="15.0" />
+         </font></Button>
    </children>
 </AnchorPane>

@@ -14,15 +14,13 @@ import java.util.List;
  *
  * @author Tan Shi Han
  */
-
-
 public class EventDao {
 
     public static void saveEvent(Event event, User currentUser) {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
-        boolean isSuccess=false;
+        boolean isSuccess = false;
         try {
             // Prepare the INSERT statement for Event table
             String eventSql = "INSERT INTO Event (event_title, event_description, event_venue, event_date, event_time) "
@@ -55,7 +53,7 @@ public class EventDao {
                     recordPs.setInt(1, currentUserId);
                     recordPs.setInt(2, eventId);
                     recordPs.executeUpdate();
-                    isSuccess=true;
+                    isSuccess = true;
                 }
             }
         } catch (Exception e) {
@@ -84,9 +82,9 @@ public class EventDao {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-            if(isSuccess){
+            if (isSuccess) {
                 AlertUtils.showSuccessCreateEvent();
-            }else{
+            } else {
                 AlertUtils.showFailCreateEvent();
             }
         }
@@ -118,9 +116,7 @@ public class EventDao {
             return null;
         }
     }
-    
-    
-    
+
     public static List<Event> getUpcomingEvent() {
         List<Event> res = new ArrayList<>();
         try {
@@ -147,7 +143,120 @@ public class EventDao {
             return null;
         }
     }
-    
-    
 
+    public static List<Event> getRegisteredEvent(User currentUser) {
+        List<Event> res = new ArrayList<>();
+        try {
+            // Get the database connection from the DatabaseConnector class
+            Connection connection = DatabaseConnector.getConnection();
+
+            // Step 1: Get event_ids for the current user
+            String userBookingQuery = "SELECT event_id FROM UserBookingEvent WHERE user_id = ?";
+            try (PreparedStatement userBookingStmt = connection.prepareStatement(userBookingQuery)) {
+                userBookingStmt.setInt(1, currentUser.getUserId());
+
+                try (ResultSet userBookingRs = userBookingStmt.executeQuery()) {
+                    List<Integer> eventIds = new ArrayList<>();
+                    while (userBookingRs.next()) {
+                        eventIds.add(userBookingRs.getInt("event_id"));
+                    }
+
+                    // Step 2: Retrieve events using event_ids
+                    if (!eventIds.isEmpty()) {
+                        String eventQuery = "SELECT * FROM Event WHERE event_id IN (";
+                        for (int i = 0; i < eventIds.size(); i++) {
+                            eventQuery += "?";
+                            if (i < eventIds.size() - 1) {
+                                eventQuery += ", ";
+                            }
+                        }
+                        eventQuery += ")";
+
+                        try (PreparedStatement eventStmt = connection.prepareStatement(eventQuery)) {
+                            for (int i = 0; i < eventIds.size(); i++) {
+                                eventStmt.setInt(i + 1, eventIds.get(i));
+                            }
+
+                            try (ResultSet eventRs = eventStmt.executeQuery()) {
+                                while (eventRs.next()) {
+                                    int eventID = eventRs.getInt("event_id");
+                                    String eventTitle = eventRs.getString("event_title");
+                                    LocalDate eventDate = eventRs.getDate("event_date").toLocalDate();
+                                    LocalTime eventTime = eventRs.getTime("event_time").toLocalTime();
+                                    String eventDescription = eventRs.getString("event_description");
+                                    String eventVenue = eventRs.getString("event_venue");
+
+                                    res.add(new Event(eventID, eventTitle, eventDescription, eventVenue, eventDate, eventTime));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return res;
+    }
+    
+    public static List<Event> getUpcomingEvents(User currentUser) {
+        List<Event> res = new ArrayList<>();
+
+        try {
+            // Get the database connection from the DatabaseConnector class
+            Connection connection = DatabaseConnector.getConnection();
+
+            // Step 1: Get event_ids for the current user
+            String userBookingQuery = "SELECT event_id FROM UserBookingEvent WHERE user_id = ?";
+            try (PreparedStatement userBookingStmt = connection.prepareStatement(userBookingQuery)) {
+                userBookingStmt.setInt(1, currentUser.getUserId());
+
+                try (ResultSet userBookingRs = userBookingStmt.executeQuery()) {
+                    List<Integer> eventIds = new ArrayList<>();
+                    while (userBookingRs.next()) {
+                        eventIds.add(userBookingRs.getInt("event_id"));
+                    }
+
+                    // Step 2: Retrieve events using event_ids
+                    if (!eventIds.isEmpty()) {
+                        String eventQuery = "SELECT * FROM Event WHERE event_id IN (";
+                        for (int i = 0; i < eventIds.size(); i++) {
+                            eventQuery += "?";
+                            if (i < eventIds.size() - 1) {
+                                eventQuery += ", ";
+                            }
+                        }
+                        eventQuery += ") AND (event_date > CURRENT_DATE OR (event_date = CURRENT_DATE AND event_time > CURRENT_TIME))";
+
+                        try (PreparedStatement eventStmt = connection.prepareStatement(eventQuery)) {
+                            for (int i = 0; i < eventIds.size(); i++) {
+                                eventStmt.setInt(i + 1, eventIds.get(i));
+                            }
+
+                            try (ResultSet eventRs = eventStmt.executeQuery()) {
+                                while (eventRs.next()) {
+                                    int eventID = eventRs.getInt("event_id");
+                                    String eventTitle = eventRs.getString("event_title");
+                                    LocalDate eventDate = eventRs.getDate("event_date").toLocalDate();
+                                    LocalTime eventTime = eventRs.getTime("event_time").toLocalTime();
+                                    String eventDescription = eventRs.getString("event_description");
+                                    String eventVenue = eventRs.getString("event_venue");
+
+                                    res.add(new Event(eventID, eventTitle, eventDescription, eventVenue, eventDate, eventTime));
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return res;
+    }
 }
+
