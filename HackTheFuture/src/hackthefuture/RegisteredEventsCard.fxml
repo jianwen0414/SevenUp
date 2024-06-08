@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="254.0" prefWidth="930.0" style="-fx-border-color: #b2c5d1; -fx-border-width: 3; -fx-background-radius: 20; -fx-border-radius: 20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hackthefuture.RegisteredEventsCardController">
+   <children>
+      <Label layoutX="6.0" layoutY="4.0" prefHeight="54.0" prefWidth="92.0" style="-fx-background-color: #1a2b3c; -fx-background-radius: 30;" text="   Name:" textFill="#b2c5d1">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="3.0" layoutY="104.0" prefHeight="54.0" prefWidth="116.0" style="-fx-background-color: #1a2b3c; -fx-background-radius: 25;" text="Description:" textFill="#b2c5d1" wrapText="true">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="596.0" layoutY="4.0" prefHeight="36.0" prefWidth="78.0" style="-fx-background-color: #1a2b3c; -fx-background-radius: 25;" text="   Date:" textFill="#b2c5d1">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="595.0" layoutY="44.0" prefHeight="36.0" prefWidth="78.0" style="-fx-background-color: #1a2b3c; -fx-background-radius: 25;" text="   Time:" textFill="#b2c5d1">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="595.0" layoutY="92.0" prefHeight="36.0" prefWidth="78.0" style="-fx-background-color: #1a2b3c; -fx-background-radius: 25;" text="  Venue:" textFill="#b2c5d1">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="eventName" alignment="TOP_LEFT" layoutX="107.0" layoutY="12.0" prefHeight="91.0" prefWidth="477.0" text="GetName" textFill="#b2c5d1" wrapText="true">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="eventDes" alignment="TOP_LEFT" layoutX="125.0" layoutY="114.0" prefHeight="134.0" prefWidth="467.0" text="GetDes" textFill="#b2c5d1" wrapText="true">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="eventDate" layoutX="683.0" layoutY="9.0" prefHeight="30.0" prefWidth="181.0" text="GetDate" textFill="#b2c5d1">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="eventTime" layoutX="683.0" layoutY="48.0" prefHeight="30.0" prefWidth="126.0" text="GetTime" textFill="#b2c5d1">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="eventVenue" alignment="TOP_LEFT" layoutX="680.0" layoutY="97.0" prefHeight="112.0" prefWidth="276.0" text="GetVenue" textFill="#b2c5d1">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
