@@ -144,6 +144,7 @@ private StackPane stackPane;
     }
     
     @FXML
+
 private void handleLoginButtonAction() {
     String username = usernameField.getText();
     String password = passwordField.getText();
@@ -168,6 +169,7 @@ private void handleLoginButtonAction() {
         } else {
             preparedStatement.setString(1, email);
         }
+
 
         resultSet = preparedStatement.executeQuery();
 
