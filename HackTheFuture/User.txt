@@ -12,3 +12,8 @@ user_id, email, username, password, salt, role_id, location_coordinate_x, locati
 11, child1b@gmail.com, child1b, 5905388e2fbc33d40053919824948c051cad505faee1e13b3d3c6825de7ecb88, 86Sjytjem90pBm9Gpne6Ng==, 3, 452.0609685, -394.5020395, 0
 12, mother1@gmail.com, mother1, 296c611dc5e9bdb6cc6010f01182d0465f0c975f9732b0cd60978361562fe53f, vgVttWvemj3BFKGmOHlsiQ==, 2, 452.0609685, -394.5020395, 0
 13, child1c@gmail.com, child1c, c414e7c48cf8f55f79ae9be7cf1358b2600436bd2785821da94a7574522bfcfb, yBE9XJfbdfwrGcnNRKnZZg==, 3, 452.0609685, -394.5020395, 0
+14, father2@gmail.com, father2, 3b0a09a7722990f8ca5519acd21436c3e87dff56b764801c83375975382ef0fc, QE1H8emHNPH+ljfFQIQ6mQ==, 2, -365.14, -365.14, 0
+15, child2a@gmail.com, child2a, 7a2c424d09e477b91eadc4763131ca4f0fa5bbab2790f6a8b04aa2f7da2aecbd, PYy2vH0j4CtISEPXMQmE4Q==, 3, -365.14, -365.14, 0
+16, father3@gmail.com, father3, 87aaba08e302a2398a29765b9ce1b5982efc8f59429bb287e0f26a98055a68e4, 5JwuN3k6LUw/LStAVgco+Q==, 2, -318.88, -282.41, 0
+17, child3a@gmail.com, child3a, ea4007866ae812a6f3ef474fe09bdabb2fbcc92436749368eae5999362a5a841, uHCITtrLo9WIHO3xXZZ2sA==, 3, -318.88, -282.41, 0
+18, edu2@gmail.com, edu2, 38d02ba9ad89b355a1bfbd91851544692afd06e9fcf3c861eaabfe520f552f12, HzghWu5gtznMyyhqAlnaLg==, 1, -206.01, 452.94, 0
