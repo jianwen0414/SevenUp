@@ -54,11 +54,11 @@ public class RegisteredEventsCardController implements Initializable {
     }
 
     private void refresh() {
+        // RegisteredEventsCard wil retrieve all current event information from event class
         eventName.setText(event.getTitle());
         eventDes.setText(event.getDescription());
         eventDate.setText(event.getDate().toString());
         eventTime.setText(event.getTime().toString());
-        System.out.println(eventDate);
         eventVenue.setText(event.getVenue());
     }
 }

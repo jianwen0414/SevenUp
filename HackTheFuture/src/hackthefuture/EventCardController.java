@@ -58,6 +58,7 @@ public class EventCardController implements Initializable {
         viewEventTime.setText("Time: " + event.getTime().toString());
         registerEvent.setVisible(currentUser.getRoleId() == 3);
         try (Connection connection = DatabaseConnector.getConnection()) {
+            //Check the Event, if the event has already registered, disable the register button
         String checkEventExistsSql = "SELECT COUNT(*) FROM UserBookingEvent WHERE user_id = ? AND event_id = ?";
         
         try (PreparedStatement checkEventExistsStatement = connection.prepareStatement(checkEventExistsSql)) {
@@ -173,7 +174,6 @@ public class EventCardController implements Initializable {
                     } else {
                         System.out.println("Inside if: studentProfileController is null");
                     }
-//                    ((Student)currentUser).updateRegisteredEvent(event);
                     return true;
                 }
             }
@@ -187,7 +187,6 @@ public class EventCardController implements Initializable {
         }
     } catch (SQLException e) {
         e.printStackTrace();
-        // Handle any SQL exceptions here
     }
     return false;
 }

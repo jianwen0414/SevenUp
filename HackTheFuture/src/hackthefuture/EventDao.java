@@ -95,6 +95,7 @@ public class EventDao {
         try {
             // Get the database connection from the DatabaseConnector class
             Connection connection = DatabaseConnector.getConnection();
+            // Retrieve today event from database
             String sql = "SELECT * FROM Event "
                     + "WHERE event_date = CURRENT_DATE AND event_time > CURRENT_TIME "
                     + "ORDER BY event_date, event_time";
@@ -122,6 +123,7 @@ public class EventDao {
         try {
             // Get the database connection from the DatabaseConnector class
             Connection connection = DatabaseConnector.getConnection();
+            // Retrieve 3 upcoming events from Database
             String sql = "SELECT * FROM Event "
                     + "WHERE event_date > CURRENT_DATE  "
                     + "ORDER BY event_date LIMIT 3";
@@ -150,7 +152,7 @@ public class EventDao {
             // Get the database connection from the DatabaseConnector class
             Connection connection = DatabaseConnector.getConnection();
 
-            // Step 1: Get event_ids for the current user
+            // Get all the registered event_id of a student
             String userBookingQuery = "SELECT event_id FROM UserBookingEvent WHERE user_id = ?";
             try (PreparedStatement userBookingStmt = connection.prepareStatement(userBookingQuery)) {
                 userBookingStmt.setInt(1, currentUser.getUserId());
@@ -161,7 +163,7 @@ public class EventDao {
                         eventIds.add(userBookingRs.getInt("event_id"));
                     }
 
-                    // Step 2: Retrieve events using event_ids
+                    // Retrieve events using event_ids
                     if (!eventIds.isEmpty()) {
                         String eventQuery = "SELECT * FROM Event WHERE event_id IN (";
                         for (int i = 0; i < eventIds.size(); i++) {
@@ -208,7 +210,7 @@ public class EventDao {
             // Get the database connection from the DatabaseConnector class
             Connection connection = DatabaseConnector.getConnection();
 
-            // Step 1: Get event_ids for the current user
+            //  Get  event_id for the current user
             String userBookingQuery = "SELECT event_id FROM UserBookingEvent WHERE user_id = ?";
             try (PreparedStatement userBookingStmt = connection.prepareStatement(userBookingQuery)) {
                 userBookingStmt.setInt(1, currentUser.getUserId());
@@ -219,7 +221,7 @@ public class EventDao {
                         eventIds.add(userBookingRs.getInt("event_id"));
                     }
 
-                    // Step 2: Retrieve events using event_ids
+                    // Retrieve upcoming events only using event_ids
                     if (!eventIds.isEmpty()) {
                         String eventQuery = "SELECT * FROM Event WHERE event_id IN (";
                         for (int i = 0; i < eventIds.size(); i++) {
