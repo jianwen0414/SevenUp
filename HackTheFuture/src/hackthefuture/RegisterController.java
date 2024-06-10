@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package hackthefuture;
+
 import java.io.IOException;
 import java.sql.*;
 import java.net.URL;
@@ -42,9 +43,6 @@ public class RegisterController implements Initializable {
 
     @FXML
     private Button backLogin1;
-
-    @FXML
-    private ImageView mars;
 
     @FXML
     private AnchorPane pane1;
@@ -107,9 +105,6 @@ public class RegisterController implements Initializable {
     private TextField relation1;
 
     @FXML
-    private ImageView rocket;
-
-    @FXML
     private ComboBox<String> selectRole;
 
     @FXML
@@ -120,7 +115,7 @@ public class RegisterController implements Initializable {
 
     @FXML
     private Button signUp1;
-    
+
     @FXML
     private Label forWho1;
 
@@ -139,7 +134,7 @@ public class RegisterController implements Initializable {
             Parent root = loader.load();
             loginController controller = loader.getController();
             Scene scene = new Scene(root);
-            primaryStage = (Stage)signUp.getScene().getWindow();
+            primaryStage = (Stage) signUp.getScene().getWindow();
             primaryStage.setScene(scene);
             primaryStage.setTitle("Login");
             primaryStage.show();
@@ -148,199 +143,132 @@ public class RegisterController implements Initializable {
             e.printStackTrace();
         }
     }
-    
+
     @FXML
-void register(ActionEvent event) {
-    String email = regEmail.getText();
-    String username = regName.getText();
-    String pw = regPass.getText();
-    String conPw = regConPass.getText();
-    String selectedRole = selectRole.getValue();
-    String relationUsername = relation.getText();
+    void register(ActionEvent event) {
+        String email = regEmail.getText();
+        String username = regName.getText();
+        String pw = regPass.getText();
+        String conPw = regConPass.getText();
+        String selectedRole = selectRole.getValue();
+        String relationUsername = relation.getText();
 
-    if (UserUtils.validateRegistrationInputs(email, username, pw, conPw, selectedRole)) {
-        int roleId = UserUtils.getRoleIdByRoleName(selectedRole);
-        
-        boolean registered = false;
-        
-        if (roleId == 1) {
-            registered = UserUtils.registerUser(email, username, pw, selectedRole);
-        } else if (roleId == 2 || roleId == 3) {
-            if (relationUsername.isEmpty()) {
-                AlertUtils.showRegistrationWarningAlert();
-                return;
-            } else if (!UserUtils.doesUsernameExist(relationUsername)) {
-                Alert alert = new Alert(Alert.AlertType.WARNING);
-                alert.setTitle("Warning Alert");
-                alert.setContentText("Your parents/child does not have an account yet.");
-                alert.showAndWait();
-                return;
-//            } else if(){
+        if (UserUtils.validateRegistrationInputs(email, username, pw, conPw, selectedRole)) {
+            int roleId = UserUtils.getRoleIdByRoleName(selectedRole);
+
+            boolean registered = false;
             
-            }else {
-                registered = UserUtils.registerUserMemberExists(email, username, pw, selectedRole, relationUsername);
+            if (roleId == 1) { //if new user is educator
+                registered = UserUtils.registerUser(email, username, pw, selectedRole);
+            } else if (roleId == 2 || roleId == 3) {  // if new user is parent or a student
+                if (relationUsername.isEmpty()) {
+                    AlertUtils.showRegistrationWarningAlert();
+                    return;
+                } else if (!UserUtils.doesUsernameExist(relationUsername)) {
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Warning Alert");
+                    alert.setContentText("Your parents/child does not have an account yet.");
+                    alert.showAndWait();
+                    return;
+
+                } else {
+                    registered = UserUtils.registerUserMemberExists(email, username, pw, selectedRole, relationUsername);
+                }
             }
-        }
 
-        if (registered) {
-            AlertUtils.showRegistrationSuccessAlert();
+            if (registered) {
+                AlertUtils.showRegistrationSuccessAlert();
 
-            try (Connection connection = DatabaseConnector.getConnection()) {
-                // Fetch user details for redirection
-                String sql = "SELECT * FROM User WHERE username = ?";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                    preparedStatement.setString(1, username);
-                    try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                        if (resultSet.next()) {
-                            int userId = resultSet.getInt("user_id");
-                            String userEmail = resultSet.getString("email");
-                            String userUsername = resultSet.getString("username");
-                            String userPassword = resultSet.getString("password");
-                            double locationX = resultSet.getDouble("location_coordinate_x");
-                            double locationY = resultSet.getDouble("location_coordinate_y");
-                            int userPoints = resultSet.getInt("current_points");
+                try (Connection connection = DatabaseConnector.getConnection()) {
+                    // Fetch user details for redirection
+                    String sql = "SELECT * FROM User WHERE username = ?";
+                    try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                        preparedStatement.setString(1, username);
+                        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                            if (resultSet.next()) {
+                                int userId = resultSet.getInt("user_id");
+                                String userEmail = resultSet.getString("email");
+                                String userUsername = resultSet.getString("username");
+                                String userPassword = resultSet.getString("password");
+                                double locationX = resultSet.getDouble("location_coordinate_x");
+                                double locationY = resultSet.getDouble("location_coordinate_y");
+                                int userPoints = resultSet.getInt("current_points");
 
-                            UserRedirectionUtils.redirectUserToHomepage(userId, roleId, userEmail, userUsername, userPassword,
-                                    locationX, locationY, userPoints, connection,
-                                    (Stage) ((Node) event.getSource()).getScene().getWindow());
-                        } else {
-                            System.out.println("User not found in the database after registration.");
+                                UserRedirectionUtils.redirectUserToHomepage(userId, roleId, userEmail, userUsername, userPassword,
+                                        locationX, locationY, userPoints, connection,
+                                        (Stage) ((Node) event.getSource()).getScene().getWindow());
+                            } else {
+                                System.out.println("User not found in the database after registration.");
+                            }
                         }
                     }
-                }
-            } catch (SQLException | IOException e) {
-                e.printStackTrace();
-            }
-
-        } else {
-            AlertUtils.showRegistrationFailedAlert();
-        }
-    }
-}
-
-
-// ori method
-//    @FXML
-//    void register(ActionEvent event) {
-//        String email = regEmail.getText();
-//        String username = regName.getText();
-//        String pw = regPass.getText();
-//        String conPw = regConPass.getText();
-//        String selectedRole = selectRole.getValue();
-//        String relationUsername = relation.getText();
-//        if (UserUtils.validateRegistrationInputs(email, username, pw, conPw, selectedRole)) {
-//            if (UserUtils.getRoleIdByRoleName(selectedRole) == 1) {
-//                boolean registered = UserUtils.registerUser(email, username, pw, selectedRole);
-//                if (registered) {
-//                    AlertUtils.showRegistrationSuccessAlert();
-//                    // skip to wheree??????????????????????????????????????????????????
-//                } else {
-//                    AlertUtils.showRegistrationFailedAlert();
-//                    //--------------------------------------------------------
-//                }
-//            } else if ((UserUtils.getRoleIdByRoleName(selectedRole) == 2 || UserUtils.getRoleIdByRoleName(selectedRole) == 3) ) {
-//                if(relationUsername.isEmpty()){
-//                    AlertUtils.showRegistrationWarningAlert();
-//                } else if (!UserUtils.doesUsernameExist(relationUsername)) {
-//                    Alert alert = new Alert(Alert.AlertType.WARNING);
-//                    alert.setTitle("Warning Alert");
-//                    alert.setContentText("Your parents/child does not have an account yet.");
-//                    alert.showAndWait();
-//                } else {
-//                    boolean registered = UserUtils.registerUserMemberExists(email, username, pw, selectedRole, relationUsername);
-//                    if (registered) {
-//                        AlertUtils.showRegistrationSuccessAlert();
-//                    } else {
-//                        AlertUtils.showRegistrationFailedAlert();
-//                    }
-//                }
-//            }
-//        }
-//    }
-
-@FXML
-void registerAll(ActionEvent event) {
-    String email = regEmail.getText();
-    String username = regName.getText();
-    String pw = regPass.getText();
-    String conPw = regConPass.getText();
-    String selectedRole = selectRole.getValue();
-    String email1 = regEmail1.getText();
-    String username1 = regName1.getText();
-    String pw1 = regPass1.getText();
-    String conPw1 = regConPass1.getText();
-
-    if (UserUtils.validateRegistrationInputs(email, username, pw, conPw, selectedRole) && 
-        UserUtils.validateRegistrationInputs(email1, username1, pw1, conPw1, selectRole1.getValue())) {
-        if(email.equals(email1)){
-            AlertUtils.showEmailSame();
-            return;
-        }else if(username.equals(username1)){
-            AlertUtils.showUsernameSame();
-            return;
-        }
-        boolean registered = UserUtils.registerUserWithFam(email, username, pw, selectedRole, email1, username1, pw1, selectRole1.getValue());
-
-        if (registered) {
-            AlertUtils.showRegistrationSuccessAlert();
-
-            // Fetch user information for redirection
-            try (Connection connection = DatabaseConnector.getConnection()) {
-                String sql = "SELECT * FROM User WHERE username = ?";
-                PreparedStatement preparedStatement = connection.prepareStatement(sql);
-                preparedStatement.setString(1, username);
-                ResultSet resultSet = preparedStatement.executeQuery();
-
-                if (resultSet.next()) {
-                    int userId = resultSet.getInt("user_id");
-                    int roleId = resultSet.getInt("role_id");
-                    String userEmail = resultSet.getString("email");
-                    String userUsername = resultSet.getString("username");
-                    String userPassword = resultSet.getString("password");
-                    Double locationX = resultSet.getDouble("location_coordinate_x");
-                    Double locationY = resultSet.getDouble("location_coordinate_y");
-                    int userPoints = resultSet.getInt("current_points");
-
-                    // Redirect user based on role
-                    UserRedirectionUtils.redirectUserToHomepage(userId, roleId, userEmail, userUsername, userPassword, locationX, locationY, userPoints, connection, (Stage) ((Node) event.getSource()).getScene().getWindow());
+                } catch (SQLException | IOException e) {
+                    e.printStackTrace();
                 }
 
-            } catch (SQLException | IOException e) {
-                e.printStackTrace();
+            } else {
+                AlertUtils.showRegistrationFailedAlert();
             }
-        } else {
-            AlertUtils.showRegistrationFailedAlert();
         }
     }
-}
- // ori method
-//    @FXML
-//    void registerAll(ActionEvent event) {
-//        String email = regEmail.getText();
-//        String username = regName.getText();
-//        String pw = regPass.getText();
-//        String conPw = regConPass.getText();
-//        String selectedRole = selectRole.getValue();
-//        String email1 = regEmail1.getText();
-//        String username1 = regName1.getText();
-//        String pw1 = regPass1.getText();
-//        String conPw1 = regConPass1.getText();
-//        if (UserUtils.validateRegistrationInputs(email, username, pw, conPw, selectedRole) && UserUtils.validateRegistrationInputs(email1, username1, pw1, conPw1, selectRole1.getValue())) {
-//            boolean registered = UserUtils.registerUserWithFam(email, username, pw, selectedRole, email1, username1, pw1, selectRole1.getValue());
-//            if (registered) {
-//               AlertUtils.showRegistrationSuccessAlert();
-//                System.out.println("Registration successful!");
-//            } else {
-//                AlertUtils.showRegistrationFailedAlert();
-//                System.out.println("Registration failed. Please try again.");
-//
-//            }
-//
-//        }
-//
-//    }
 
-    //@FXML
+
+    @FXML
+    void registerAll(ActionEvent event) {
+        String email = regEmail.getText();
+        String username = regName.getText();
+        String pw = regPass.getText();
+        String conPw = regConPass.getText();
+        String selectedRole = selectRole.getValue();
+        String email1 = regEmail1.getText();
+        String username1 = regName1.getText();
+        String pw1 = regPass1.getText();
+        String conPw1 = regConPass1.getText();
+
+        if (UserUtils.validateRegistrationInputs(email, username, pw, conPw, selectedRole)
+                && UserUtils.validateRegistrationInputs(email1, username1, pw1, conPw1, selectRole1.getValue())) {
+            if (email.equals(email1)) {
+                AlertUtils.showEmailSame();
+                return;
+            } else if (username.equals(username1)) {
+                AlertUtils.showUsernameSame();
+                return;
+            }
+            boolean registered = UserUtils.registerUserWithFam(email, username, pw, selectedRole, email1, username1, pw1, selectRole1.getValue());
+
+            if (registered) {
+                AlertUtils.showRegistrationSuccessAlert();
+
+                // Fetch user information for redirection
+                try (Connection connection = DatabaseConnector.getConnection()) {
+                    String sql = "SELECT * FROM User WHERE username = ?";
+                    PreparedStatement preparedStatement = connection.prepareStatement(sql);
+                    preparedStatement.setString(1, username);
+                    ResultSet resultSet = preparedStatement.executeQuery();
+
+                    if (resultSet.next()) {
+                        int userId = resultSet.getInt("user_id");
+                        int roleId = resultSet.getInt("role_id");
+                        String userEmail = resultSet.getString("email");
+                        String userUsername = resultSet.getString("username");
+                        String userPassword = resultSet.getString("password");
+                        Double locationX = resultSet.getDouble("location_coordinate_x");
+                        Double locationY = resultSet.getDouble("location_coordinate_y");
+                        int userPoints = resultSet.getInt("current_points");
+
+                        // Redirect user based on role
+                        UserRedirectionUtils.redirectUserToHomepage(userId, roleId, userEmail, userUsername, userPassword, locationX, locationY, userPoints, connection, (Stage) ((Node) event.getSource()).getScene().getWindow());
+                    }
+
+                } catch (SQLException | IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                AlertUtils.showRegistrationFailedAlert();
+            }
+        }
+    }
+    
     public void showPw() {
         if (regSelectShow.isSelected()) {
             regShowPw.setVisible(true);
@@ -373,6 +301,7 @@ void registerAll(ActionEvent event) {
 
     @FXML
     private void handleRole(ActionEvent event) {
+            // Set the text of the button to let user click on it
         String selectedRole = selectRole.getValue();
         if (selectedRole != null && (selectedRole.equals("Parent"))) {
             relation.setPromptText("Existing child's username");
@@ -387,12 +316,12 @@ void registerAll(ActionEvent event) {
 
     @FXML
     void newRegister(ActionEvent event) {
+        // changes of visibilty of anchor pane to let user register for his parent/student 
         String email = regEmail.getText();
         String username = regName.getText();
         String pw = regPass.getText();
         String conPw = regConPass.getText();
         String selectedRole = selectRole.getValue();
-        //String relationUsername = relation.getText();
         if (UserUtils.validateRegistrationInputs(email, username, pw, conPw, selectedRole)) {
             pane1.setVisible(false);
             pane2.setVisible(true);
@@ -407,14 +336,17 @@ void registerAll(ActionEvent event) {
             }
             selectRole1.setDisable(true);
         }
-        
+
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Create an observable list with role options and set it to the selectRole ComboBox.
         ObservableList<String> list = FXCollections.observableArrayList("Parent", "Student", "Educator");
         selectRole.setItems(list);
         relation1.setDisable(true);
+        // Bind the text properties of password fields and their corresponding show password fields.
+    // This ensures that both fields will always display the same text, providing functionality to toggle password visibility.
         regPass.textProperty().bindBidirectional(regShowPw.textProperty());
         regConPass.textProperty().bindBidirectional(regShowConPw.textProperty());
         regPass1.textProperty().bindBidirectional(regShowPw1.textProperty());

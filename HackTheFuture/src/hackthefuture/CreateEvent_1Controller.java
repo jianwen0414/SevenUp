@@ -62,16 +62,19 @@ public class CreateEvent_1Controller implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Set up the date picker to disable all past dates
         eventDate.setDayCellFactory(picker -> new DateCell() {
             @Override
             public void updateItem(LocalDate date, boolean empty) {
                 super.updateItem(date, empty);
                 LocalDate today = LocalDate.now();
+                // Disable cells for dates that are before today or are empty
                 setDisable(empty || date.compareTo(today) < 0);
             }
         });
 
         eventDate.valueProperty().addListener((observable, oldValue, newValue) -> {
+            // Call the method to populate time combo boxes whenever a new date is selected
             populateTimeComboBoxes(newValue);
         });
     }
@@ -127,7 +130,6 @@ public class CreateEvent_1Controller implements Initializable {
         String hour = timeHour.getValue();
         String minute = timeMinute.getValue();
         Event event = new Event(title, description, venue, LocalDate.parse(date), LocalTime.of(Integer.parseInt(hour), Integer.parseInt(minute)));
-//        EventDao.saveEvent(title, venue, description, date, hour, minute);
         EventDao.saveEvent(event, currentUser);
         currentUser.createEvent(event);
         

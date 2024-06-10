@@ -92,63 +92,15 @@ public class LeaderboardController implements Initializable {
 
     private Stage primaryStage;
 
-//    @Override
-//    public void initialize(URL url, ResourceBundle rb) {
-//        PriorityQueue<UserPoints> leaderboard = new PriorityQueue<>(Comparator.comparingInt(UserPoints::getPoints).reversed());
-//
-//        try (Connection connection = DatabaseConnector.getConnection();
-//             PreparedStatement statement = connection.prepareStatement("SELECT username, current_points FROM User WHERE role_id = 3 ORDER BY current_points DESC");
-//             ResultSet resultSet = statement.executeQuery()) {
-//
-//            while (resultSet.next()) {
-//                String username = resultSet.getString("username");
-//                int points = resultSet.getInt("current_points");
-//                leaderboard.add(new UserPoints(username, points));
-//            }
-//
-//            updateLeaderboardLabels(leaderboard);
-//
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//    }
-//    
-//    private void updateLeaderboardLabels(PriorityQueue<UserPoints> leaderboard) {
-//        Label[] nameLabels = {name1, name2, name3, name4, name5, name6, name7, name8, name9, name10};
-//        Label[] pointsLabels = {points1, points2, points3, points4, points5, points6, points7, points8, points9, points10};
-//
-//        int index = 0;
-//        while (!leaderboard.isEmpty() && index < nameLabels.length) {
-//            UserPoints userPoints = leaderboard.poll();
-//            nameLabels[index].setText(userPoints.getUsername());
-//            pointsLabels[index].setText(String.valueOf(userPoints.getPoints()));
-//            index++;
-//        }
-//    }
-//    
-//    private static class UserPoints {
-//        private final String username;
-//        private final int points;
-//
-//        public UserPoints(String username, int points) {
-//            this.username = username;
-//            this.points = points;
-//        }
-//
-//        public String getUsername() {
-//            return username;
-//        }
-//
-//        public int getPoints() {
-//            return points;
-//        }
-//    }
+
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        // Initialize a PriorityQueue to store students for the leaderboard.
+    // The students are ordered primarily by current points in descending order.
         PriorityQueue<Student> leaderboard = new PriorityQueue<>(Comparator.comparingInt(Student::getCurrentPoints).reversed().thenComparing(Student::getLastPointsUpdate));
 
         try (Connection connection = DatabaseConnector.getConnection(); PreparedStatement statement = connection.prepareStatement("SELECT * FROM User WHERE role_id = 3 ORDER BY current_points DESC, last_points_update ASC"); //             PreparedStatement statement = connection.prepareStatement("SELECT user_id, email, username, password, role_id, location_coordinate_x, location_coordinate_y, current_points FROM User WHERE role_id = 3 ORDER BY current_points DESC");
@@ -164,11 +116,11 @@ public class LeaderboardController implements Initializable {
                 double y = resultSet.getDouble("location_coordinate_y");
                 int currentPoints = resultSet.getInt("current_points");
                 LocalDateTime lastPointsUpdate = resultSet.getTimestamp("last_points_update").toLocalDateTime();
-                // Create a new Student object. Assuming you have a method to get parents.
+                // Create a new Student object. 
                 Student student = new Student(userId, email, username, password, roleId, x, y, currentPoints, lastPointsUpdate);
                 leaderboard.add(student);
             }
-
+            // Update the leaderboard labels with the students in the priority queue.
             updateLeaderboardLabels(leaderboard);
 
         } catch (SQLException e) {
@@ -177,10 +129,13 @@ public class LeaderboardController implements Initializable {
     }
 
     private void updateLeaderboardLabels(PriorityQueue<Student> leaderboard) {
+        // Array of name labels for the leaderboard.
         Label[] nameLabels = {name1, name2, name3, name4, name5, name6, name7, name8, name9, name10};
+        // Array of points labels for the leaderboard.
         Label[] pointsLabels = {points1, points2, points3, points4, points5, points6, points7, points8, points9, points10};
 
         int index = 0;
+        // Poll the priority queue to update the labels until either the queue is empty or all labels are updated.
         while (!leaderboard.isEmpty() && index < nameLabels.length) {
             Student student = leaderboard.poll();
             nameLabels[index].setText(student.getUsername());

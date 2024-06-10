@@ -34,16 +34,16 @@ public class RegisteredEventsController implements Initializable {
     private User currentUser;
     @FXML
     private VBox UpcomingEvents;
-    
+
     @FXML
     private Button backButton;
-    
+
     @FXML
     private VBox UpcomingEventsOnly;
-    
+
     @FXML
     private CheckBox showUpcoming;
-    
+
     @FXML
     private ScrollPane scroll1;
 
@@ -66,28 +66,26 @@ public class RegisteredEventsController implements Initializable {
 
     private void refresh() {
         UpcomingEvents.getChildren().clear();
+        //Get all the registered events include past events of a student
         for (Event event : EventDao.getRegisteredEvent(currentUser)) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("RegisteredEventsCard.fxml"));
-                
                 Node root = loader.load();
                 RegisteredEventsCardController controller = loader.getController();
-//                eventCardController.setStudentProfileController(studentProfileController);
                 controller.setup(event, currentUser);
                 UpcomingEvents.getChildren().add(root);
             } catch (IOException e) {
                 e.printStackTrace();;
             }
         }
-        
+
         UpcomingEventsOnly.getChildren().clear();
+        //Get only registered upcoming events of current student
         for (Event event : EventDao.getUpcomingEvents(currentUser)) {
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("RegisteredEventsCard.fxml"));
-                
                 Node root = loader.load();
                 RegisteredEventsCardController controller = loader.getController();
-//                eventCardController.setStudentProfileController(studentProfileController);
                 controller.setup(event, currentUser);
                 UpcomingEventsOnly.getChildren().add(root);
             } catch (IOException e) {
@@ -95,21 +93,22 @@ public class RegisteredEventsController implements Initializable {
             }
         }
     }
-    
-    
+
     @FXML
     void showUpcomingOnly(ActionEvent event) {
-      if(showUpcoming.isSelected()){
-          scroll2.setVisible(true);
-                    scroll1.setVisible(false);
+        if (showUpcoming.isSelected()) {
+            //Show only upcoming events
+            scroll2.setVisible(true);
+            scroll1.setVisible(false);
 
-      }else{
-                    scroll2.setVisible(false);
-                                        scroll1.setVisible(true);
+        } else {
+            //Show all the registered events include past events
+            scroll2.setVisible(false);
+            scroll1.setVisible(true);
 
-
-      }
+        }
     }
+
     @FXML
     private void handleBackButtonAction(ActionEvent event) {
         if (!NavigationHistory.isEmpty()) {
