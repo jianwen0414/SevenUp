@@ -74,12 +74,14 @@ public class ParentHomePageController {
     @FXML
     private Button viewprofile;
 
-    private Parents currentUser;
+    private Parents currentUser; // Reference to the current user (parent)
 
+    // Method to set the primary stage
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
+    // Method to set up the parent home page with user data
     public void setup(Parents currentUser) {
         this.currentUser = currentUser;
         usernameLabel.setText(currentUser.getUsername());
@@ -89,23 +91,16 @@ public class ParentHomePageController {
         populateMonthComboBox();
     }
 
-    /*
-    public void setUserInformation(String username, String email, String location) {
-        // Display user information on the GUI
-        usernameLabel.setText(username);
-        emailLabel.setText(email);
-        locationLabel.setText(location);       
-    }
-     */
+    // Handler for the "View Events" button
     @FXML
     private void handleViewEventsAction(ActionEvent event) {
         try {
-            NavigationHistory.push(primaryStage.getScene());
+            NavigationHistory.push(primaryStage.getScene()); // Save the current scene to navigation history
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewEvent_1.fxml"));
             Parent root = loader.load();
             ViewEventController controller = loader.getController();
-            controller.setPrimaryStage(primaryStage);  // Set the primary stage
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage in the new controller
             controller.setup(currentUser);
             StudentProfileController homePageController = null;
             controller.setupControllers(homePageController);
@@ -120,15 +115,16 @@ public class ParentHomePageController {
         }
     }
 
+    // Handler for the "Make Booking" button
     @FXML
     private void handleBookingAction(ActionEvent event) {
         try {
-            NavigationHistory.push(primaryStage.getScene());
+            NavigationHistory.push(primaryStage.getScene()); // Save the current scene to navigation history
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MakeBookings.fxml"));
             Parent root = loader.load();
             MakeBookingsController controller = loader.getController();
-            controller.setPrimaryStage(primaryStage);  // Set the primary stage
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage in the new controller
             controller.setup(currentUser);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -141,16 +137,16 @@ public class ParentHomePageController {
         }
     }
 
+    // Handler for the "Leaderboard" button
     @FXML
     void handleLeaderboardAction(ActionEvent event) {
         try {
-            NavigationHistory.push(primaryStage.getScene());
+            NavigationHistory.push(primaryStage.getScene()); // Save the current scene to navigation history
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Leaderboard.fxml"));
             Parent root = loader.load();
             LeaderboardController controller = loader.getController();
-//            controller.setup(currentUser);// Set the current user's ID
-            controller.setPrimaryStage(primaryStage);  // Set the primary stage
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage in the new controller
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Leaderboard");
@@ -160,6 +156,7 @@ public class ParentHomePageController {
         }
     }
 
+    // Handler for the "View Past Bookings" button
     @FXML
     private void handleViewPastBookingsAction(ActionEvent event) {
         String selectedMonth = monthComboBox.getValue();
@@ -176,15 +173,16 @@ public class ParentHomePageController {
         }
     }
 
+    // Handler for the "View Profile" button
     @FXML
     void handleViewprofileButton(ActionEvent event) {
         try {
-            NavigationHistory.push(primaryStage.getScene());
+            NavigationHistory.push(primaryStage.getScene()); // Save the current scene to navigation history
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewProfile.fxml"));
             Parent root = loader.load();
             ViewProfileController controller = loader.getController();
-            controller.setPrimaryStage(primaryStage);  // Set the primary stage
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage in the new controller
             controller.setup(currentUser);
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
@@ -197,16 +195,18 @@ public class ParentHomePageController {
         }
     }
 
+    // Handler for the "Discussion" button
     @FXML
     void handleDiscussionAction(ActionEvent event) {
         try {
-            NavigationHistory.push(primaryStage.getScene());
-            // Load the login FXML file
+            NavigationHistory.push(primaryStage.getScene()); // Save the current scene to navigation history
+
+            // Load the discussion view FXML file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("View.fxml"));
             Parent root = loader.load();
             ForumController controller = loader.getController();
-            controller.setPrimaryStage(primaryStage);  // Set the primary stage
-            controller.setup(currentUser);// Set the current user's ID
+            controller.setPrimaryStage(primaryStage);  // Set the primary stage in the new controller
+            controller.setup(currentUser); // Set up the current user
             Scene scene = new Scene(root);
             primaryStage.setScene(scene);
             primaryStage.setTitle("Discussion");
@@ -217,16 +217,14 @@ public class ParentHomePageController {
         }
     }
 
+    // Display children associated with the parent
     private void displayChildren(String username) {
-        // Connect to the database
         try (Connection connection = DatabaseConnector.getConnection()) {
-            // Prepare SQL statement to retrieve children's usernames
             String sql = "SELECT U.username FROM User U JOIN ParentChildRelationship PCR ON U.user_id = PCR.child_id "
                     + "JOIN User P ON P.user_id = PCR.parent_id WHERE P.username = ?";
             PreparedStatement statement = connection.prepareStatement(sql);
             statement.setString(1, username);
 
-            // Execute the query
             ResultSet resultSet = statement.executeQuery();
 
             // Display children's usernames on labels
@@ -252,12 +250,10 @@ public class ParentHomePageController {
                     case 5:
                         child6Label.setText(childUsername);
                         break;
-
                 }
                 childCount++;
             }
 
-            // Close the result set and statement
             resultSet.close();
             statement.close();
         } catch (SQLException e) {
@@ -265,6 +261,7 @@ public class ParentHomePageController {
         }
     }
 
+    // Populate the month combo box with month names
     private void populateMonthComboBox() {
         monthComboBox.setItems(FXCollections.observableArrayList(
                 "January", "February", "March", "April", "May", "June",
@@ -279,12 +276,12 @@ public class ParentHomePageController {
         });
     }
 
+    // Retrieve past bookings for the selected month
     private List<String> getPastBookingsForMonth(int month) {
         List<String> bookings = new ArrayList<>();
         String username = usernameLabel.getText();
 
         try (Connection connection = DatabaseConnector.getConnection()) {
-            // Prepare SQL statement to retrieve past bookings for the selected month
             String sql = "SELECT U.username AS child_username, B.destination_name, B.booking_date "
                     + "FROM UserBookingDestination B "
                     + "JOIN User U ON B.student_id = U.user_id "
@@ -294,10 +291,8 @@ public class ParentHomePageController {
             statement.setString(1, username);
             statement.setInt(2, month);
 
-            // Execute the query
             ResultSet resultSet = statement.executeQuery();
 
-            // Process the result set
             while (resultSet.next()) {
                 String childUsername = resultSet.getString("child_username");
                 String destinationName = resultSet.getString("destination_name");
@@ -305,7 +300,6 @@ public class ParentHomePageController {
                 bookings.add(childUsername + " - " + destinationName + " - " + bookingDate);
             }
 
-            // Close the result set and statement
             resultSet.close();
             statement.close();
         } catch (SQLException e) {
@@ -315,6 +309,7 @@ public class ParentHomePageController {
         return bookings;
     }
 
+    // Display bookings in an alert dialog
     private void displayBookings(List<String> bookings) {
         if (bookings.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -336,16 +331,19 @@ public class ParentHomePageController {
         }
     }
 
+    // Handler for the "Logout" button
     @FXML
     void handleLogoutAction(MouseEvent event) {
-        clearSessionData();
-        redirectToLogin();
+        clearSessionData(); // Clear the current user session data
+        redirectToLogin(); // Redirect to the login page
     }
 
+    // Clear the current user session data
     private void clearSessionData() {
         currentUser = null;
     }
 
+    // Redirect to the login page
     private void redirectToLogin() {
         try {
             // Load the login FXML file
@@ -362,11 +360,11 @@ public class ParentHomePageController {
         }
     }
 
+    // Handler for the "View Relationship" button
     @FXML
     private void handleViewRelationshipAction(ActionEvent event) {
         List<ParentChildRelationship> relationships = RelationshipService.getRelationshipsForUser(currentUser.getUserId());
         Graph graph = RelationshipGraph.createGraph(relationships);
         RelationshipGraph.displayGraph(graph);
     }
-
 }
