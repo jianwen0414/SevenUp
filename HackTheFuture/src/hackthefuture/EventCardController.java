@@ -169,7 +169,6 @@ public class EventCardController implements Initializable {
                     alert.setContentText("You have successfully registered for the event! You have earned 5 points.");
                     alert.showAndWait();
                     if (studentProfileController != null) {
-                        System.out.println("Inside if: studentProfileController is not null");
                         studentProfileController.incrementPoints();
                     } else {
                         System.out.println("Inside if: studentProfileController is null");
@@ -193,7 +192,6 @@ public class EventCardController implements Initializable {
 
     public void setStudentProfileController(StudentProfileController controller) {
         this.studentProfileController = controller;
-        System.out.println("event card set successful"+studentProfileController);
     }
 
 }
