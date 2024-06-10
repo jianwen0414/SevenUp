@@ -70,14 +70,12 @@ public class AttemptQuizController implements Initializable {
     private String lastSelectedQuizLink = null;
     private boolean quizCompleted = false;
 
-//    public void setCurrentUserID(int userid){
-//        this.userID = userid;
-//        initializeQuizLinksFromDatabase();
-//    }
+
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
+    // Setup method to initialize the current user
     public void setup(User currentUser) {
         this.currentUser = currentUser;
         System.out.println("current user id:" + currentUser.getUserId());
@@ -111,7 +109,8 @@ public class AttemptQuizController implements Initializable {
         updateQuizSelection(null);
         // Hide the complete button initially
         complete.setVisible(false);
-
+        
+        // Handle quiz selection from ComboBox
         quizChoose.setOnAction(e -> {
             lastSelectedQuizName = quizChoose.getSelectionModel().getSelectedItem();
             if (lastSelectedQuizName != null && !lastSelectedQuizName.isEmpty()) {
@@ -129,11 +128,11 @@ public class AttemptQuizController implements Initializable {
             }
             quizCompleted = false;
         });
-
+        // Handle quiz completion
         complete.setOnAction(e -> {
             complete.setVisible(false); // Hide the complete button
-            updateStudentPoints(currentUser.getUserId(), 2);
-            homePageController.incrementPoints(2);
+            updateStudentPoints(currentUser.getUserId(), 2); // Update student points
+            homePageController.incrementPoints(2);  // Increment points on the home page
             String selectedQuizName = lastSelectedQuizName;
             String selectedQuizLink = lastSelectedQuizLink;
             if (selectedQuizName != null && !selectedQuizName.isEmpty()) {
@@ -153,6 +152,7 @@ public class AttemptQuizController implements Initializable {
         });
     }
 
+    // Initialize quiz links from the database
     private void initializeQuizLinksFromDatabase() {
         try (Connection conn = DatabaseConnector.getConnection(); PreparedStatement stmt = conn.prepareStatement(
                 "SELECT q.quiz_id, q.quiz_title, q.quiz_content, q.theme_id "
@@ -192,6 +192,7 @@ public class AttemptQuizController implements Initializable {
         updateQuizSelection(null);
     }
 
+    // Get theme name by ID
     private String getThemeNameById(int themeId) {
         switch (themeId) {
             case 1:
@@ -207,6 +208,7 @@ public class AttemptQuizController implements Initializable {
         }
     }
 
+    // Toggle theme selection
     private void toggleThemeSelection(Button button) {
         if (button.getStyle().contains("-fx-background-color: #708090")) {
             button.setStyle("-fx-background-color: #d4d5cf");
@@ -216,6 +218,7 @@ public class AttemptQuizController implements Initializable {
         updateQuizSelection(null);
     }
 
+    // Update quiz selection based on selected themes and completion status
     private void updateQuizSelection(String selectedLink) {
         ObservableList<String> items = FXCollections.observableArrayList();
         boolean themeSelected = false;
@@ -256,6 +259,7 @@ public class AttemptQuizController implements Initializable {
         System.out.println("Updated quiz selection.");
     }
 
+     // Get the theme button based on the theme name
     private Button getThemeButton(String theme) {
         switch (theme) {
             case "Engineering":
@@ -271,6 +275,7 @@ public class AttemptQuizController implements Initializable {
         }
     }
 
+    // Update student points in the database
     private void updateStudentPoints(int userID, int points) {
         try (Connection conn = DatabaseConnector.getConnection(); PreparedStatement stmt = conn.prepareStatement("UPDATE User SET current_points = current_points + ? WHERE user_id = ?")) {
 
@@ -282,6 +287,7 @@ public class AttemptQuizController implements Initializable {
         }
     }
 
+    // Store quiz completion in the database
     private void storeQuizCompletionInDatabase(String quizTitle) {
         try (Connection conn = DatabaseConnector.getConnection(); PreparedStatement stmt = conn.prepareStatement(
                 "INSERT INTO UserQuizCompletion (user_id, quiz_id, completion_date) "
@@ -297,6 +303,7 @@ public class AttemptQuizController implements Initializable {
         }
     }
 
+    // Handle back button action
     @FXML
     private void handleBackButtonAction(ActionEvent event) {
         if (!NavigationHistory.isEmpty()) {
