@@ -306,11 +306,16 @@ public class RegisterController implements Initializable {
         if (selectedRole != null && (selectedRole.equals("Parent"))) {
             relation.setPromptText("Existing child's username");
             relation.setVisible(true);
+            registerOther.setVisible(true);
             registerOther.setText("No account for your child yet? Click here to sign up now!");
         } else if (selectedRole != null && (selectedRole.equals("Student"))) {
             relation.setPromptText("Existing parent's username");
             relation.setVisible(true);
+            registerOther.setVisible(true);
             registerOther.setText("No account for parents yet? Click here to register now!");
+        }else if(selectedRole !=null && (selectedRole.equals("Educator"))){
+            relation.setVisible(false);
+            registerOther.setVisible(false);
         }
     }
 
