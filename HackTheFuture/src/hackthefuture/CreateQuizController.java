@@ -83,7 +83,11 @@ public class CreateQuizController implements Initializable {
         String description = descriptionField.getText();
         String quizLink = quizLinkField.getText();
         String themeName = themeChoiceBox.getValue(); // Get selected theme name
-
+        // handle case if any fields is empty
+        if(title.isEmpty()||description.isEmpty()||quizLink.isEmpty()||themeName==null){
+            AlertUtils.showRegistrationWarningAlert();
+            return;
+        }
         // Validate the quiz link URL
         if (!isValidURL(quizLink)) {
             AlertUtils.showNotValidLink();
