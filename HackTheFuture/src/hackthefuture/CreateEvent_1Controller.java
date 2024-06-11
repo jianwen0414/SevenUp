@@ -123,12 +123,21 @@ public class CreateEvent_1Controller implements Initializable {
 
     @FXML
     private void handleCreateEventButtonClick(ActionEvent eh) {
+        if(eventDate.getValue()==null||timeHour.getValue()==null||timeMinute.getValue()==null){
+            AlertUtils.showRegistrationWarningAlert();
+            return;
+        }
         String title = eventTitle.getText();
         String venue = eventVenue.getText();
         String description = eventDescribe.getText();
         String date = eventDate.getValue().toString();
         String hour = timeHour.getValue();
         String minute = timeMinute.getValue();
+        if(title.isEmpty()||venue.isEmpty()||description.isEmpty()){
+            AlertUtils.showRegistrationWarningAlert();
+            return;
+        }
+        
         Event event = new Event(title, description, venue, LocalDate.parse(date), LocalTime.of(Integer.parseInt(hour), Integer.parseInt(minute)));
         EventDao.saveEvent(event, currentUser);
         currentUser.createEvent(event);
