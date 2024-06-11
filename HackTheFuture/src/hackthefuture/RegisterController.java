@@ -330,6 +330,8 @@ public class RegisterController implements Initializable {
         if (UserUtils.validateRegistrationInputs(email, username, pw, conPw, selectedRole)) {
             pane1.setVisible(false);
             pane2.setVisible(true);
+            selectRole1.setVisible(true);
+            relation1.setVisible(true);
             if (selectRole.getValue().equals("Student")) {
                 selectRole1.setValue("Parent");
                 forWho1.setText("for Parent");
